@@ -1,0 +1,18 @@
+C:\Users\User\Desktop\GameStateManagementSample\GameStateManagementSample\bin\x86\Debug\Content\background.xnb
+C:\Users\User\Desktop\GameStateManagementSample\GameStateManagementSample\bin\x86\Debug\Content\blank.xnb
+C:\Users\User\Desktop\GameStateManagementSample\GameStateManagementSample\bin\x86\Debug\Content\gradient.xnb
+C:\Users\User\Desktop\GameStateManagementSample\GameStateManagementSample\bin\x86\Debug\Content\menufont.xnb
+C:\Users\User\Desktop\GameStateManagementSample\GameStateManagementSample\bin\x86\Debug\Content\gamefont.xnb
+C:\Users\User\Desktop\GameStateManagementSample\GameStateManagementSample\bin\x86\Debug\Content\Ground.xnb
+C:\Users\User\Desktop\GameStateManagementSample\GameStateManagementSample\bin\x86\Debug\Content\Ship.xnb
+C:\Users\User\Desktop\GameStateManagementSample\GameStateManagementSample\bin\x86\Debug\Content\Checker_0.xnb
+C:\Users\User\Desktop\GameStateManagementSample\GameStateManagementSample\bin\x86\Debug\Content\ShipDiffuse_0.xnb
+C:\Users\User\Desktop\GameStateManagementSample\GameStateManagementSample\bin\x86\Debug\GameStateManagementSample.exe
+C:\Users\User\Desktop\GameStateManagementSample\GameStateManagementSample\bin\x86\Debug\GameStateManagementSample.pdb
+C:\Users\User\Desktop\GameStateManagementSample\GameStateManagementSample\bin\x86\Debug\GameStateManagement.dll
+C:\Users\User\Desktop\GameStateManagementSample\GameStateManagementSample\bin\x86\Debug\GameStateManagement.pdb
+C:\Users\User\Desktop\GameStateManagementSample\GameStateManagementSample\obj\x86\Debug\GameStateManagementSample (Windows).csprojResolveAssemblyReference.cache
+C:\Users\User\Desktop\GameStateManagementSample\GameStateManagementSample\obj\x86\Debug\Microsoft.Xna.Framework.RuntimeProfile.txt
+C:\Users\User\Desktop\GameStateManagementSample\GameStateManagementSample\obj\x86\Debug\GameStateManagementSample.exe
+C:\Users\User\Desktop\GameStateManagementSample\GameStateManagementSample\obj\x86\Debug\GameStateManagementSample.pdb
+C:\Users\User\Desktop\GameStateManagementSample\GameStateManagementSample\bin\x86\Debug\Content\cube.xnb

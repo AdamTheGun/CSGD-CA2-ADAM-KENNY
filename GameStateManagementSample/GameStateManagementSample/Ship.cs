@@ -63,6 +63,9 @@ namespace ChaseCameraSample
         /// </summary>
         private const float Mass = 1.0f;
 
+
+        private KeyboardState prevKeyboardState;
+
         /// <summary>
         /// Maximum force that can be applied along the ship's direction.
         /// </summary>
@@ -71,7 +74,7 @@ namespace ChaseCameraSample
         /// <summary>
         /// Velocity scalar to approximate drag.
         /// </summary>
-        private const float DragFactor = 0.9995f;
+        private const float DragFactor = 0.95f;
 
         /// <summary>
         /// Current ship velocity.
@@ -216,7 +219,7 @@ namespace ChaseCameraSample
             if (keyboardState.IsKeyDown(Keys.W) || mouseState.LeftButton == ButtonState.Pressed)
                 thrustAmount = 1.0f;
 
-            if (keyboardState.IsKeyDown(Keys.E))
+            if (keyboardState.IsKeyDown(Keys.E) && prevKeyboardState.IsKeyUp(Keys.E))
             {
                 bullets[currentBullet++].isAlive = true;
             }
@@ -287,6 +290,8 @@ namespace ChaseCameraSample
             world.Up = Up;
             world.Right = right;
             world.Translation = Position;
+
+            prevKeyboardState = keyboardState;
         }
     }
 }

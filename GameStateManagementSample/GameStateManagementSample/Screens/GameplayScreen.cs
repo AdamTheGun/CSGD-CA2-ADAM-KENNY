@@ -48,6 +48,7 @@ namespace GameStateManagementSample
         Ship ship;
         ChaseCamera camera;
 
+
         Model shipModel;
         Model groundModel;
         Model cubeModel;
@@ -292,7 +293,11 @@ namespace GameStateManagementSample
             ScreenManager.GraphicsDevice.DepthStencilState = DepthStencilState.Default;
             ScreenManager.GraphicsDevice.SamplerStates[0] = SamplerState.LinearWrap;
 
-            DrawModel(shipModel, ship.World);
+            for (int i = 0; i < ship.bullets.Length; i++)
+            {
+                DrawModel(cubeModel, ship.bullets[i].World);
+            }
+                DrawModel(shipModel, ship.World);
             DrawModel(groundModel, Matrix.Identity);
             DrawModel(cubeModel, Matrix.CreateTranslation(50, 50, 0) * Matrix.CreateScale(100));
 

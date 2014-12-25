@@ -43,6 +43,7 @@ namespace ChaseCameraSample
         /// </summary>
         public Vector3 Up;
 
+        
         private Vector3 right;
         /// <summary>
         /// Ship's right vector.
@@ -70,12 +71,14 @@ namespace ChaseCameraSample
         /// <summary>
         /// Velocity scalar to approximate drag.
         /// </summary>
-        private const float DragFactor = 0.97f;
+        private const float DragFactor = 0.9995f;
 
         /// <summary>
         /// Current ship velocity.
         /// </summary>
         public Vector3 Velocity;
+
+        public ShipBullet[] bullets = new ShipBullet[1000];
 
         /// <summary>
         /// Ship world transform matrix.
@@ -86,6 +89,8 @@ namespace ChaseCameraSample
         }
         private Matrix world;
 
+        private int currentBullet;
+
         #endregion
 
         #region Initialization
@@ -93,8 +98,15 @@ namespace ChaseCameraSample
         public Ship(GraphicsDevice device)
         {
             graphicsDevice = device;
+            currentBullet = 0;
+            for (int i = 0; i < bullets.Length; i++)
+            {
+                bullets[i] = new ShipBullet(device, Position);
+            }
             Reset();
         }
+
+        
 
         /// <summary>
         /// Restore the ship to its original starting state
@@ -107,6 +119,8 @@ namespace ChaseCameraSample
             right = Vector3.Right;
             Velocity = Vector3.Zero;
         }
+
+
 
         #endregion
 
@@ -138,6 +152,8 @@ namespace ChaseCameraSample
                 mouseState.Y >= 2 * graphicsDevice.Viewport.Height / 3;
         }
 
+        
+
         /// <summary>
         /// Applies a simple rotation to the ship and animates position based
         /// on simple linear motion physics.
@@ -150,6 +166,7 @@ namespace ChaseCameraSample
 
             float elapsed = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
+            
 
             // Determine rotation amount from input
             Vector2 rotationAmount = -gamePadState.ThumbSticks.Left;
@@ -196,12 +213,16 @@ namespace ChaseCameraSample
 
             // Determine thrust amount from input
             float thrustAmount = gamePadState.Triggers.Right;
-            if (keyboardState.IsKeyDown(Keys.Space) || mouseState.LeftButton == ButtonState.Pressed)
+            if (keyboardState.IsKeyDown(Keys.W) || mouseState.LeftButton == ButtonState.Pressed)
                 thrustAmount = 1.0f;
+
+            if (keyboardState.IsKeyDown(Keys.E))
+            {
+                bullets[currentBullet++].isAlive = true;
+            }
 
             // Calculate force from thrust amount
             Vector3 force = Direction * thrustAmount * ThrustForce;
-
 
             // Apply acceleration
             Vector3 acceleration = force / Mass;
@@ -213,6 +234,8 @@ namespace ChaseCameraSample
             // Apply velocity
             Vector3 oldPos = Position;
             Position += Velocity * elapsed;
+
+            
 
             for (int i = 0; i < ship.Meshes.Count; i++)
             {
@@ -239,6 +262,24 @@ namespace ChaseCameraSample
 
             // Prevent ship from flying under the ground
             Position.Y = Math.Max(Position.Y, MinimumAltitude);
+
+            if (currentBullet > bullets.Length-1)
+            {
+                currentBullet = 0;
+            }
+
+            for (int i = 0; i < bullets.Length; i++)
+            {
+                
+                if (!bullets[i].isAlive)
+                {
+                    bullets[i].Direction = Direction;
+                    bullets[i].Position = this.Position +(Direction*1000);
+                    bullets[i].Up = this.Up;
+                    bullets[i].right = this.right;
+                }
+                bullets[i].Update(gameTime);
+            }
 
             // Reconstruct the ship's world matrix
             world = Matrix.Identity;

@@ -81,6 +81,7 @@
     <Compile Include="Screens\PauseMenuScreen.cs" />
     <Compile Include="Screens\PlayerIndexEventArgs.cs" />
     <Compile Include="Ship.cs" />
+    <Compile Include="ShipBullet.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Game.ico" />

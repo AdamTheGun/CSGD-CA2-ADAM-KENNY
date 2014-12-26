@@ -84,6 +84,8 @@ namespace ChaseCameraSample
             Reset();
         }
 
+        private Vector3 oldPos;
+
         /// <summary>
         /// Restore the ship to its original starting state
         /// </summary>
@@ -95,6 +97,39 @@ namespace ChaseCameraSample
             Up = Vector3.Up;
             right = Vector3.Right;
             Velocity = Vector3.Zero;
+        }
+
+        public float BulletCollision(Model BulletModel,Model CollisionModel,float inHealth)
+        {
+            if(isAlive){
+                for (int i = 0; i < BulletModel.Meshes.Count; i++)
+                {
+                    world.Translation = Position;
+
+                    BoundingSphere BulletBound = BulletModel.Meshes[i].BoundingSphere;
+                    BulletBound.Center = Position;
+                    BulletBound.Radius *= 0.7f;
+                    //shipBound = shipBound.Transform(world);
+
+                    for (int j = 0; j < CollisionModel.Meshes.Count; j++)
+                    {
+                        BoundingSphere modelBound = CollisionModel.Meshes[j].BoundingSphere;
+                        modelBound = modelBound.Transform(Matrix.CreateTranslation(50, 50, 0) * Matrix.CreateScale(100));
+                        modelBound.Radius *= 1.4f;
+
+                        if (BulletBound.Intersects(modelBound))
+                        {
+                            //Events during collision
+                            Position = oldPos;
+                            BulletBound.Center = Position;
+                            Reset();
+                            LifeTime = 0.0f;
+                            inHealth -= 10;
+                        }
+                    }
+                }    
+            }
+            return inHealth;
         }
 
         public void Update(GameTime gameTime)
@@ -110,7 +145,7 @@ namespace ChaseCameraSample
                 Velocity = force*2 ;
 
                 // Apply velocity
-                Vector3 oldPos = Position;
+                oldPos = Position;
                 Position += Velocity * elapsed;
 
                 if (LifeTime <= LifeSpan)

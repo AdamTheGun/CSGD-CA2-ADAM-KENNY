@@ -164,7 +164,7 @@ namespace ChaseCameraSample
         /// Applies a simple rotation to the ship and animates position based
         /// on simple linear motion physics.
         /// </summary>
-        public void Update(GameTime gameTime, Model ship, Model model)
+        public void Update(GameTime gameTime, Model ship, Model model,Model bulletModel)
         {
             KeyboardState keyboardState = Keyboard.GetState();
             GamePadState gamePadState = GamePad.GetState(PlayerIndex.One);
@@ -296,13 +296,17 @@ namespace ChaseCameraSample
 
             for (int i = 0; i < bullets.Length; i++)
             {
-                
+
                 if (!bullets[i].isAlive)
                 {
                     bullets[i].Direction = Direction;
-                    bullets[i].Position = this.Position +(Direction*1000);
+                    bullets[i].Position = this.Position + (Direction * 1000);
                     bullets[i].Up = this.Up;
                     bullets[i].right = this.right;
+                }
+                else
+                {
+                    shipHealth = bullets[i].BulletCollision(bulletModel, model, shipHealth);
                 }
                 bullets[i].Update(gameTime);
             }

@@ -199,6 +199,8 @@ namespace GameStateManagementSample
                         currentMouseState.X < ScreenManager.GraphicsDevice.Viewport.Width / 10 &&
                         currentMouseState.Y < ScreenManager.GraphicsDevice.Viewport.Height / 10;
 
+                //TEST
+                
 
                 // Pressing the A button or key toggles the spring behavior on and off
                 if (lastKeyboardState.IsKeyUp(Keys.A) &&
@@ -219,7 +221,7 @@ namespace GameStateManagementSample
                 }
 
                 // Update the ship
-                ship.Update(gameTime, shipModel, cubeModel);
+                ship.Update(gameTime, shipModel, cubeModel,bulletModel);
 
                 // Update the camera to chase the new target
                 UpdateCameraChaseTarget();
@@ -302,11 +304,13 @@ namespace GameStateManagementSample
                     DrawModel(bulletModel, Matrix.CreateScale(10) * Matrix.CreateRotationY(MathHelper.ToRadians(90.0f)) * ship.bullets[i].World);
                 }
             }
-                DrawModel(shipModel, ship.World);
+            DrawModel(shipModel, ship.World);
             DrawModel(groundModel, Matrix.Identity);
             DrawModel(cubeModel, Matrix.CreateTranslation(50, 50, 0) * Matrix.CreateScale(100));
 
             spriteBatch.Begin();
+
+            spriteBatch.DrawString(gameFont, "Health : " + ship.shipHealth, new Vector2(ScreenManager.GraphicsDevice.Viewport.TitleSafeArea.X, ScreenManager.GraphicsDevice.Viewport.TitleSafeArea.Y), Color.White);
 
             spriteBatch.End();
 

@@ -107,7 +107,7 @@ namespace ChaseCameraSample
 
                 // Apply acceleration
                 //Vector3 acceleration = force / Mass;
-                Velocity += force*elapsed ;
+                Velocity = force*2 ;
 
                 // Apply velocity
                 Vector3 oldPos = Position;

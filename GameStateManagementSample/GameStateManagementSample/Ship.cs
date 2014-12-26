@@ -63,6 +63,7 @@ namespace ChaseCameraSample
         /// </summary>
         private const float Mass = 1.0f;
 
+        public float shipHealth = 100.0f;
 
         private KeyboardState prevKeyboardState;
 
@@ -91,6 +92,8 @@ namespace ChaseCameraSample
             get { return world; }
         }
         private Matrix world;
+
+        MouseState oldMouse;
 
         private int currentBullet;
 
@@ -166,13 +169,33 @@ namespace ChaseCameraSample
             KeyboardState keyboardState = Keyboard.GetState();
             GamePadState gamePadState = GamePad.GetState(PlayerIndex.One);
             MouseState mouseState = Mouse.GetState();
+            
 
             float elapsed = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
             
 
+            
             // Determine rotation amount from input
             Vector2 rotationAmount = -gamePadState.ThumbSticks.Left;
+
+            if (mouseState == oldMouse)
+                Mouse.SetPosition(graphicsDevice.Viewport.Width / 2, graphicsDevice.Viewport.Height / 2);
+            if (mouseState.X > graphicsDevice.Viewport.Width/2)
+                rotationAmount.X = -1.0f;
+            if (mouseState.X < graphicsDevice.Viewport.Width/2)
+                rotationAmount.X = 1.0f;
+            if (mouseState.Y > graphicsDevice.Viewport.Height / 2)
+                rotationAmount.Y = 1.0f;
+            if (mouseState.Y < graphicsDevice.Viewport.Height / 2)
+                rotationAmount.Y = -1.0f;
+            if (mouseState.X == graphicsDevice.Viewport.Width/2 || mouseState.Y == graphicsDevice.Viewport.Height / 2)
+            {
+                rotationAmount.X = 0.0f;
+                rotationAmount.Y = 0.0f;
+            }
+
+
             if (keyboardState.IsKeyDown(Keys.Left) || TouchLeft())
                 rotationAmount.X = 1.0f;
             if (keyboardState.IsKeyDown(Keys.Right) || TouchRight())
@@ -216,10 +239,10 @@ namespace ChaseCameraSample
 
             // Determine thrust amount from input
             float thrustAmount = gamePadState.Triggers.Right;
-            if (keyboardState.IsKeyDown(Keys.W) || mouseState.LeftButton == ButtonState.Pressed)
+            if (keyboardState.IsKeyDown(Keys.W) )
                 thrustAmount = 1.0f;
 
-            if (keyboardState.IsKeyDown(Keys.E) && prevKeyboardState.IsKeyUp(Keys.E))
+            if ((keyboardState.IsKeyDown(Keys.E) && prevKeyboardState.IsKeyUp(Keys.E))|| (mouseState.LeftButton == ButtonState.Pressed && oldMouse.LeftButton != ButtonState.Pressed))
             {
                 bullets[currentBullet++].isAlive = true;
             }
@@ -292,6 +315,7 @@ namespace ChaseCameraSample
             world.Translation = Position;
 
             prevKeyboardState = keyboardState;
+            oldMouse = mouseState;
         }
     }
 }

@@ -52,6 +52,7 @@ namespace GameStateManagementSample
         Model shipModel;
         Model groundModel;
         Model cubeModel;
+        Model bulletModel;
 
         bool cameraSpringEnabled = true;
 
@@ -101,6 +102,7 @@ namespace GameStateManagementSample
                 shipModel = content.Load<Model>("Ship");
                 groundModel = content.Load<Model>("Ground");
                 cubeModel = content.Load<Model>("cube");
+                bulletModel = content.Load<Model>("Cone");
 
                 // Create ship
                 ship = new Ship(ScreenManager.GraphicsDevice);
@@ -272,7 +274,7 @@ namespace GameStateManagementSample
         private void UpdateCameraChaseTarget()
         {
             camera.ChasePosition = ship.Position;
-            camera.ChaseDirection = ship.Direction;
+            camera.ChaseDirection = ship.Direction + ship.Up/5;
             camera.Up = ship.Up;
         }
 
@@ -295,7 +297,10 @@ namespace GameStateManagementSample
 
             for (int i = 0; i < ship.bullets.Length; i++)
             {
-                DrawModel(cubeModel, ship.bullets[i].World);
+                if (ship.bullets[i].isAlive)
+                {
+                    DrawModel(bulletModel, Matrix.CreateScale(10) * Matrix.CreateRotationY(MathHelper.ToRadians(90.0f)) * ship.bullets[i].World);
+                }
             }
                 DrawModel(shipModel, ship.World);
             DrawModel(groundModel, Matrix.Identity);

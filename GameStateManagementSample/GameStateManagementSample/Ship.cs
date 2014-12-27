@@ -268,6 +268,7 @@ namespace ChaseCameraSample
                 world.Translation = Position;
 
                 BoundingSphere shipBound = ship.Meshes[i].BoundingSphere;
+                shipBound = shipBound.Transform(Matrix.CreateRotationY(MathHelper.ToRadians(-90.0f)) * Matrix.CreateScale(10));
                 shipBound.Center = Position;
                 shipBound.Radius *= 0.7f;
                 //shipBound = shipBound.Transform(world);

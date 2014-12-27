@@ -99,7 +99,7 @@ namespace GameStateManagementSample
 
                 gameFont = content.Load<SpriteFont>("gamefont");
 
-                shipModel = content.Load<Model>("Ship");
+                shipModel = content.Load<Model>("SpaceShip");
                 groundModel = content.Load<Model>("Ground");
                 cubeModel = content.Load<Model>("cube");
                 bulletModel = content.Load<Model>("Cone");
@@ -304,7 +304,7 @@ namespace GameStateManagementSample
                     DrawModel(bulletModel, Matrix.CreateScale(10) * Matrix.CreateRotationY(MathHelper.ToRadians(90.0f)) * ship.bullets[i].World);
                 }
             }
-            DrawModel(shipModel, ship.World);
+            DrawModel(shipModel,Matrix.CreateRotationY(MathHelper.ToRadians(-90.0f)) * Matrix.CreateScale(10) * ship.World );
             DrawModel(groundModel, Matrix.Identity);
             DrawModel(cubeModel, Matrix.CreateTranslation(50, 50, 0) * Matrix.CreateScale(100));
 

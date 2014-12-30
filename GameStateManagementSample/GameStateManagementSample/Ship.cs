@@ -93,6 +93,8 @@ namespace ChaseCameraSample
         }
         private Matrix world;
 
+        private Vector3 oldPos;
+
         MouseState oldMouse;
 
         private int currentBullet;
@@ -101,15 +103,15 @@ namespace ChaseCameraSample
 
         #region Initialization
 
-        public Ship(GraphicsDevice device)
+        public Ship(GraphicsDevice device,Vector3 NewPosition)
         {
             graphicsDevice = device;
+            Reset(NewPosition);
             currentBullet = 0;
             for (int i = 0; i < bullets.Length; i++)
             {
                 bullets[i] = new ShipBullet(device, Position);
             }
-            Reset();
         }
 
         
@@ -117,13 +119,18 @@ namespace ChaseCameraSample
         /// <summary>
         /// Restore the ship to its original starting state
         /// </summary>
-        public void Reset()
+        public void Reset(Vector3 NewPosition)
         {
-            Position = new Vector3(0, MinimumAltitude, 0);
+            Position = NewPosition;
             Direction = Vector3.Forward;
             Up = Vector3.Up;
             right = Vector3.Right;
             Velocity = Vector3.Zero;
+            world = Matrix.Identity;
+            world.Forward = Direction;
+            world.Up = Up;
+            world.Right = right;
+            world.Translation = Position;
         }
 
 
@@ -164,10 +171,11 @@ namespace ChaseCameraSample
         /// Applies a simple rotation to the ship and animates position based
         /// on simple linear motion physics.
         /// </summary>
-        public void Update(GameTime gameTime, Model ship, Model model,Model bulletModel)
+        public void Update(GameTime gameTime, Model ship, Model model,Model bulletModel,Matrix OtherShipMtx,int playerNum)
         {
             KeyboardState keyboardState = Keyboard.GetState();
             GamePadState gamePadState = GamePad.GetState(PlayerIndex.One);
+            
             MouseState mouseState = Mouse.GetState();
             
 
@@ -177,23 +185,28 @@ namespace ChaseCameraSample
 
             
             // Determine rotation amount from input
-            Vector2 rotationAmount = -gamePadState.ThumbSticks.Left;
-
-            if (mouseState == oldMouse)
-                Mouse.SetPosition(graphicsDevice.Viewport.Width / 2, graphicsDevice.Viewport.Height / 2);
-            if (mouseState.X > graphicsDevice.Viewport.Width/2)
-                rotationAmount.X = -1.0f;
-            if (mouseState.X < graphicsDevice.Viewport.Width/2)
-                rotationAmount.X = 1.0f;
-            if (mouseState.Y > graphicsDevice.Viewport.Height / 2)
-                rotationAmount.Y = 1.0f;
-            if (mouseState.Y < graphicsDevice.Viewport.Height / 2)
-                rotationAmount.Y = -1.0f;
-            if (mouseState.X == graphicsDevice.Viewport.Width/2 || mouseState.Y == graphicsDevice.Viewport.Height / 2)
+            Vector2 rotationAmount = new Vector2(0.0f,0.0f);
+            if (playerNum == 2)
             {
-                rotationAmount.X = 0.0f;
-                rotationAmount.Y = 0.0f;
+                rotationAmount = -gamePadState.ThumbSticks.Left;
             }
+            else
+            {
+                if (mouseState == oldMouse)
+                    Mouse.SetPosition(graphicsDevice.Viewport.Width / 2, graphicsDevice.Viewport.Height / 2);
+                if (mouseState.X > graphicsDevice.Viewport.Width / 2)
+                    rotationAmount.X = -1.0f;
+                if (mouseState.X < graphicsDevice.Viewport.Width / 2)
+                    rotationAmount.X = 1.0f;
+                if (mouseState.Y > graphicsDevice.Viewport.Height / 2)
+                    rotationAmount.Y = 1.0f;
+                if (mouseState.Y < graphicsDevice.Viewport.Height / 2)
+                    rotationAmount.Y = -1.0f;
+                if (mouseState.X == graphicsDevice.Viewport.Width / 2 || mouseState.Y == graphicsDevice.Viewport.Height / 2)
+                {
+                    rotationAmount.X = 0.0f;
+                    rotationAmount.Y = 0.0f;
+                }
 
 
             if (keyboardState.IsKeyDown(Keys.Left) || TouchLeft())
@@ -205,6 +218,7 @@ namespace ChaseCameraSample
             if (keyboardState.IsKeyDown(Keys.Down) || TouchDown())
                 rotationAmount.Y = 1.0f;
 
+            }
             // Scale rotation amount to radians per second
             rotationAmount = rotationAmount * RotationRate * elapsed;
 
@@ -238,14 +252,28 @@ namespace ChaseCameraSample
 
 
             // Determine thrust amount from input
-            float thrustAmount = gamePadState.Triggers.Right;
-            if (keyboardState.IsKeyDown(Keys.W) )
-                thrustAmount = 1.0f;
-
-            if ((keyboardState.IsKeyDown(Keys.E) && prevKeyboardState.IsKeyUp(Keys.E))|| (mouseState.LeftButton == ButtonState.Pressed && oldMouse.LeftButton != ButtonState.Pressed))
+            float thrustAmount = 0.0f;
+            if (playerNum == 2)
             {
-                bullets[currentBullet++].isAlive = true;
+                thrustAmount = gamePadState.Triggers.Right;
+                if (gamePadState.Buttons.X == ButtonState.Pressed)
+                {
+                    bullets[currentBullet++].isAlive = true;
+                }
             }
+            else if (playerNum == 1)
+            {
+                if (keyboardState.IsKeyDown(Keys.W))
+                    thrustAmount = 1.0f;
+            }
+            if (playerNum == 1)
+            {
+                if ((keyboardState.IsKeyDown(Keys.E) && prevKeyboardState.IsKeyUp(Keys.E)) || (mouseState.LeftButton == ButtonState.Pressed && oldMouse.LeftButton != ButtonState.Pressed))
+                {
+                    bullets[currentBullet++].isAlive = true;
+                }
+            }
+
 
             // Calculate force from thrust amount
             Vector3 force = Direction * thrustAmount * ThrustForce;
@@ -258,34 +286,13 @@ namespace ChaseCameraSample
             Velocity *= DragFactor;
 
             // Apply velocity
-            Vector3 oldPos = Position;
+            oldPos = Position;
             Position += Velocity * elapsed;
 
+            ShipCollision(ship, model, bulletModel, OtherShipMtx, 30, 0.7f);
+
+
             
-
-            for (int i = 0; i < ship.Meshes.Count; i++)
-            {
-                world.Translation = Position;
-
-                BoundingSphere shipBound = ship.Meshes[i].BoundingSphere;
-                shipBound = shipBound.Transform(Matrix.CreateRotationY(MathHelper.ToRadians(-90.0f)) * Matrix.CreateScale(10));
-                shipBound.Center = Position;
-                shipBound.Radius *= 0.7f;
-                //shipBound = shipBound.Transform(world);
-
-                for (int j = 0; j < model.Meshes.Count; j++)
-                {
-                    BoundingSphere modelBound = model.Meshes[j].BoundingSphere;
-                    modelBound = modelBound.Transform(Matrix.CreateTranslation(50, 50, 0) * Matrix.CreateScale(100));
-                    modelBound.Radius *= 0.7f;
-
-                    if (shipBound.Intersects(modelBound))
-                    {
-                        Position = oldPos;
-                        shipBound.Center = Position;
-                    }
-                }
-            }
 
             // Prevent ship from flying under the ground
             Position.Y = Math.Max(Position.Y, MinimumAltitude);
@@ -297,7 +304,6 @@ namespace ChaseCameraSample
 
             for (int i = 0; i < bullets.Length; i++)
             {
-
                 if (!bullets[i].isAlive)
                 {
                     bullets[i].Direction = Direction;
@@ -307,7 +313,7 @@ namespace ChaseCameraSample
                 }
                 else
                 {
-                    shipHealth = bullets[i].BulletCollision(bulletModel, model, shipHealth);
+                    shipHealth = bullets[i].BulletCollision(bulletModel, ship, shipHealth,OtherShipMtx,10,1.5f);
                 }
                 bullets[i].Update(gameTime);
             }
@@ -321,6 +327,32 @@ namespace ChaseCameraSample
 
             prevKeyboardState = keyboardState;
             oldMouse = mouseState;
+        }
+        void ShipCollision(Model ship, Model model,Model bulletModel,Matrix OtherShipMtx, int CollisionScale, float radius) 
+        {
+            for (int i = 0; i < ship.Meshes.Count; i++)
+            {
+                world.Translation = Position;
+
+                BoundingSphere shipBound = ship.Meshes[i].BoundingSphere;
+                shipBound = shipBound.Transform(Matrix.CreateRotationY(MathHelper.ToRadians(-90.0f)) * Matrix.CreateScale(CollisionScale));
+                shipBound.Center = Position;
+                shipBound.Radius *= 0.7f;
+                //shipBound = shipBound.Transform(world);
+
+                for (int j = 0; j < model.Meshes.Count; j++)
+                {
+                    BoundingSphere modelBound = model.Meshes[j].BoundingSphere;
+                    modelBound = modelBound.Transform(Matrix.CreateScale(CollisionScale) * OtherShipMtx);
+                    modelBound.Radius *= radius;
+
+                    if (shipBound.Intersects(modelBound))
+                    {
+                        Position = oldPos;
+                        shipBound.Center = Position;
+                    }
+                }
+            }
         }
     }
 }

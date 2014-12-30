@@ -45,8 +45,10 @@ namespace GameStateManagementSample
 
         InputAction pauseAction;
 
-        Ship ship;
+        Ship ship,ship2;
         ChaseCamera camera;
+
+        Vector3 ship1Pos, ship2Pos;
 
 
         Model shipModel;
@@ -104,8 +106,13 @@ namespace GameStateManagementSample
                 cubeModel = content.Load<Model>("cube");
                 bulletModel = content.Load<Model>("Cone");
 
+                ship1Pos = new Vector3(10000,350,10000);
+                ship2Pos = new Vector3(100, 350, 100);
+
                 // Create ship
-                ship = new Ship(ScreenManager.GraphicsDevice);
+                ship = new Ship(ScreenManager.GraphicsDevice,ship1Pos);
+                ship2 = new Ship(ScreenManager.GraphicsDevice,ship2Pos);
+                //ship2.Position = new Vector3(100, 100, 100);
 
                 camera.AspectRatio = (float)ScreenManager.GraphicsDevice.Viewport.Width /
                     ScreenManager.GraphicsDevice.Viewport.Height;
@@ -216,12 +223,13 @@ namespace GameStateManagementSample
                 if (currentKeyboardState.IsKeyDown(Keys.R) ||
                     currentGamePadState.Buttons.RightStick == ButtonState.Pressed)
                 {
-                    ship.Reset();
+                    ship.Reset(ship1Pos);
                     camera.Reset();
                 }
 
                 // Update the ship
-                ship.Update(gameTime, shipModel, cubeModel,bulletModel);
+                ship.Update(gameTime, shipModel, cubeModel,bulletModel,ship2.World,2);
+                ship2.Update(gameTime, shipModel, cubeModel, bulletModel, ship.World,1);
 
                 // Update the camera to chase the new target
                 UpdateCameraChaseTarget();
@@ -304,13 +312,23 @@ namespace GameStateManagementSample
                     DrawModel(bulletModel, Matrix.CreateScale(10) * Matrix.CreateRotationY(MathHelper.ToRadians(90.0f)) * ship.bullets[i].World);
                 }
             }
-            DrawModel(shipModel,Matrix.CreateRotationY(MathHelper.ToRadians(-90.0f)) * Matrix.CreateScale(10) * ship.World );
+            for (int i = 0; i < ship2.bullets.Length; i++)
+            {
+                if (ship2.bullets[i].isAlive)
+                {
+                    DrawModel(bulletModel, Matrix.CreateScale(10) * Matrix.CreateRotationY(MathHelper.ToRadians(90.0f)) * ship2.bullets[i].World);
+                }
+            }
+            DrawModel(shipModel, Matrix.CreateRotationY(MathHelper.ToRadians(-90.0f)) * Matrix.CreateScale(10) * ship.World );
+            DrawModel(shipModel, Matrix.CreateRotationY(MathHelper.ToRadians(-90.0f)) * Matrix.CreateScale(10) * ship2.World);
+            
             DrawModel(groundModel, Matrix.Identity);
-            DrawModel(cubeModel, Matrix.CreateTranslation(50, 50, 0) * Matrix.CreateScale(100));
+            //DrawModel(shipModel, Matrix.CreateTranslation(50, 50, 100) * Matrix.CreateScale(10));
 
             spriteBatch.Begin();
 
             spriteBatch.DrawString(gameFont, "Health : " + ship.shipHealth, new Vector2(ScreenManager.GraphicsDevice.Viewport.TitleSafeArea.X, ScreenManager.GraphicsDevice.Viewport.TitleSafeArea.Y), Color.White);
+            spriteBatch.DrawString(gameFont, "Health : " + ship2.shipHealth, new Vector2(ScreenManager.GraphicsDevice.Viewport.TitleSafeArea.X, ScreenManager.GraphicsDevice.Viewport.TitleSafeArea.Y+50), Color.White);
 
             spriteBatch.End();
 

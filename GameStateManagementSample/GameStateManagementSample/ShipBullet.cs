@@ -99,13 +99,12 @@ namespace ChaseCameraSample
             Velocity = Vector3.Zero;
         }
 
-        public float BulletCollision(Model BulletModel,Model CollisionModel,float inHealth)
+        public float BulletCollision(Model BulletModel,Model CollisionModel,float inHealth,Matrix shipMtx,int CollisionScale,float radius)
         {
             if(isAlive){
                 for (int i = 0; i < BulletModel.Meshes.Count; i++)
                 {
                     world.Translation = Position;
-
                     BoundingSphere BulletBound = BulletModel.Meshes[i].BoundingSphere;
                     BulletBound.Center = Position;
                     BulletBound.Radius *= 0.7f;
@@ -114,8 +113,8 @@ namespace ChaseCameraSample
                     for (int j = 0; j < CollisionModel.Meshes.Count; j++)
                     {
                         BoundingSphere modelBound = CollisionModel.Meshes[j].BoundingSphere;
-                        modelBound = modelBound.Transform(Matrix.CreateTranslation(50, 50, 0) * Matrix.CreateScale(100));
-                        modelBound.Radius *= 1.4f;
+                        modelBound = modelBound.Transform( Matrix.CreateScale(CollisionScale)*shipMtx);
+                        modelBound.Radius *= radius;
 
                         if (BulletBound.Intersects(modelBound))
                         {

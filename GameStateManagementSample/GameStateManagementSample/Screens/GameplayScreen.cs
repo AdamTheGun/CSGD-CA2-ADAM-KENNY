@@ -46,7 +46,8 @@ namespace GameStateManagementSample
         InputAction pauseAction;
 
         Ship ship,ship2;
-        ChaseCamera camera;
+        ChaseCamera camera,camera2;
+        Viewport topViewport, bottomViewport;
 
         Vector3 ship1Pos, ship2Pos;
 
@@ -76,8 +77,11 @@ namespace GameStateManagementSample
                 new Keys[] { Keys.Escape },
                 true);
 
+            
+
             // Create the chase camera
             camera = new ChaseCamera();
+            camera2 = new ChaseCamera();
 
             // Set the camera offsets
             camera.DesiredPositionOffset = new Vector3(0.0f, 2000.0f, 3500.0f);
@@ -86,6 +90,14 @@ namespace GameStateManagementSample
             // Set camera perspective
             camera.NearPlaneDistance = 10.0f;
             camera.FarPlaneDistance = 100000.0f;
+
+            // Set the camera offsets
+            camera2.DesiredPositionOffset = new Vector3(0.0f, 2000.0f, 3500.0f);
+            camera2.LookAtOffset = new Vector3(0.0f, 150.0f, 0.0f);
+
+            // Set camera perspective
+            camera2.NearPlaneDistance = 10.0f;
+            camera2.FarPlaneDistance = 100000.0f;
         }
 
 
@@ -98,6 +110,12 @@ namespace GameStateManagementSample
             {
                 if (content == null)
                     content = new ContentManager(ScreenManager.Game.Services, "Content");
+
+                topViewport = ScreenManager.GraphicsDevice.Viewport;
+                bottomViewport = ScreenManager.GraphicsDevice.Viewport;
+                topViewport.Height = topViewport.Height / 2;
+                bottomViewport.Height = bottomViewport.Height / 2;
+                bottomViewport.Y = topViewport.Height;
 
                 gameFont = content.Load<SpriteFont>("gamefont");
 
@@ -115,10 +133,16 @@ namespace GameStateManagementSample
                 //ship2.Position = new Vector3(100, 100, 100);
 
                 camera.AspectRatio = (float)ScreenManager.GraphicsDevice.Viewport.Width /
-                    ScreenManager.GraphicsDevice.Viewport.Height;
+                    (ScreenManager.GraphicsDevice.Viewport.Height/2);
 
-                UpdateCameraChaseTarget();
+                camera2.AspectRatio = (float)ScreenManager.GraphicsDevice.Viewport.Width /
+                    (ScreenManager.GraphicsDevice.Viewport.Height / 2);
+
+                UpdateCameraChaseTarget(ship,camera);
+                UpdateCameraChaseTarget(ship2,camera2);
+
                 camera.Reset();
+                camera2.Reset();
 
                 // A real game would probably have more content than this sample, so
                 // it would take longer to load. We simulate that by delaying for a
@@ -232,7 +256,8 @@ namespace GameStateManagementSample
                 ship2.Update(gameTime, shipModel, cubeModel, bulletModel, ship.World,1);
 
                 // Update the camera to chase the new target
-                UpdateCameraChaseTarget();
+                UpdateCameraChaseTarget(ship,camera);
+                UpdateCameraChaseTarget(ship2,camera2);
 
                 // The chase camera's update behavior is the springs, but we can
                 // use the Reset method to have a locked, spring-less camera
@@ -240,6 +265,11 @@ namespace GameStateManagementSample
                     camera.Update(gameTime);
                 else
                     camera.Reset();
+
+                if (cameraSpringEnabled)
+                    camera2.Update(gameTime);
+                else
+                    camera2.Reset();
             }
         }
 
@@ -281,11 +311,11 @@ namespace GameStateManagementSample
             }
         }
 
-        private void UpdateCameraChaseTarget()
+        private void UpdateCameraChaseTarget(Ship ships,ChaseCamera camera)
         {
-            camera.ChasePosition = ship.Position;
-            camera.ChaseDirection = ship.Direction + ship.Up/5;
-            camera.Up = ship.Up;
+            camera.ChasePosition = ships.Position;
+            camera.ChaseDirection = ships.Direction + ships.Up/5;
+            camera.Up = ships.Up;
         }
 
 
@@ -296,7 +326,10 @@ namespace GameStateManagementSample
         {
             // This game has a blue background. Why? Because!
             ScreenManager.GraphicsDevice.Clear(ClearOptions.Target,
-                                               Color.CornflowerBlue, 0, 0);
+                                               Color.DarkBlue, 0, 0);
+
+            ScreenManager.GraphicsDevice.Viewport = topViewport;
+            
 
             // Our player and enemy are both actually just text strings.
             SpriteBatch spriteBatch = ScreenManager.SpriteBatch;
@@ -309,20 +342,20 @@ namespace GameStateManagementSample
             {
                 if (ship.bullets[i].isAlive)
                 {
-                    DrawModel(bulletModel, Matrix.CreateScale(10) * Matrix.CreateRotationY(MathHelper.ToRadians(90.0f)) * ship.bullets[i].World);
+                    DrawModel(bulletModel, Matrix.CreateScale(10) * Matrix.CreateRotationY(MathHelper.ToRadians(90.0f)) * ship.bullets[i].World,camera);
                 }
             }
             for (int i = 0; i < ship2.bullets.Length; i++)
             {
                 if (ship2.bullets[i].isAlive)
                 {
-                    DrawModel(bulletModel, Matrix.CreateScale(10) * Matrix.CreateRotationY(MathHelper.ToRadians(90.0f)) * ship2.bullets[i].World);
+                    DrawModel(bulletModel, Matrix.CreateScale(10) * Matrix.CreateRotationY(MathHelper.ToRadians(90.0f)) * ship2.bullets[i].World, camera);
                 }
             }
-            DrawModel(shipModel, Matrix.CreateRotationY(MathHelper.ToRadians(-90.0f)) * Matrix.CreateScale(10) * ship.World );
-            DrawModel(shipModel, Matrix.CreateRotationY(MathHelper.ToRadians(-90.0f)) * Matrix.CreateScale(10) * ship2.World);
-            
-            DrawModel(groundModel, Matrix.Identity);
+            DrawModel(shipModel, Matrix.CreateRotationY(MathHelper.ToRadians(-90.0f)) * Matrix.CreateScale(10) * ship.World, camera);
+            DrawModel(shipModel, Matrix.CreateRotationY(MathHelper.ToRadians(-90.0f)) * Matrix.CreateScale(10) * ship2.World, camera);
+
+            DrawModel(groundModel, Matrix.Identity, camera);
             //DrawModel(shipModel, Matrix.CreateTranslation(50, 50, 100) * Matrix.CreateScale(10));
 
             spriteBatch.Begin();
@@ -339,9 +372,51 @@ namespace GameStateManagementSample
 
                 ScreenManager.FadeBackBufferToBlack(alpha);
             }
+
+            ScreenManager.GraphicsDevice.Viewport = bottomViewport;
+            
+            ScreenManager.GraphicsDevice.BlendState = BlendState.Opaque;
+            ScreenManager.GraphicsDevice.DepthStencilState = DepthStencilState.Default;
+            ScreenManager.GraphicsDevice.SamplerStates[0] = SamplerState.LinearWrap;
+
+            for (int i = 0; i < ship.bullets.Length; i++)
+            {
+                if (ship.bullets[i].isAlive)
+                {
+                    DrawModel(bulletModel, Matrix.CreateScale(10) * Matrix.CreateRotationY(MathHelper.ToRadians(90.0f)) * ship.bullets[i].World, camera2);
+                }
+            }
+            for (int i = 0; i < ship2.bullets.Length; i++)
+            {
+                if (ship2.bullets[i].isAlive)
+                {
+                    DrawModel(bulletModel, Matrix.CreateScale(10) * Matrix.CreateRotationY(MathHelper.ToRadians(90.0f)) * ship2.bullets[i].World, camera2);
+                }
+            }
+            DrawModel(shipModel, Matrix.CreateRotationY(MathHelper.ToRadians(-90.0f)) * Matrix.CreateScale(10) * ship.World, camera2);
+            DrawModel(shipModel, Matrix.CreateRotationY(MathHelper.ToRadians(-90.0f)) * Matrix.CreateScale(10) * ship2.World, camera2);
+
+            DrawModel(groundModel, Matrix.Identity, camera2);
+            //DrawModel(shipModel, Matrix.CreateTranslation(50, 50, 100) * Matrix.CreateScale(10));
+
+            spriteBatch.Begin();
+
+            spriteBatch.DrawString(gameFont, "Health : " + ship.shipHealth, new Vector2(ScreenManager.GraphicsDevice.Viewport.TitleSafeArea.X, ScreenManager.GraphicsDevice.Viewport.TitleSafeArea.Y), Color.White);
+            spriteBatch.DrawString(gameFont, "Health : " + ship2.shipHealth, new Vector2(ScreenManager.GraphicsDevice.Viewport.TitleSafeArea.X, ScreenManager.GraphicsDevice.Viewport.TitleSafeArea.Y + 50), Color.White);
+
+            spriteBatch.End();
+
+            // If the game is transitioning on or off, fade it out to black.
+            if (TransitionPosition > 0 || pauseAlpha > 0)
+            {
+                float alpha = MathHelper.Lerp(1f - TransitionAlpha, 1f, pauseAlpha / 2);
+
+                ScreenManager.FadeBackBufferToBlack(alpha);
+            }
+
         }
 
-        private void DrawModel(Model model, Matrix world)
+        private void DrawModel(Model model, Matrix world,ChaseCamera camera)
         {
             Matrix[] transforms = new Matrix[model.Bones.Count];
             model.CopyAbsoluteBoneTransformsTo(transforms);
@@ -352,7 +427,6 @@ namespace GameStateManagementSample
                 {
                     effect.EnableDefaultLighting();
                     effect.World = transforms[mesh.ParentBone.Index] * world;
-
                     // Use the matrices provided by the chase camera
                     effect.View = camera.View;
                     effect.Projection = camera.Projection;

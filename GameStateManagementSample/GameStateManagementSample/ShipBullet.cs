@@ -123,7 +123,7 @@ namespace ChaseCameraSample
                             BulletBound.Center = Position;
                             Reset();
                             LifeTime = 0.0f;
-                            inHealth -= 10;
+                            inHealth -= 1;
                         }
                     }
                 }    

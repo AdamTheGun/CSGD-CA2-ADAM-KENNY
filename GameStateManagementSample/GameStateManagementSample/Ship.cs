@@ -13,6 +13,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Content;
 using System;
+using Microsoft.Xna.Framework.Audio;
 #endregion
 
 namespace ChaseCameraSample
@@ -75,12 +76,14 @@ namespace ChaseCameraSample
         /// <summary>
         /// Velocity scalar to approximate drag.
         /// </summary>
-        private const float DragFactor = 0.95f;
+        private const float DragFactor = 0.99f;
 
         /// <summary>
         /// Current ship velocity.
         /// </summary>
         public Vector3 Velocity;
+
+        float maxVelocity = 20000;
 
         public ShipBullet[] bullets = new ShipBullet[1000];
 
@@ -97,14 +100,24 @@ namespace ChaseCameraSample
 
         MouseState oldMouse;
 
-        private int currentBullet;
+        Random rand;
+
+        Cue shipSounds;
+        float pewTimer = 0.0f;
+        bool pewBool = false;
+
+        public int currentBullet;
+
+        float crashTimer = 0.0f;
+        bool crashBool = false;
 
         #endregion
 
         #region Initialization
 
-        public Ship(GraphicsDevice device,Vector3 NewPosition)
+        public Ship(GraphicsDevice device,Vector3 NewPosition,Cue sounds)
         {
+            shipSounds = sounds;
             graphicsDevice = device;
             Reset(NewPosition);
             currentBullet = 0;
@@ -112,6 +125,7 @@ namespace ChaseCameraSample
             {
                 bullets[i] = new ShipBullet(device, Position);
             }
+            rand = new Random();
         }
 
         
@@ -250,15 +264,28 @@ namespace ChaseCameraSample
             // re-computed with a cross product to ensure orthagonality
             Up = Vector3.Cross(Right, Direction);
 
-
+            double randNum = rand.NextDouble();
+            
             // Determine thrust amount from input
             float thrustAmount = 0.0f;
+
             if (playerNum == 2)
             {
                 thrustAmount = gamePadState.Triggers.Right;
-                if (gamePadState.Buttons.X == ButtonState.Pressed)
+                if (randNum <= 0.5f)
                 {
-                    bullets[currentBullet++].isAlive = true;
+                    if (gamePadState.Buttons.X == ButtonState.Pressed)
+                    {
+                        bullets[currentBullet++].isAlive = true;
+                        if (pewBool == false)
+                        {
+                            if (!shipSounds.IsPlaying)
+                            {
+                                //shipSounds.Play();
+                                pewBool = true;
+                            }
+                        }
+                    }
                 }
             }
             else if (playerNum == 1)
@@ -266,11 +293,29 @@ namespace ChaseCameraSample
                 if (keyboardState.IsKeyDown(Keys.W))
                     thrustAmount = 1.0f;
             }
+
+            if (pewBool) 
+            {
+                pewTimer += elapsed*1;
+                if (pewTimer >= 0.13) 
+                {
+                    pewTimer = 0.0f;
+                    pewBool = false;
+                }
+            }
+
             if (playerNum == 1)
             {
-                if ((keyboardState.IsKeyDown(Keys.E) && prevKeyboardState.IsKeyUp(Keys.E)) || (mouseState.LeftButton == ButtonState.Pressed && oldMouse.LeftButton != ButtonState.Pressed))
+                if (randNum <= 0.5f)
                 {
-                    bullets[currentBullet++].isAlive = true;
+                    if (keyboardState.IsKeyDown(Keys.E) || mouseState.LeftButton == ButtonState.Pressed)
+                    {
+                        bullets[currentBullet++].isAlive = true;
+                        if (!shipSounds.IsPlaying)
+                        {
+                            //shipSounds.Play();
+                        }
+                    }
                 }
             }
 
@@ -285,12 +330,47 @@ namespace ChaseCameraSample
             // Apply psuedo drag
             Velocity *= DragFactor;
 
+            if (Velocity.X >= maxVelocity)
+            {
+                Velocity.X = maxVelocity;
+            }
+            if (Velocity.Y >= maxVelocity)
+            { 
+                Velocity.Y = maxVelocity;
+            }
+            if (Velocity.Z >= maxVelocity)
+            { 
+                Velocity.Z = maxVelocity;
+            }
+            if (Velocity.X <= -maxVelocity)
+            {
+                Velocity.X = -maxVelocity;
+            }
+            if (Velocity.Y <= -maxVelocity)
+            {
+                Velocity.Y = -maxVelocity;
+            }
+            if (Velocity.Z <= -maxVelocity)
+            {
+                Velocity.Z = -maxVelocity;
+            }
             // Apply velocity
             oldPos = Position;
             Position += Velocity * elapsed;
 
-            ShipCollision(ship, model, bulletModel, OtherShipMtx, 30, 0.7f);
-
+            if (!crashBool)
+            {
+                ShipCollision(ship, model, bulletModel, OtherShipMtx, 30, 0.7f);
+            }
+            else 
+            {
+                crashTimer += elapsed * 1;
+                if (crashTimer >= 5)
+                {
+                    crashBool = false;
+                    crashTimer = 0.0f;
+                }
+            }
 
             
 
@@ -348,8 +428,8 @@ namespace ChaseCameraSample
 
                     if (shipBound.Intersects(modelBound))
                     {
-                        Position = oldPos;
-                        shipBound.Center = Position;
+                        shipHealth -= 10;
+                        crashBool = true;
                     }
                 }
             }

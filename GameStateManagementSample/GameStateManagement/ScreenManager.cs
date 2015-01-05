@@ -38,6 +38,7 @@ namespace GameStateManagement
         List<GameScreen> tempScreensList = new List<GameScreen>();
 
         InputState input = new InputState();
+        
 
         SpriteBatch spriteBatch;
         SpriteFont font;

@@ -14,6 +14,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Audio;
 using GameStateManagement;
 using ChaseCameraSample;
 #endregion
@@ -39,6 +40,7 @@ namespace GameStateManagementSample
         GamePadState currentGamePadState = new GamePadState();
         MouseState currentMouseState = new MouseState();
 
+
         Random random = new Random();
 
         float pauseAlpha;
@@ -50,6 +52,15 @@ namespace GameStateManagementSample
         Viewport topViewport, bottomViewport;
 
         Vector3 ship1Pos, ship2Pos;
+
+        //AUDIO STUFF
+        AudioEmitter shipEmit1, shipEmit2;
+        AudioListener shipListen1, shipListen2;
+        Cue FxCue;
+        AudioEngine audioEngine;
+        SoundBank soundBank;
+        WaveBank waveBank;
+
 
 
         Model shipModel;
@@ -77,7 +88,9 @@ namespace GameStateManagementSample
                 new Keys[] { Keys.Escape },
                 true);
 
-            
+            shipEmit1 = new AudioEmitter();
+            shipEmit2 = new AudioEmitter();
+
 
             // Create the chase camera
             camera = new ChaseCamera();
@@ -89,7 +102,7 @@ namespace GameStateManagementSample
 
             // Set camera perspective
             camera.NearPlaneDistance = 10.0f;
-            camera.FarPlaneDistance = 100000.0f;
+            camera.FarPlaneDistance = 10000000.0f;
 
             // Set the camera offsets
             camera2.DesiredPositionOffset = new Vector3(0.0f, 2000.0f, 3500.0f);
@@ -97,7 +110,7 @@ namespace GameStateManagementSample
 
             // Set camera perspective
             camera2.NearPlaneDistance = 10.0f;
-            camera2.FarPlaneDistance = 100000.0f;
+            camera2.FarPlaneDistance = 10000000.0f;
         }
 
 
@@ -123,13 +136,19 @@ namespace GameStateManagementSample
                 groundModel = content.Load<Model>("Ground");
                 cubeModel = content.Load<Model>("cube");
                 bulletModel = content.Load<Model>("Cone");
+                audioEngine = new AudioEngine("Content\\Sounds.xgs");
+                soundBank = new SoundBank(audioEngine, "Content\\SoundBank.xsb");
+                waveBank = new WaveBank(audioEngine, "Content\\WaveBank.xwb");
+
+                FxCue = soundBank.GetCue("Sound");
+                //FxCue.Apply3D(shipListen1, shipEmit1);
 
                 ship1Pos = new Vector3(10000,350,10000);
                 ship2Pos = new Vector3(100, 350, 100);
 
                 // Create ship
-                ship = new Ship(ScreenManager.GraphicsDevice,ship1Pos);
-                ship2 = new Ship(ScreenManager.GraphicsDevice,ship2Pos);
+                ship = new Ship(ScreenManager.GraphicsDevice,ship1Pos,FxCue);
+                ship2 = new Ship(ScreenManager.GraphicsDevice,ship2Pos,FxCue);
                 //ship2.Position = new Vector3(100, 100, 100);
 
                 camera.AspectRatio = (float)ScreenManager.GraphicsDevice.Viewport.Width /
@@ -231,7 +250,9 @@ namespace GameStateManagementSample
                         currentMouseState.Y < ScreenManager.GraphicsDevice.Viewport.Height / 10;
 
                 //TEST
-                
+                //shipEmit1.Position = ship.Position;
+                //shipListen1.Position = camera.Position;
+
 
                 // Pressing the A button or key toggles the spring behavior on and off
                 if (lastKeyboardState.IsKeyUp(Keys.A) &&
@@ -302,6 +323,7 @@ namespace GameStateManagementSample
 #if WINDOWS_PHONE
                 ScreenManager.AddScreen(new PhonePauseScreen(), ControllingPlayer);
 #else
+                
                 ScreenManager.AddScreen(new PauseMenuScreen(), ControllingPlayer);
 #endif
             }
@@ -360,8 +382,8 @@ namespace GameStateManagementSample
 
             spriteBatch.Begin();
 
-            spriteBatch.DrawString(gameFont, "Health : " + ship.shipHealth, new Vector2(ScreenManager.GraphicsDevice.Viewport.TitleSafeArea.X, ScreenManager.GraphicsDevice.Viewport.TitleSafeArea.Y), Color.White);
-            spriteBatch.DrawString(gameFont, "Health : " + ship2.shipHealth, new Vector2(ScreenManager.GraphicsDevice.Viewport.TitleSafeArea.X, ScreenManager.GraphicsDevice.Viewport.TitleSafeArea.Y+50), Color.White);
+            spriteBatch.DrawString(gameFont, "Health : " + ship2.shipHealth, new Vector2(ScreenManager.GraphicsDevice.Viewport.TitleSafeArea.X+50, ScreenManager.GraphicsDevice.Viewport.TitleSafeArea.Y+40), Color.White);
+            spriteBatch.DrawString(gameFont, "Power  : " + (ship.bullets.Length-ship.currentBullet), new Vector2(ScreenManager.GraphicsDevice.Viewport.TitleSafeArea.Width - 200, ScreenManager.GraphicsDevice.Viewport.TitleSafeArea.Y + 40), Color.White);
 
             spriteBatch.End();
 
@@ -401,8 +423,8 @@ namespace GameStateManagementSample
 
             spriteBatch.Begin();
 
-            spriteBatch.DrawString(gameFont, "Health : " + ship.shipHealth, new Vector2(ScreenManager.GraphicsDevice.Viewport.TitleSafeArea.X, ScreenManager.GraphicsDevice.Viewport.TitleSafeArea.Y), Color.White);
-            spriteBatch.DrawString(gameFont, "Health : " + ship2.shipHealth, new Vector2(ScreenManager.GraphicsDevice.Viewport.TitleSafeArea.X, ScreenManager.GraphicsDevice.Viewport.TitleSafeArea.Y + 50), Color.White);
+            spriteBatch.DrawString(gameFont, "Health : " + ship.shipHealth, new Vector2(ScreenManager.GraphicsDevice.Viewport.TitleSafeArea.X+50, 40), Color.White);
+            spriteBatch.DrawString(gameFont, "Power  : " + (ship2.bullets.Length-ship2.currentBullet), new Vector2(ScreenManager.GraphicsDevice.Viewport.TitleSafeArea.Width - 200, 40), Color.White);
 
             spriteBatch.End();
 

@@ -69,10 +69,18 @@ namespace GameStateManagementSample
         /// </summary>
         void ConfirmQuitMessageBoxAccepted(object sender, PlayerIndexEventArgs e)
         {
+            ResetViewports();
             LoadingScreen.Load(ScreenManager, false, null, new BackgroundScreen(),
                                                            new MainMenuScreen());
         }
 
+        public void ResetViewports()
+        {
+           //Reset viewports
+           //HERE
+           //CHANGING SCREENMANAGER.GRAPHICS.VIEWPORT DOESNT WORK FOR SOME REASON
+            //5ScreenManager.GraphicsDevice.Viewport = new Microsoft.Xna.Framework.Graphics.Viewport(0, 0, 1280, 720);
+        }
 
         #endregion
     }

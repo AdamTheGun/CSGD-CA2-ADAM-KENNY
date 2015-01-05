@@ -35,7 +35,7 @@
       <Processor>FontDescriptionProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\user\Desktop\Singapore Polytechnic\Year 2(Current)\Semester 2(Current)\CSGD\CSGD CA2\GameStateManagementSample\GameStateManagementSample\bin\x86\Debug\Content\menufont.xnb</Output>
-      <Time>2014-12-24T22:59:33.9737916+08:00</Time>
+      <Time>2015-01-03T14:09:06.1664687+08:00</Time>
     </Item>
     <Item>
       <Source>gamefont.spritefont</Source>
@@ -44,7 +44,7 @@
       <Processor>FontDescriptionProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\user\Desktop\Singapore Polytechnic\Year 2(Current)\Semester 2(Current)\CSGD\CSGD CA2\GameStateManagementSample\GameStateManagementSample\bin\x86\Debug\Content\gamefont.xnb</Output>
-      <Time>2014-12-24T22:59:33.9717909+08:00</Time>
+      <Time>2015-01-03T14:09:18.2995639+08:00</Time>
     </Item>
     <Item>
       <Source>Ground.x</Source>
@@ -214,6 +214,15 @@
       <Options>None</Options>
       <Output>C:\Users\user\Desktop\Singapore Polytechnic\Year 2(Current)\Semester 2(Current)\CSGD\CSGD CA2\GameStateManagementSample\GameStateManagementSample\bin\x86\Debug\Content\Ship_Texmap_0.xnb</Output>
       <Time>2014-12-27T18:09:40.6328038+08:00</Time>
+    </Item>
+    <Item>
+      <Source>PewpewSFX.wav</Source>
+      <Name>PewpewSFX</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\user\Desktop\Singapore Polytechnic\Year 2(Current)\Semester 2(Current)\CSGD\CSGD CA2\GameStateManagementSample\GameStateManagementSample\bin\x86\Debug\Content\PewpewSFX.xnb</Output>
+      <Time>2015-01-03T17:50:57.5497545+08:00</Time>
     </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>

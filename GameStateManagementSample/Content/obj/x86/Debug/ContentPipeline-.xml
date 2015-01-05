@@ -224,6 +224,15 @@
       <Output>C:\Users\user\Desktop\Singapore Polytechnic\Year 2(Current)\Semester 2(Current)\CSGD\CSGD CA2\GameStateManagementSample\GameStateManagementSample\bin\x86\Debug\Content\PewpewSFX.xnb</Output>
       <Time>2015-01-03T17:50:57.5497545+08:00</Time>
     </Item>
+    <Item>
+      <Source>CrashSFX.wav</Source>
+      <Name>CrashSFX</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\user\Desktop\Singapore Polytechnic\Year 2(Current)\Semester 2(Current)\CSGD\CSGD CA2\GameStateManagementSample\GameStateManagementSample\bin\x86\Debug\Content\CrashSFX.xnb</Output>
+      <Time>2015-01-05T12:06:49.3579806+08:00</Time>
+    </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>
       <ContentProjectGUID Null="true" />

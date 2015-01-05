@@ -34,7 +34,8 @@ namespace GameStateManagementSample
         SpriteFont gameFont;
 
         KeyboardState lastKeyboardState = new KeyboardState();
-        GamePadState lastGamePadState = new GamePadState();
+        GamePadState lastGamePadState1 = new GamePadState();
+        GamePadState lastGamePadState2 = new GamePadState();
         MouseState lastMousState = new MouseState();
         KeyboardState currentKeyboardState = new KeyboardState();
         GamePadState currentGamePadState = new GamePadState();
@@ -69,6 +70,7 @@ namespace GameStateManagementSample
         Model bulletModel;
 
         bool cameraSpringEnabled = true;
+        bool camera2SpringEnabled = true;
 
         #endregion
 
@@ -91,6 +93,7 @@ namespace GameStateManagementSample
             shipEmit1 = new AudioEmitter();
             shipEmit2 = new AudioEmitter();
 
+            
 
             // Create the chase camera
             camera = new ChaseCamera();
@@ -140,15 +143,15 @@ namespace GameStateManagementSample
                 soundBank = new SoundBank(audioEngine, "Content\\SoundBank.xsb");
                 waveBank = new WaveBank(audioEngine, "Content\\WaveBank.xwb");
 
-                FxCue = soundBank.GetCue("Sound");
+                FxCue = soundBank.GetCue("ShotFx");
                 //FxCue.Apply3D(shipListen1, shipEmit1);
 
                 ship1Pos = new Vector3(10000,350,10000);
                 ship2Pos = new Vector3(100, 350, 100);
 
                 // Create ship
-                ship = new Ship(ScreenManager.GraphicsDevice,ship1Pos,FxCue);
-                ship2 = new Ship(ScreenManager.GraphicsDevice,ship2Pos,FxCue);
+                ship = new Ship(ScreenManager.GraphicsDevice,ship1Pos,soundBank);
+                ship2 = new Ship(ScreenManager.GraphicsDevice,ship2Pos,soundBank);
                 //ship2.Position = new Vector3(100, 100, 100);
 
                 camera.AspectRatio = (float)ScreenManager.GraphicsDevice.Viewport.Width /
@@ -232,36 +235,76 @@ namespace GameStateManagementSample
 
             if (IsActive)
             {
-                lastKeyboardState = currentKeyboardState;
-                lastGamePadState = currentGamePadState;
-                lastMousState = currentMouseState;
+                    lastKeyboardState = currentKeyboardState;
+                    //lastGamePadState = currentGamePadState;
+                    lastMousState = currentMouseState;
 
 #if WINDOWS_PHONE
             currentKeyboardState = new KeyboardState();
 #else
-                currentKeyboardState = Keyboard.GetState();
+                    currentKeyboardState = Keyboard.GetState();
 #endif
-                currentGamePadState = GamePad.GetState(PlayerIndex.One);
-                currentMouseState = Mouse.GetState();
 
-                bool touchTopLeft = currentMouseState.LeftButton == ButtonState.Pressed &&
-                        lastMousState.LeftButton != ButtonState.Pressed &&
-                        currentMouseState.X < ScreenManager.GraphicsDevice.Viewport.Width / 10 &&
-                        currentMouseState.Y < ScreenManager.GraphicsDevice.Viewport.Height / 10;
-
-                //TEST
-                //shipEmit1.Position = ship.Position;
-                //shipListen1.Position = camera.Position;
-
-
-                // Pressing the A button or key toggles the spring behavior on and off
-                if (lastKeyboardState.IsKeyUp(Keys.A) &&
-                    (currentKeyboardState.IsKeyDown(Keys.A)) ||
-                    (lastGamePadState.Buttons.A == ButtonState.Released &&
-                    currentGamePadState.Buttons.A == ButtonState.Pressed) ||
-                    touchTopLeft)
+                for (PlayerIndex p = PlayerIndex.One; p <= PlayerIndex.Two; p++)
                 {
-                    cameraSpringEnabled = !cameraSpringEnabled;
+                    switch(p)
+                    {
+                        case PlayerIndex.One: lastGamePadState2 = currentGamePadState;
+                            break;
+                        case PlayerIndex.Two: lastGamePadState1 = currentGamePadState;
+                            break;
+                    }
+
+                    currentGamePadState = GamePad.GetState(p);
+                    currentMouseState = Mouse.GetState();
+
+                    bool touchTopLeft = currentMouseState.LeftButton == ButtonState.Pressed &&
+                            lastMousState.LeftButton != ButtonState.Pressed &&
+                            currentMouseState.X < ScreenManager.GraphicsDevice.Viewport.Width / 10 &&
+                            currentMouseState.Y < ScreenManager.GraphicsDevice.Viewport.Height / 10;
+
+                    //TEST
+                    //shipEmit1.Position = ship.Position;
+                    //shipListen1.Position = camera.Position;
+
+
+#if Windows
+                    // Pressing the A button or key toggles the spring behavior on and off
+                    if (lastKeyboardState.IsKeyUp(Keys.A) &&
+                        (currentKeyboardState.IsKeyDown(Keys.A)) ||
+                        (lastGamePadState1.Buttons.A == ButtonState.Released &&
+                        currentGamePadState.Buttons.A == ButtonState.Pressed) ||
+                        touchTopLeft)
+                    {
+                        switch(p)
+                        {
+                            case PlayerIndex.One: camera2SpringEnabled = !camera2SpringEnabled;
+                                break;
+                            case PlayerIndex.Two: cameraSpringEnabled = !cameraSpringEnabled;
+                                break;
+                        }
+                    }
+
+                    lastGamePadState1 = currentGamePadState;
+#else
+                    switch(p)
+                    {
+                        case PlayerIndex.One:
+                        if (lastGamePadState1.Buttons.A == ButtonState.Released &&
+                            currentGamePadState.Buttons.A == ButtonState.Pressed)
+                        {
+                            camera2SpringEnabled = !camera2SpringEnabled;
+                        }
+                        break;
+                        case PlayerIndex.Two:
+                        if (lastGamePadState2.Buttons.A == ButtonState.Released &&
+                            currentGamePadState.Buttons.A == ButtonState.Pressed)
+                        {
+                            cameraSpringEnabled = !cameraSpringEnabled;
+                        }
+                        break;
+                    }
+#endif
                 }
 
                 // Reset the ship on R key or right thumb stick clicked
@@ -287,7 +330,7 @@ namespace GameStateManagementSample
                 else
                     camera.Reset();
 
-                if (cameraSpringEnabled)
+                if (camera2SpringEnabled)
                     camera2.Update(gameTime);
                 else
                     camera2.Reset();
@@ -447,6 +490,12 @@ namespace GameStateManagementSample
             {
                 foreach (BasicEffect effect in mesh.Effects)
                 {
+                    //effect.SpecularColor = Color.WhiteSmoke.ToVector3();
+                    //effect.SpecularPower = 100.0f;
+                    //effect.FogEnabled = true;
+                    //effect.FogColor = Color.White.ToVector3();
+                    //effect.FogStart = 40000.0f;
+                    //effect.FogEnd = 1000000.0f;
                     effect.EnableDefaultLighting();
                     effect.World = transforms[mesh.ParentBone.Index] * world;
                     // Use the matrices provided by the chase camera

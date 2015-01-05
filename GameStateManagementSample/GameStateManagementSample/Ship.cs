@@ -102,7 +102,7 @@ namespace ChaseCameraSample
 
         Random rand;
 
-        Cue shipSounds;
+        SoundBank shipSounds;
         float pewTimer = 0.0f;
         bool pewBool = false;
 
@@ -115,7 +115,7 @@ namespace ChaseCameraSample
 
         #region Initialization
 
-        public Ship(GraphicsDevice device,Vector3 NewPosition,Cue sounds)
+        public Ship(GraphicsDevice device,Vector3 NewPosition,SoundBank sounds)
         {
             shipSounds = sounds;
             graphicsDevice = device;
@@ -188,8 +188,8 @@ namespace ChaseCameraSample
         public void Update(GameTime gameTime, Model ship, Model model,Model bulletModel,Matrix OtherShipMtx,int playerNum)
         {
             KeyboardState keyboardState = Keyboard.GetState();
-            GamePadState gamePadState = GamePad.GetState(PlayerIndex.One);
-            
+            GamePadState gamePadState1 = GamePad.GetState(PlayerIndex.One);
+            GamePadState gamePadState2 = GamePad.GetState(PlayerIndex.Two);
             MouseState mouseState = Mouse.GetState();
             
 
@@ -202,7 +202,11 @@ namespace ChaseCameraSample
             Vector2 rotationAmount = new Vector2(0.0f,0.0f);
             if (playerNum == 2)
             {
-                rotationAmount = -gamePadState.ThumbSticks.Left;
+                rotationAmount = -gamePadState2.ThumbSticks.Left;
+            } 
+            else if (playerNum == 1)
+            {
+                rotationAmount = -gamePadState1.ThumbSticks.Left;
             }
             else
             {
@@ -271,17 +275,17 @@ namespace ChaseCameraSample
 
             if (playerNum == 2)
             {
-                thrustAmount = gamePadState.Triggers.Right;
+                thrustAmount = gamePadState2.Triggers.Right;
                 if (randNum <= 0.5f)
                 {
-                    if (gamePadState.Buttons.X == ButtonState.Pressed)
+                    if (gamePadState2.Buttons.X == ButtonState.Pressed)
                     {
                         bullets[currentBullet++].isAlive = true;
                         if (pewBool == false)
                         {
-                            if (!shipSounds.IsPlaying)
+                            if (!shipSounds.GetCue("ShotFx").IsPlaying)
                             {
-                                //shipSounds.Play();
+                                shipSounds.GetCue("ShotFx").Play();
                                 pewBool = true;
                             }
                         }
@@ -290,8 +294,22 @@ namespace ChaseCameraSample
             }
             else if (playerNum == 1)
             {
-                if (keyboardState.IsKeyDown(Keys.W))
-                    thrustAmount = 1.0f;
+                thrustAmount = gamePadState1.Triggers.Right;
+                if (randNum <= 0.5f)
+                {
+                    if (gamePadState1.Buttons.X == ButtonState.Pressed)
+                    {
+                        bullets[currentBullet++].isAlive = true;
+                        if (pewBool == false)
+                        {
+                            if (!shipSounds.GetCue("ShotFx").IsPlaying)
+                            {
+                                shipSounds.GetCue("ShotFx").Play();
+                                pewBool = true;
+                            }
+                        }
+                    }
+                }
             }
 
             if (pewBool) 
@@ -301,23 +319,28 @@ namespace ChaseCameraSample
                 {
                     pewTimer = 0.0f;
                     pewBool = false;
+                    shipSounds.GetCue("ShotFx").Stop(AudioStopOptions.Immediate);
                 }
             }
-
-            if (playerNum == 1)
-            {
-                if (randNum <= 0.5f)
-                {
-                    if (keyboardState.IsKeyDown(Keys.E) || mouseState.LeftButton == ButtonState.Pressed)
-                    {
-                        bullets[currentBullet++].isAlive = true;
-                        if (!shipSounds.IsPlaying)
-                        {
-                            //shipSounds.Play();
-                        }
-                    }
-                }
-            }
+            
+            //if (playerNum == 1)
+            //{
+            //    if (randNum <= 0.5f)
+            //    {
+            //        if (keyboardState.IsKeyDown(Keys.E) || mouseState.LeftButton == ButtonState.Pressed)
+            //        {
+            //            bullets[currentBullet++].isAlive = true;
+            //            if (pewBool == false)
+            //            {
+            //                if (!shipSounds.GetCue("ShotFx").IsPlaying)
+            //                {
+            //                    shipSounds.GetCue("ShotFx").Play();
+            //                    pewBool = true;
+            //                }
+            //            }
+            //        }
+            //    }
+            //}
 
 
             // Calculate force from thrust amount
@@ -368,6 +391,7 @@ namespace ChaseCameraSample
                 if (crashTimer >= 5)
                 {
                     crashBool = false;
+                    shipSounds.GetCue("CrashFx").Stop(AudioStopOptions.Immediate);
                     crashTimer = 0.0f;
                 }
             }
@@ -429,6 +453,7 @@ namespace ChaseCameraSample
                     if (shipBound.Intersects(modelBound))
                     {
                         shipHealth -= 10;
+                        shipSounds.GetCue("CrashFx").Play();
                         crashBool = true;
                     }
                 }

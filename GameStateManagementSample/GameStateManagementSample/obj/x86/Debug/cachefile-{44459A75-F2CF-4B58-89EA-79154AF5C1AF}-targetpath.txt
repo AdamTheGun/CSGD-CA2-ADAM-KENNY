@@ -14,6 +14,7 @@ Content\Ship_Texmap1.xnb
 Content\SpaceShip.xnb
 Content\Ship_Texmap_0.xnb
 Content\PewpewSFX.xnb
+Content\CrashSFX.xnb
 Content\Sounds.xgs
 Content\WaveBank.xwb
 Content\SoundBank.xsb

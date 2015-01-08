@@ -44,7 +44,7 @@
       <Processor>FontDescriptionProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\user\Desktop\Singapore Polytechnic\Year 2(Current)\Semester 2(Current)\CSGD\CSGD CA2\GameStateManagementSample\GameStateManagementSample\bin\x86\Debug\Content\gamefont.xnb</Output>
-      <Time>2015-01-03T14:09:18.2995639+08:00</Time>
+      <Time>2015-01-08T09:03:54.2502944+08:00</Time>
     </Item>
     <Item>
       <Source>Ground.x</Source>
@@ -147,10 +147,10 @@
       <Processor>ModelProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\user\Desktop\Singapore Polytechnic\Year 2(Current)\Semester 2(Current)\CSGD\CSGD CA2\GameStateManagementSample\GameStateManagementSample\bin\x86\Debug\Content\Cone.xnb</Output>
-      <Time>2014-12-26T14:59:02.5963927+08:00</Time>
+      <Time>2015-01-08T09:03:53.9861183+08:00</Time>
       <Dependency>
         <Key>obj\x86\Debug\Cone_0.xml</Key>
-        <Value>2014-12-26T15:08:55.6760632+08:00</Value>
+        <Value>2015-01-08T10:36:56.4438228+08:00</Value>
       </Dependency>
     </Item>
     <Item>
@@ -158,7 +158,7 @@
       <Importer>FbxImporter</Importer>
       <Options>IntermediateFile, DontCacheImportedData</Options>
       <Output>obj\x86\Debug\Cone_0.xml</Output>
-      <Time>2014-12-26T14:59:02.5963927+08:00</Time>
+      <Time>2015-01-08T09:03:53.9861183+08:00</Time>
     </Item>
     <Item>
       <Source>Ship_Texmap.jpg</Source>
@@ -167,7 +167,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\user\Desktop\Singapore Polytechnic\Year 2(Current)\Semester 2(Current)\CSGD\CSGD CA2\GameStateManagementSample\GameStateManagementSample\bin\x86\Debug\Content\Ship_Texmap.xnb</Output>
-      <Time>2014-12-27T18:09:40.6328038+08:00</Time>
+      <Time>2015-01-08T09:03:54.0671726+08:00</Time>
     </Item>
     <Item>
       <Source>Ship_Texmap1.jpg</Source>
@@ -176,7 +176,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\user\Desktop\Singapore Polytechnic\Year 2(Current)\Semester 2(Current)\CSGD\CSGD CA2\GameStateManagementSample\GameStateManagementSample\bin\x86\Debug\Content\Ship_Texmap1.xnb</Output>
-      <Time>2014-12-27T17:53:48.9014647+08:00</Time>
+      <Time>2015-01-08T09:03:54.2342837+08:00</Time>
     </Item>
     <Item>
       <Source>SpaceShip.FBX</Source>
@@ -185,10 +185,10 @@
       <Processor>ModelProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\user\Desktop\Singapore Polytechnic\Year 2(Current)\Semester 2(Current)\CSGD\CSGD CA2\GameStateManagementSample\GameStateManagementSample\bin\x86\Debug\Content\SpaceShip.xnb</Output>
-      <Time>2014-12-27T18:11:34.6036466+08:00</Time>
+      <Time>2015-01-08T09:03:54.249294+08:00</Time>
       <Dependency>
         <Key>obj\x86\Debug\SpaceShip_0.xml</Key>
-        <Value>2014-12-27T18:11:37.5616174+08:00</Value>
+        <Value>2015-01-08T10:36:56.5909194+08:00</Value>
       </Dependency>
       <Request>C:\Users\user\Desktop\Singapore Polytechnic\Year 2(Current)\Semester 2(Current)\CSGD\CSGD CA2\GameStateManagementSample\GameStateManagementSample\bin\x86\Debug\Content\Ship_Texmap_0.xnb</Request>
     </Item>
@@ -197,7 +197,7 @@
       <Importer>FbxImporter</Importer>
       <Options>IntermediateFile, DontCacheImportedData</Options>
       <Output>obj\x86\Debug\SpaceShip_0.xml</Output>
-      <Time>2014-12-27T18:11:34.6036466+08:00</Time>
+      <Time>2015-01-08T09:03:54.249294+08:00</Time>
     </Item>
     <Item>
       <Source>Ship_Texmap.jpg</Source>
@@ -213,7 +213,7 @@
       </Parameters>
       <Options>None</Options>
       <Output>C:\Users\user\Desktop\Singapore Polytechnic\Year 2(Current)\Semester 2(Current)\CSGD\CSGD CA2\GameStateManagementSample\GameStateManagementSample\bin\x86\Debug\Content\Ship_Texmap_0.xnb</Output>
-      <Time>2014-12-27T18:09:40.6328038+08:00</Time>
+      <Time>2015-01-08T09:03:54.0671726+08:00</Time>
     </Item>
     <Item>
       <Source>PewpewSFX.wav</Source>
@@ -222,7 +222,7 @@
       <Processor>SoundEffectProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\user\Desktop\Singapore Polytechnic\Year 2(Current)\Semester 2(Current)\CSGD\CSGD CA2\GameStateManagementSample\GameStateManagementSample\bin\x86\Debug\Content\PewpewSFX.xnb</Output>
-      <Time>2015-01-03T17:50:57.5497545+08:00</Time>
+      <Time>2015-01-08T09:03:54.0611686+08:00</Time>
     </Item>
     <Item>
       <Source>CrashSFX.wav</Source>
@@ -231,7 +231,7 @@
       <Processor>SoundEffectProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\user\Desktop\Singapore Polytechnic\Year 2(Current)\Semester 2(Current)\CSGD\CSGD CA2\GameStateManagementSample\GameStateManagementSample\bin\x86\Debug\Content\CrashSFX.xnb</Output>
-      <Time>2015-01-05T12:06:49.3579806+08:00</Time>
+      <Time>2015-01-08T09:03:54.0251446+08:00</Time>
     </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>

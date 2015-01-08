@@ -7,7 +7,7 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>D:\Work\GameStateManagementSample\GameStateManagementSample\bin\x86\Debug\Content\background.xnb</Output>
+      <Output>D:\Work\GameStateManagementSample\GameStateManagementSample\bin\Xbox 360\Debug\Content\background.xnb</Output>
       <Time>2015-01-03T17:57:42.9374978+08:00</Time>
     </Item>
     <Item>
@@ -16,7 +16,7 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>D:\Work\GameStateManagementSample\GameStateManagementSample\bin\x86\Debug\Content\blank.xnb</Output>
+      <Output>D:\Work\GameStateManagementSample\GameStateManagementSample\bin\Xbox 360\Debug\Content\blank.xnb</Output>
       <Time>2015-01-03T17:57:42.9384979+08:00</Time>
     </Item>
     <Item>
@@ -25,7 +25,7 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>D:\Work\GameStateManagementSample\GameStateManagementSample\bin\x86\Debug\Content\gradient.xnb</Output>
+      <Output>D:\Work\GameStateManagementSample\GameStateManagementSample\bin\Xbox 360\Debug\Content\gradient.xnb</Output>
       <Time>2015-01-03T17:57:42.940498+08:00</Time>
     </Item>
     <Item>
@@ -34,7 +34,7 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>D:\Work\GameStateManagementSample\GameStateManagementSample\bin\x86\Debug\Content\Ship_Texmap.xnb</Output>
+      <Output>D:\Work\GameStateManagementSample\GameStateManagementSample\bin\Xbox 360\Debug\Content\Ship_Texmap.xnb</Output>
       <Time>2015-01-03T18:02:40.5933044+08:00</Time>
     </Item>
     <Item>
@@ -43,7 +43,7 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>D:\Work\GameStateManagementSample\GameStateManagementSample\bin\x86\Debug\Content\Ship_Texmap1.xnb</Output>
+      <Output>D:\Work\GameStateManagementSample\GameStateManagementSample\bin\Xbox 360\Debug\Content\Ship_Texmap1.xnb</Output>
       <Time>2015-01-03T18:02:40.6893099+08:00</Time>
     </Item>
     <Item>
@@ -52,7 +52,7 @@
       <Importer>FontDescriptionImporter</Importer>
       <Processor>FontDescriptionProcessor</Processor>
       <Options>None</Options>
-      <Output>D:\Work\GameStateManagementSample\GameStateManagementSample\bin\x86\Debug\Content\menufont.xnb</Output>
+      <Output>D:\Work\GameStateManagementSample\GameStateManagementSample\bin\Xbox 360\Debug\Content\menufont.xnb</Output>
       <Time>2015-01-03T17:57:42.940498+08:00</Time>
     </Item>
     <Item>
@@ -61,7 +61,7 @@
       <Importer>FontDescriptionImporter</Importer>
       <Processor>FontDescriptionProcessor</Processor>
       <Options>None</Options>
-      <Output>D:\Work\GameStateManagementSample\GameStateManagementSample\bin\x86\Debug\Content\gamefont.xnb</Output>
+      <Output>D:\Work\GameStateManagementSample\GameStateManagementSample\bin\Xbox 360\Debug\Content\gamefont.xnb</Output>
       <Time>2015-01-05T11:11:50.6916099+08:00</Time>
     </Item>
     <Item>
@@ -70,13 +70,13 @@
       <Importer>XImporter</Importer>
       <Processor>ModelProcessor</Processor>
       <Options>None</Options>
-      <Output>D:\Work\GameStateManagementSample\GameStateManagementSample\bin\x86\Debug\Content\Ground.xnb</Output>
+      <Output>D:\Work\GameStateManagementSample\GameStateManagementSample\bin\Xbox 360\Debug\Content\Ground.xnb</Output>
       <Time>2015-01-03T17:57:42.8954954+08:00</Time>
       <Dependency>
-        <Key>D:\Work\GameStateManagementSample\GameStateManagementSample\obj\x86\Debug\Ground_0.xml</Key>
-        <Value>2015-01-08T09:21:46.3419461+08:00</Value>
+        <Key>D:\Work\GameStateManagementSample\GameStateManagementSample\obj\Xbox 360\Debug\Ground_0.xml</Key>
+        <Value>2015-01-08T09:21:43.8788052+08:00</Value>
       </Dependency>
-      <Request>D:\Work\GameStateManagementSample\GameStateManagementSample\bin\x86\Debug\Content\Checker_0.xnb</Request>
+      <Request>D:\Work\GameStateManagementSample\GameStateManagementSample\bin\Xbox 360\Debug\Content\Checker_0.xnb</Request>
     </Item>
     <Item>
       <Source>Ship.fbx</Source>
@@ -84,13 +84,13 @@
       <Importer>FbxImporter</Importer>
       <Processor>ModelProcessor</Processor>
       <Options>None</Options>
-      <Output>D:\Work\GameStateManagementSample\GameStateManagementSample\bin\x86\Debug\Content\Ship.xnb</Output>
+      <Output>D:\Work\GameStateManagementSample\GameStateManagementSample\bin\Xbox 360\Debug\Content\Ship.xnb</Output>
       <Time>2015-01-03T17:57:42.9284973+08:00</Time>
       <Dependency>
-        <Key>D:\Work\GameStateManagementSample\GameStateManagementSample\obj\x86\Debug\Ship_0.xml</Key>
-        <Value>2015-01-08T09:21:46.9449806+08:00</Value>
+        <Key>D:\Work\GameStateManagementSample\GameStateManagementSample\obj\Xbox 360\Debug\Ship_0.xml</Key>
+        <Value>2015-01-08T09:21:44.503841+08:00</Value>
       </Dependency>
-      <Request>D:\Work\GameStateManagementSample\GameStateManagementSample\bin\x86\Debug\Content\ShipDiffuse_0.xnb</Request>
+      <Request>D:\Work\GameStateManagementSample\GameStateManagementSample\bin\Xbox 360\Debug\Content\ShipDiffuse_0.xnb</Request>
     </Item>
     <Item>
       <Source>cube.FBX</Source>
@@ -98,11 +98,11 @@
       <Importer>FbxImporter</Importer>
       <Processor>ModelProcessor</Processor>
       <Options>None</Options>
-      <Output>D:\Work\GameStateManagementSample\GameStateManagementSample\bin\x86\Debug\Content\cube.xnb</Output>
+      <Output>D:\Work\GameStateManagementSample\GameStateManagementSample\bin\Xbox 360\Debug\Content\cube.xnb</Output>
       <Time>2015-01-03T17:57:42.9394979+08:00</Time>
       <Dependency>
-        <Key>D:\Work\GameStateManagementSample\GameStateManagementSample\obj\x86\Debug\cube_0.xml</Key>
-        <Value>2015-01-08T09:21:47.0359858+08:00</Value>
+        <Key>D:\Work\GameStateManagementSample\GameStateManagementSample\obj\Xbox 360\Debug\cube_0.xml</Key>
+        <Value>2015-01-08T09:21:44.678851+08:00</Value>
       </Dependency>
     </Item>
     <Item>
@@ -111,11 +111,11 @@
       <Importer>FbxImporter</Importer>
       <Processor>ModelProcessor</Processor>
       <Options>None</Options>
-      <Output>D:\Work\GameStateManagementSample\GameStateManagementSample\bin\x86\Debug\Content\Cone.xnb</Output>
+      <Output>D:\Work\GameStateManagementSample\GameStateManagementSample\bin\Xbox 360\Debug\Content\Cone.xnb</Output>
       <Time>2015-01-03T18:02:40.5903043+08:00</Time>
       <Dependency>
-        <Key>D:\Work\GameStateManagementSample\GameStateManagementSample\obj\x86\Debug\Cone_0.xml</Key>
-        <Value>2015-01-08T09:21:47.0669876+08:00</Value>
+        <Key>D:\Work\GameStateManagementSample\GameStateManagementSample\obj\Xbox 360\Debug\Cone_0.xml</Key>
+        <Value>2015-01-08T09:21:44.7098528+08:00</Value>
       </Dependency>
     </Item>
     <Item>
@@ -124,13 +124,13 @@
       <Importer>FbxImporter</Importer>
       <Processor>ModelProcessor</Processor>
       <Options>None</Options>
-      <Output>D:\Work\GameStateManagementSample\GameStateManagementSample\bin\x86\Debug\Content\SpaceShip.xnb</Output>
+      <Output>D:\Work\GameStateManagementSample\GameStateManagementSample\bin\Xbox 360\Debug\Content\SpaceShip.xnb</Output>
       <Time>2015-01-03T18:02:40.69031+08:00</Time>
       <Dependency>
-        <Key>D:\Work\GameStateManagementSample\GameStateManagementSample\obj\x86\Debug\SpaceShip_0.xml</Key>
-        <Value>2015-01-08T09:21:47.1069899+08:00</Value>
+        <Key>D:\Work\GameStateManagementSample\GameStateManagementSample\obj\Xbox 360\Debug\SpaceShip_0.xml</Key>
+        <Value>2015-01-08T09:21:44.7498551+08:00</Value>
       </Dependency>
-      <Request>D:\Work\GameStateManagementSample\GameStateManagementSample\bin\x86\Debug\Content\Ship_Texmap_0.xnb</Request>
+      <Request>D:\Work\GameStateManagementSample\GameStateManagementSample\bin\Xbox 360\Debug\Content\Ship_Texmap_0.xnb</Request>
     </Item>
     <Item>
       <Source>PewpewSFX.wav</Source>
@@ -138,7 +138,7 @@
       <Importer>WavImporter</Importer>
       <Processor>SoundEffectProcessor</Processor>
       <Options>None</Options>
-      <Output>D:\Work\GameStateManagementSample\GameStateManagementSample\bin\x86\Debug\Content\PewpewSFX.xnb</Output>
+      <Output>D:\Work\GameStateManagementSample\GameStateManagementSample\bin\Xbox 360\Debug\Content\PewpewSFX.xnb</Output>
       <Time>2015-01-05T11:11:50.6886097+08:00</Time>
     </Item>
     <Item>
@@ -147,14 +147,14 @@
       <Importer>WavImporter</Importer>
       <Processor>SoundEffectProcessor</Processor>
       <Options>None</Options>
-      <Output>D:\Work\GameStateManagementSample\GameStateManagementSample\bin\x86\Debug\Content\CrashSFX.xnb</Output>
+      <Output>D:\Work\GameStateManagementSample\GameStateManagementSample\bin\Xbox 360\Debug\Content\CrashSFX.xnb</Output>
       <Time>2015-01-07T10:47:08.1761569+08:00</Time>
     </Item>
     <Item>
       <Source>Ground.x</Source>
       <Importer>XImporter</Importer>
       <Options>IntermediateFile, DontCacheImportedData</Options>
-      <Output>D:\Work\GameStateManagementSample\GameStateManagementSample\obj\x86\Debug\Ground_0.xml</Output>
+      <Output>D:\Work\GameStateManagementSample\GameStateManagementSample\obj\Xbox 360\Debug\Ground_0.xml</Output>
       <Time>2015-01-03T17:57:42.8954954+08:00</Time>
     </Item>
     <Item>
@@ -170,14 +170,14 @@
         <Data Key="PremultiplyAlpha" Type="bool">true</Data>
       </Parameters>
       <Options>None</Options>
-      <Output>D:\Work\GameStateManagementSample\GameStateManagementSample\bin\x86\Debug\Content\Checker_0.xnb</Output>
+      <Output>D:\Work\GameStateManagementSample\GameStateManagementSample\bin\Xbox 360\Debug\Content\Checker_0.xnb</Output>
       <Time>2015-01-03T17:57:42.8944954+08:00</Time>
     </Item>
     <Item>
       <Source>Ship.fbx</Source>
       <Importer>FbxImporter</Importer>
       <Options>IntermediateFile, DontCacheImportedData</Options>
-      <Output>D:\Work\GameStateManagementSample\GameStateManagementSample\obj\x86\Debug\Ship_0.xml</Output>
+      <Output>D:\Work\GameStateManagementSample\GameStateManagementSample\obj\Xbox 360\Debug\Ship_0.xml</Output>
       <Time>2015-01-03T17:57:42.9284973+08:00</Time>
     </Item>
     <Item>
@@ -193,28 +193,28 @@
         <Data Key="PremultiplyAlpha" Type="bool">true</Data>
       </Parameters>
       <Options>None</Options>
-      <Output>D:\Work\GameStateManagementSample\GameStateManagementSample\bin\x86\Debug\Content\ShipDiffuse_0.xnb</Output>
+      <Output>D:\Work\GameStateManagementSample\GameStateManagementSample\bin\Xbox 360\Debug\Content\ShipDiffuse_0.xnb</Output>
       <Time>2015-01-03T17:57:42.9354977+08:00</Time>
     </Item>
     <Item>
       <Source>cube.FBX</Source>
       <Importer>FbxImporter</Importer>
       <Options>IntermediateFile, DontCacheImportedData</Options>
-      <Output>D:\Work\GameStateManagementSample\GameStateManagementSample\obj\x86\Debug\cube_0.xml</Output>
+      <Output>D:\Work\GameStateManagementSample\GameStateManagementSample\obj\Xbox 360\Debug\cube_0.xml</Output>
       <Time>2015-01-03T17:57:42.9394979+08:00</Time>
     </Item>
     <Item>
       <Source>Cone.FBX</Source>
       <Importer>FbxImporter</Importer>
       <Options>IntermediateFile, DontCacheImportedData</Options>
-      <Output>D:\Work\GameStateManagementSample\GameStateManagementSample\obj\x86\Debug\Cone_0.xml</Output>
+      <Output>D:\Work\GameStateManagementSample\GameStateManagementSample\obj\Xbox 360\Debug\Cone_0.xml</Output>
       <Time>2015-01-03T18:02:40.5903043+08:00</Time>
     </Item>
     <Item>
       <Source>SpaceShip.FBX</Source>
       <Importer>FbxImporter</Importer>
       <Options>IntermediateFile, DontCacheImportedData</Options>
-      <Output>D:\Work\GameStateManagementSample\GameStateManagementSample\obj\x86\Debug\SpaceShip_0.xml</Output>
+      <Output>D:\Work\GameStateManagementSample\GameStateManagementSample\obj\Xbox 360\Debug\SpaceShip_0.xml</Output>
       <Time>2015-01-03T18:02:40.69031+08:00</Time>
     </Item>
     <Item>
@@ -230,20 +230,20 @@
         <Data Key="PremultiplyAlpha" Type="bool">true</Data>
       </Parameters>
       <Options>None</Options>
-      <Output>D:\Work\GameStateManagementSample\GameStateManagementSample\bin\x86\Debug\Content\Ship_Texmap_0.xnb</Output>
+      <Output>D:\Work\GameStateManagementSample\GameStateManagementSample\bin\Xbox 360\Debug\Content\Ship_Texmap_0.xnb</Output>
       <Time>2015-01-03T18:02:40.5933044+08:00</Time>
     </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>
       <ContentProjectGUID>{44459A75-F2CF-4B58-89EA-79154AF5C1AF}</ContentProjectGUID>
-      <TargetPlatform>Windows</TargetPlatform>
-      <TargetProfile>Reach</TargetProfile>
+      <TargetPlatform>Xbox360</TargetPlatform>
+      <TargetProfile>HiDef</TargetProfile>
       <BuildConfiguration>Debug</BuildConfiguration>
-      <CompressContent>false</CompressContent>
+      <CompressContent>true</CompressContent>
       <RootDirectory>D:\Work\GameStateManagementSample\Content\</RootDirectory>
       <LoggerRootDirectory>D:\Work\GameStateManagementSample\GameStateManagementSample\</LoggerRootDirectory>
-      <IntermediateDirectory>D:\Work\GameStateManagementSample\GameStateManagementSample\obj\x86\Debug\</IntermediateDirectory>
-      <OutputDirectory>D:\Work\GameStateManagementSample\GameStateManagementSample\bin\x86\Debug\Content\</OutputDirectory>
+      <IntermediateDirectory>D:\Work\GameStateManagementSample\GameStateManagementSample\obj\Xbox 360\Debug\</IntermediateDirectory>
+      <OutputDirectory>D:\Work\GameStateManagementSample\GameStateManagementSample\bin\Xbox 360\Debug\Content\</OutputDirectory>
     </Settings>
     <Assemblies>
       <Assembly>

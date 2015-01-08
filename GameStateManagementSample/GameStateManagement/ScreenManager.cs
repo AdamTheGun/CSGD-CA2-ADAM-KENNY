@@ -52,6 +52,26 @@ namespace GameStateManagement
 
         #region Properties
 
+        bool screenHorizontal = true;
+        public bool ScreenHorizontal
+        {
+            get { return screenHorizontal; }
+            set { screenHorizontal = value; }
+        }
+
+        bool audioEnabled = true;
+        public bool AudioEnabled
+        {
+            get { return audioEnabled; }
+            set { audioEnabled = value; }
+        }
+
+        float audioVolume = 10;
+        public float AudioVolume
+        {
+            get { return audioVolume; }
+            set { audioVolume = value; }
+        }
 
         /// <summary>
         /// A default SpriteBatch shared by all the screens. This saves
@@ -61,7 +81,6 @@ namespace GameStateManagement
         {
             get { return spriteBatch; }
         }
-
 
         /// <summary>
         /// A default font shared by all the screens. This saves

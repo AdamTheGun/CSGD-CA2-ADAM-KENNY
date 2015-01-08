@@ -129,9 +129,35 @@ namespace GameStateManagementSample
 
                 topViewport = ScreenManager.GraphicsDevice.Viewport;
                 bottomViewport = ScreenManager.GraphicsDevice.Viewport;
-                topViewport.Height = topViewport.Height / 2;
-                bottomViewport.Height = bottomViewport.Height / 2;
-                bottomViewport.Y = topViewport.Height;
+
+                if (ScreenManager.ScreenHorizontal == true)
+                {
+                    topViewport.Height = topViewport.Height / 2;
+                    bottomViewport.Height = bottomViewport.Height / 2;
+                    bottomViewport.Y = topViewport.Height;
+
+                    camera.AspectRatio = (float)ScreenManager.GraphicsDevice.Viewport.Width /
+                        (ScreenManager.GraphicsDevice.Viewport.Height / 2);
+                    camera2.AspectRatio = (float)ScreenManager.GraphicsDevice.Viewport.Width /
+                        (ScreenManager.GraphicsDevice.Viewport.Height / 2);
+
+                    camera.FieldOfView = MathHelper.ToRadians(45);
+                    camera2.FieldOfView = MathHelper.ToRadians(45);
+                }
+                else
+                {
+                    topViewport.Width = topViewport.Width / 2;
+                    bottomViewport.Width = bottomViewport.Width / 2;
+                    bottomViewport.X = topViewport.Width;
+
+                    camera.AspectRatio = (float)(ScreenManager.GraphicsDevice.Viewport.Width / 2) /
+                        ScreenManager.GraphicsDevice.Viewport.Height;
+                    camera2.AspectRatio = (float)(ScreenManager.GraphicsDevice.Viewport.Width / 2) /
+                        ScreenManager.GraphicsDevice.Viewport.Height;
+
+                    camera.FieldOfView = MathHelper.ToRadians(60);
+                    camera2.FieldOfView = MathHelper.ToRadians(60);
+                }
 
                 gameFont = content.Load<SpriteFont>("gamefont");
 
@@ -153,12 +179,6 @@ namespace GameStateManagementSample
                 ship = new Ship(ScreenManager.GraphicsDevice,ship1Pos,soundBank);
                 ship2 = new Ship(ScreenManager.GraphicsDevice,ship2Pos,soundBank);
                 //ship2.Position = new Vector3(100, 100, 100);
-
-                camera.AspectRatio = (float)ScreenManager.GraphicsDevice.Viewport.Width /
-                    (ScreenManager.GraphicsDevice.Viewport.Height/2);
-
-                camera2.AspectRatio = (float)ScreenManager.GraphicsDevice.Viewport.Width /
-                    (ScreenManager.GraphicsDevice.Viewport.Height / 2);
 
                 UpdateCameraChaseTarget(ship,camera);
                 UpdateCameraChaseTarget(ship2,camera2);
@@ -186,7 +206,6 @@ namespace GameStateManagementSample
 #endif
         }
 
-
         public override void Deactivate()
         {
 #if WINDOWS_PHONE
@@ -204,6 +223,19 @@ namespace GameStateManagementSample
         public override void Unload()
         {
             content.Unload();
+
+            if (ScreenManager.ScreenHorizontal == true)
+            {
+                topViewport.Height *= 2;
+                topViewport.Y = 0;
+                ScreenManager.GraphicsDevice.Viewport = topViewport;
+            }
+            else
+            {
+                topViewport.Width *= 2;
+                topViewport.X = 0;
+                ScreenManager.GraphicsDevice.Viewport = topViewport;
+            }
 
 #if WINDOWS_PHONE
             Microsoft.Phone.Shell.PhoneApplicationService.Current.State.Remove("PlayerPosition");
@@ -393,7 +425,7 @@ namespace GameStateManagementSample
             ScreenManager.GraphicsDevice.Clear(ClearOptions.Target,
                                                Color.DarkBlue, 0, 0);
 
-            ScreenManager.GraphicsDevice.Viewport = topViewport;
+            ScreenManager.GraphicsDevice.Viewport = bottomViewport;
             
 
             // Our player and enemy are both actually just text strings.
@@ -438,7 +470,7 @@ namespace GameStateManagementSample
                 ScreenManager.FadeBackBufferToBlack(alpha);
             }
 
-            ScreenManager.GraphicsDevice.Viewport = bottomViewport;
+            ScreenManager.GraphicsDevice.Viewport = topViewport;
             
             ScreenManager.GraphicsDevice.BlendState = BlendState.Opaque;
             ScreenManager.GraphicsDevice.DepthStencilState = DepthStencilState.Default;

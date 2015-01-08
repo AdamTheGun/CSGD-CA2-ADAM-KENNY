@@ -286,6 +286,7 @@ namespace ChaseCameraSample
                             if (!shipSounds.GetCue("ShotFx").IsPlaying)
                             {
                                 shipSounds.GetCue("ShotFx").Play();
+
                                 pewBool = true;
                             }
                         }

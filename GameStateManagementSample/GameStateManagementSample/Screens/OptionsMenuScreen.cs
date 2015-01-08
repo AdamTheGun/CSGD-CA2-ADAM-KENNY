@@ -9,6 +9,7 @@
 
 #region Using Statements
 using Microsoft.Xna.Framework;
+using GameStateManagement;
 #endregion
 
 namespace GameStateManagementSample
@@ -22,26 +23,9 @@ namespace GameStateManagementSample
     {
         #region Fields
 
-        MenuEntry ungulateMenuEntry;
-        MenuEntry languageMenuEntry;
-        MenuEntry frobnicateMenuEntry;
-        MenuEntry elfMenuEntry;
-
-        enum Ungulate
-        {
-            BactrianCamel,
-            Dromedary,
-            Llama,
-        }
-
-        static Ungulate currentUngulate = Ungulate.Dromedary;
-
-        static string[] languages = { "C#", "French", "Deoxyribonucleic acid" };
-        static int currentLanguage = 0;
-
-        static bool frobnicate = true;
-
-        static int elf = 23;
+        MenuEntry enableAudioMenuEntry;
+        MenuEntry audioVolumeMenuEntry;
+        MenuEntry splitScreenMenuEntry;
 
         #endregion
 
@@ -55,40 +39,49 @@ namespace GameStateManagementSample
             : base("Options")
         {
             // Create our menu entries.
-            ungulateMenuEntry = new MenuEntry(string.Empty);
-            languageMenuEntry = new MenuEntry(string.Empty);
-            frobnicateMenuEntry = new MenuEntry(string.Empty);
-            elfMenuEntry = new MenuEntry(string.Empty);
+            enableAudioMenuEntry = new MenuEntry(string.Empty);
+            audioVolumeMenuEntry = new MenuEntry(string.Empty);
+            splitScreenMenuEntry = new MenuEntry(string.Empty);
 
-            SetMenuEntryText();
-
+            
             MenuEntry back = new MenuEntry("Back");
 
             // Hook up menu event handlers.
-            ungulateMenuEntry.Selected += UngulateMenuEntrySelected;
-            languageMenuEntry.Selected += LanguageMenuEntrySelected;
-            frobnicateMenuEntry.Selected += FrobnicateMenuEntrySelected;
-            elfMenuEntry.Selected += ElfMenuEntrySelected;
+            enableAudioMenuEntry.Selected += EnableAudioMenuEntrySelected;
+            audioVolumeMenuEntry.Selected += AudioVolumeMenuEntrySelected;
+            splitScreenMenuEntry.Selected += SplitScreenMenuEntrySelected;
             back.Selected += OnCancel;
             
             // Add entries to the menu.
-            MenuEntries.Add(ungulateMenuEntry);
-            MenuEntries.Add(languageMenuEntry);
-            MenuEntries.Add(frobnicateMenuEntry);
-            MenuEntries.Add(elfMenuEntry);
+            MenuEntries.Add(enableAudioMenuEntry);
+            MenuEntries.Add(audioVolumeMenuEntry);
+            MenuEntries.Add(splitScreenMenuEntry);
             MenuEntries.Add(back);
         }
 
+        public override void Activate(bool instancePreserved)
+        {
+            SetMenuEntryText();
+
+            base.Activate(instancePreserved);
+        }
 
         /// <summary>
         /// Fills in the latest values for the options screen menu text.
         /// </summary>
         void SetMenuEntryText()
         {
-            ungulateMenuEntry.Text = "Preferred ungulate: " + currentUngulate;
-            languageMenuEntry.Text = "Language: " + languages[currentLanguage];
-            frobnicateMenuEntry.Text = "Frobnicate: " + (frobnicate ? "on" : "off");
-            elfMenuEntry.Text = "elf: " + elf;
+            if (ScreenManager.AudioEnabled == true)
+                enableAudioMenuEntry.Text = "Audio: On";
+            else
+                enableAudioMenuEntry.Text = "Audio: Off";
+
+            audioVolumeMenuEntry.Text = "Volume: " + ScreenManager.AudioVolume;
+
+            if (ScreenManager.ScreenHorizontal == true)
+                splitScreenMenuEntry.Text = "Split Screens Orientation: Horizontal";
+            else
+                splitScreenMenuEntry.Text = "Split Screens Orientation: Vertical";
         }
 
 
@@ -96,53 +89,29 @@ namespace GameStateManagementSample
 
         #region Handle Input
 
-
-        /// <summary>
-        /// Event handler for when the Ungulate menu entry is selected.
-        /// </summary>
-        void UngulateMenuEntrySelected(object sender, PlayerIndexEventArgs e)
+        void EnableAudioMenuEntrySelected(object sender, PlayerIndexEventArgs e)
         {
-            currentUngulate++;
-
-            if (currentUngulate > Ungulate.Llama)
-                currentUngulate = 0;
+            ScreenManager.AudioEnabled = !ScreenManager.AudioEnabled;
 
             SetMenuEntryText();
         }
 
-
-        /// <summary>
-        /// Event handler for when the Language menu entry is selected.
-        /// </summary>
-        void LanguageMenuEntrySelected(object sender, PlayerIndexEventArgs e)
+        void AudioVolumeMenuEntrySelected(object sender, PlayerIndexEventArgs e)
         {
-            currentLanguage = (currentLanguage + 1) % languages.Length;
+            ScreenManager.AudioVolume += 1;
+
+            if (ScreenManager.AudioVolume >= 11)
+                ScreenManager.AudioVolume = 1;
 
             SetMenuEntryText();
         }
 
-
-        /// <summary>
-        /// Event handler for when the Frobnicate menu entry is selected.
-        /// </summary>
-        void FrobnicateMenuEntrySelected(object sender, PlayerIndexEventArgs e)
+        void SplitScreenMenuEntrySelected(object sender, PlayerIndexEventArgs e)
         {
-            frobnicate = !frobnicate;
+            ScreenManager.ScreenHorizontal = !ScreenManager.ScreenHorizontal;
 
             SetMenuEntryText();
         }
-
-
-        /// <summary>
-        /// Event handler for when the Elf menu entry is selected.
-        /// </summary>
-        void ElfMenuEntrySelected(object sender, PlayerIndexEventArgs e)
-        {
-            elf++;
-
-            SetMenuEntryText();
-        }
-
 
         #endregion
     }

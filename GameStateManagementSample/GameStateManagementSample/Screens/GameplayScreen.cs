@@ -62,8 +62,8 @@ namespace GameStateManagementSample
         SoundBank soundBank;
         WaveBank waveBank;
 
-
-
+        Model rockModel;
+        Model skyBoxModel;
         Model shipModel;
         Model groundModel;
         Model cubeModel;
@@ -160,14 +160,16 @@ namespace GameStateManagementSample
                 }
 
                 gameFont = content.Load<SpriteFont>("gamefont");
-
+                rockModel = content.Load<Model>("Rock");
                 shipModel = content.Load<Model>("SpaceShip");
                 groundModel = content.Load<Model>("Ground");
                 cubeModel = content.Load<Model>("cube");
                 bulletModel = content.Load<Model>("Cone");
+                skyBoxModel = content.Load<Model>("Space_SkyBox");
                 audioEngine = new AudioEngine("Content\\Sounds.xgs");
                 soundBank = new SoundBank(audioEngine, "Content\\SoundBank.xsb");
                 waveBank = new WaveBank(audioEngine, "Content\\WaveBank.xwb");
+                
 
                 FxCue = soundBank.GetCue("ShotFx");
                 //FxCue.Apply3D(shipListen1, shipEmit1);
@@ -451,14 +453,15 @@ namespace GameStateManagementSample
             }
             DrawModel(shipModel, Matrix.CreateRotationY(MathHelper.ToRadians(-90.0f)) * Matrix.CreateScale(10) * ship.World, camera);
             DrawModel(shipModel, Matrix.CreateRotationY(MathHelper.ToRadians(-90.0f)) * Matrix.CreateScale(10) * ship2.World, camera);
-
-            DrawModel(groundModel, Matrix.Identity, camera);
+            DrawModel(skyBoxModel, Matrix.CreateScale(10000) * Matrix.Identity, camera);
+            DrawModel(rockModel, Matrix.CreateScale(100) * Matrix.Identity, camera);
+            // DrawModel(groundModel, Matrix.Identity, camera);
             //DrawModel(shipModel, Matrix.CreateTranslation(50, 50, 100) * Matrix.CreateScale(10));
 
             spriteBatch.Begin();
 
-            spriteBatch.DrawString(gameFont, "Health : " + ship2.shipHealth, new Vector2(ScreenManager.GraphicsDevice.Viewport.TitleSafeArea.X+50, ScreenManager.GraphicsDevice.Viewport.TitleSafeArea.Y+40), Color.White);
-            spriteBatch.DrawString(gameFont, "Power  : " + (ship.bullets.Length-ship.currentBullet), new Vector2(ScreenManager.GraphicsDevice.Viewport.TitleSafeArea.Width - 200, ScreenManager.GraphicsDevice.Viewport.TitleSafeArea.Y + 40), Color.White);
+            spriteBatch.DrawString(gameFont, "Health : " + ship2.shipHealth, new Vector2(ScreenManager.GraphicsDevice.Viewport.TitleSafeArea.X + 50, 40), Color.White);
+            spriteBatch.DrawString(gameFont, "Power  : " + (ship.bullets.Length - ship.currentBullet), new Vector2(ScreenManager.GraphicsDevice.Viewport.TitleSafeArea.Width - 200, 40), Color.White);
 
             spriteBatch.End();
 
@@ -492,8 +495,9 @@ namespace GameStateManagementSample
             }
             DrawModel(shipModel, Matrix.CreateRotationY(MathHelper.ToRadians(-90.0f)) * Matrix.CreateScale(10) * ship.World, camera2);
             DrawModel(shipModel, Matrix.CreateRotationY(MathHelper.ToRadians(-90.0f)) * Matrix.CreateScale(10) * ship2.World, camera2);
-
-            DrawModel(groundModel, Matrix.Identity, camera2);
+            DrawModel(skyBoxModel, Matrix.CreateScale(10000) * Matrix.Identity, camera2);
+            DrawModel(rockModel, Matrix.CreateScale(100) * Matrix.Identity, camera2);
+            //DrawModel(groundModel, Matrix.Identity, camera2);
             //DrawModel(shipModel, Matrix.CreateTranslation(50, 50, 100) * Matrix.CreateScale(10));
 
             spriteBatch.Begin();

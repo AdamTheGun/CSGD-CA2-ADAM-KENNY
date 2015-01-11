@@ -55,9 +55,9 @@ namespace GameStateManagementSample
         /// </summary>
         void PlayGameMenuEntrySelected(object sender, PlayerIndexEventArgs e)
         {
-            LoadingScreen.Load(ScreenManager, true, e.PlayerIndex,
-                               new GameplayScreen());
-            ScreenManager.MainMenu.Stop(AudioStopOptions.Immediate);
+            LoadingScreen.Load(ScreenManager, false, null, new BackgroundScreen(),
+                                                           new CharacterMenuScreen());
+            ScreenManager.ScreenInCounter = 1;
         }
 
 
@@ -67,6 +67,7 @@ namespace GameStateManagementSample
         void OptionsMenuEntrySelected(object sender, PlayerIndexEventArgs e)
         {
             ScreenManager.AddScreen(new OptionsMenuScreen(), e.PlayerIndex);
+            ScreenManager.ScreenInCounter = 0;
         }
 
 

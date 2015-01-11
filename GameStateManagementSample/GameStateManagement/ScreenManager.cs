@@ -121,12 +121,20 @@ namespace GameStateManagement
             get { return font; }
         }
 
-        bool shipChosenBool;
-        public bool shipchosenbool
+        int screenInCounter;
+        public int ScreenInCounter
         {
-            get { return shipchosenbool; }
-            set { shipchosenbool = value; }
+            get { return screenInCounter; }
+            set { screenInCounter = value; }
         }
+
+        bool shipchosenBool;
+        public bool shipChosenbool
+        {
+            get { return shipchosenBool; }
+            set { shipchosenBool = value; }
+        }
+
 
         /// <summary>
         /// If true, the manager prints out a list of all the screens
@@ -200,12 +208,12 @@ namespace GameStateManagement
             spriteBatch = new SpriteBatch(GraphicsDevice);
             font = content.Load<SpriteFont>("menufont");
             blankTexture = content.Load<Texture2D>("blank");
-
+            screenInCounter = 0;
             audioEngine = new AudioEngine("Content\\Sounds.xgs");
             soundBank = new SoundBank(audioEngine, "Content\\SoundBank.xsb");
             waveBank = new WaveBank(audioEngine, "Content\\WaveBank.xwb");
             musicCategory = audioEngine.GetCategory("Music");
-            shipchosenbool = false;
+            shipchosenBool = false;
             mainMenu = soundBank.GetCue("MainMenu");
             mainMenu.Play();
             // Tell each of the screens to load their content.

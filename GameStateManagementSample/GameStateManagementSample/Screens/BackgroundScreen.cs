@@ -30,7 +30,8 @@ namespace GameStateManagementSample
         Texture2D background;
         Texture2D backgroundTexture;
         Texture2D controlsBackground;
-
+        Texture2D Ship1Background;
+        Texture2D Ship2Background;
 
         #endregion
 
@@ -61,11 +62,12 @@ namespace GameStateManagementSample
                 if (content == null)
                     content = new ContentManager(ScreenManager.Game.Services, "Content");
 
-                background = content.Load<Texture2D>("background");
+                background = content.Load<Texture2D>("MainMenuScreen");
                 backgroundTexture = background;
-                controlsBackground = content.Load<Texture2D>("360_Controls");
+                Ship1Background = content.Load<Texture2D>("Ship1Screen");
+                Ship2Background = content.Load<Texture2D>("Ship2Screen");
+                //controlsBackground = content.Load<Texture2D>("360_Controls");
             }
-
         }
 
 
@@ -93,6 +95,21 @@ namespace GameStateManagementSample
         public override void Update(GameTime gameTime, bool otherScreenHasFocus,
                                                        bool coveredByOtherScreen)
         {
+            if (ScreenManager.ScreenInCounter == 0)
+            {
+                backgroundTexture = background;
+            }
+            else if (ScreenManager.ScreenInCounter == 1) 
+            {
+                if (ScreenManager.shipChosenbool == true)
+                {
+                    backgroundTexture = Ship1Background;
+                }
+                else 
+                {
+                    backgroundTexture = Ship2Background;
+                }
+            }
             base.Update(gameTime, otherScreenHasFocus, false);
         }
 

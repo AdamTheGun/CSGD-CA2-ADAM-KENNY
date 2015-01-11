@@ -10,6 +10,7 @@
 #region Using Statements
 using Microsoft.Xna.Framework;
 using GameStateManagement;
+using Microsoft.Xna.Framework.Audio;
 #endregion
 
 namespace GameStateManagementSample
@@ -24,6 +25,7 @@ namespace GameStateManagementSample
         #region Fields
 
         MenuEntry shipMenuEntry;
+        MenuEntry enterMenuEntry;
         #endregion
 
         #region Initialization
@@ -36,16 +38,18 @@ namespace GameStateManagementSample
         {
             // Create our menu entries.
             shipMenuEntry = new MenuEntry(string.Empty);
-
+            enterMenuEntry = new MenuEntry("Go");
             
             MenuEntry back = new MenuEntry("Back");
 
             // Hook up menu event handlers.
             shipMenuEntry.Selected += shipMenuEntrySelected;
+            enterMenuEntry.Selected += enterMenuEntrySelected;
             back.Selected += OnCancel;
             
             // Add entries to the menu.
             MenuEntries.Add(shipMenuEntry);
+            MenuEntries.Add(enterMenuEntry);
             MenuEntries.Add(back);
         }
 
@@ -61,12 +65,11 @@ namespace GameStateManagementSample
         /// </summary>
         void SetMenuEntryText()
         {
-            if (ScreenManager.shipchosenbool == true)
+            if (ScreenManager.shipChosenbool == false)
                 shipMenuEntry.Text = "Blue Seal";
             else
                 shipMenuEntry.Text = "Red Dragon";
         }
-
 
         #endregion
 
@@ -74,35 +77,16 @@ namespace GameStateManagementSample
 
         void shipMenuEntrySelected(object sender, PlayerIndexEventArgs e)
         {
-            ScreenManager.AudioEnabled = !ScreenManager.AudioEnabled;
-
+            ScreenManager.shipChosenbool = !ScreenManager.shipChosenbool;
             SetMenuEntryText();
+            //ScreenManager.AddScreen(new CharacterMenuScreen(), PlayerIndex.One);
         }
-
-        void AudioVolumeMenuEntrySelected(object sender, PlayerIndexEventArgs e)
+        void enterMenuEntrySelected(object sender, PlayerIndexEventArgs e)
         {
-            ScreenManager.AudioVolume += 0.1f;
+            LoadingScreen.Load(ScreenManager, true, e.PlayerIndex,
+                               new GameplayScreen());
 
-            if (ScreenManager.AudioVolume >= 1.1f)
-                ScreenManager.AudioVolume = 0.1f;
-
-            SetMenuEntryText();
-        }
-
-        void SoundEffectMenuEntrySelected(object sender, PlayerIndexEventArgs e)
-        {
-            ScreenManager.SFXVolume += 0.1f;
-
-            if (ScreenManager.SFXVolume >= 1.1f)
-                ScreenManager.SFXVolume = 0.1f;
-
-            SetMenuEntryText();
-        }
-
-        void SplitScreenMenuEntrySelected(object sender, PlayerIndexEventArgs e)
-        {
-            ScreenManager.ScreenHorizontal = !ScreenManager.ScreenHorizontal;
-
+            ScreenManager.MainMenu.Stop(AudioStopOptions.Immediate);
             SetMenuEntryText();
         }
 

@@ -515,7 +515,16 @@ namespace GameStateManagementSample
                     DrawModel(bulletModel, Matrix.CreateScale(10) * Matrix.CreateRotationY(MathHelper.ToRadians(90.0f)) * ship2.bullets[i].World, camera);
                 }
             }
-            DrawModel(shipModel, Matrix.CreateRotationY(MathHelper.ToRadians(-90.0f)) * Matrix.CreateScale(10) * ship.World, camera);
+            if (ScreenManager.shipChosenbool == false)
+            {
+                DrawModel(shipModel, Matrix.CreateRotationY(MathHelper.ToRadians(-90.0f)) * Matrix.CreateScale(10) * ship.World, camera);
+                DrawModel(shipModel2, Matrix.CreateRotationY(MathHelper.ToRadians(-90.0f)) * Matrix.CreateScale(10) * ship2.World, camera);
+            }
+            else if (ScreenManager.shipChosenbool == true)
+            {
+                DrawModel(shipModel2, Matrix.CreateRotationY(MathHelper.ToRadians(-90.0f)) * Matrix.CreateScale(10) * ship.World, camera);
+                DrawModel(shipModel, Matrix.CreateRotationY(MathHelper.ToRadians(-90.0f)) * Matrix.CreateScale(10) * ship2.World, camera);
+            }
             DrawModel(shipModel, Matrix.CreateRotationY(MathHelper.ToRadians(-90.0f)) * Matrix.CreateScale(10) * ship2.World, camera);
             DrawModel(skyBoxModel, Matrix.CreateScale(10000) * Matrix.Identity, camera);
             DrawModel(rockModel, Matrix.CreateScale(100) * Matrix.Identity, camera);
@@ -557,8 +566,16 @@ namespace GameStateManagementSample
                     DrawModel(bulletModel, Matrix.CreateScale(10) * Matrix.CreateRotationY(MathHelper.ToRadians(90.0f)) * ship2.bullets[i].World, camera2);
                 }
             }
-            DrawModel(shipModel, Matrix.CreateRotationY(MathHelper.ToRadians(-90.0f)) * Matrix.CreateScale(10) * ship.World, camera2);
-            DrawModel(shipModel, Matrix.CreateRotationY(MathHelper.ToRadians(-90.0f)) * Matrix.CreateScale(10) * ship2.World, camera2);
+            if (ScreenManager.shipChosenbool == false)
+            {
+                DrawModel(shipModel2, Matrix.CreateRotationY(MathHelper.ToRadians(-90.0f)) * Matrix.CreateScale(10) * ship.World, camera);
+                DrawModel(shipModel, Matrix.CreateRotationY(MathHelper.ToRadians(-90.0f)) * Matrix.CreateScale(10) * ship2.World, camera);
+            }
+            else if (ScreenManager.shipChosenbool == true)
+            {
+                DrawModel(shipModel, Matrix.CreateRotationY(MathHelper.ToRadians(-90.0f)) * Matrix.CreateScale(10) * ship.World, camera);
+                DrawModel(shipModel2, Matrix.CreateRotationY(MathHelper.ToRadians(-90.0f)) * Matrix.CreateScale(10) * ship2.World, camera);
+            }
             DrawModel(skyBoxModel, Matrix.CreateScale(10000) * Matrix.Identity, camera2);
             DrawModel(rockModel, Matrix.CreateScale(100) * Matrix.Identity, camera2);
             //DrawModel(groundModel, Matrix.Identity, camera2);

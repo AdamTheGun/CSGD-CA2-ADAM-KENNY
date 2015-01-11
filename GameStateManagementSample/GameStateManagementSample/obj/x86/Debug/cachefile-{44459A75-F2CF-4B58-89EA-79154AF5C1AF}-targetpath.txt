@@ -7,7 +7,6 @@ Content\Space_Texmap.xnb
 Content\menufont.xnb
 Content\gamefont.xnb
 Content\Ground.xnb
-Content\Ship.xnb
 Content\cube.xnb
 Content\Cone.xnb
 Content\SpaceShip.xnb
@@ -16,10 +15,14 @@ Content\Rock.xnb
 Content\PewpewSFX.xnb
 Content\CrashSFX.xnb
 Content\Checker_0.xnb
-Content\ShipDiffuse_0.xnb
 Content\Ship_Texmap_0.xnb
 Content\Space_Texmap_0.xnb
 Content\Rock_0.xnb
+Content\Ship1Screen.xnb
+Content\Ship2Screen.xnb
+Content\MainMenuScreen.xnb
+Content\SpaceShip2.xnb
+Content\Ship_Texmap1_0.xnb
 Content\Sounds.xgs
 Content\WaveBank.xwb
 Content\SoundBank.xsb

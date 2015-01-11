@@ -83,7 +83,7 @@
       <Time>2015-01-08T00:40:11.6197976+08:00</Time>
       <Dependency>
         <Key>E:\School\GameStateManagementSample\GameStateManagementSample\obj\x86\Debug\Ground_0.xml</Key>
-        <Value>2015-01-11T11:09:04.6743886+08:00</Value>
+        <Value>2015-01-11T18:57:42.12948+08:00</Value>
       </Dependency>
       <Request>E:\School\GameStateManagementSample\GameStateManagementSample\bin\x86\Debug\Content\Checker_0.xnb</Request>
     </Item>
@@ -97,7 +97,7 @@
       <Time>2015-01-08T00:40:11.6337984+08:00</Time>
       <Dependency>
         <Key>E:\School\GameStateManagementSample\GameStateManagementSample\obj\x86\Debug\Ship_0.xml</Key>
-        <Value>2015-01-11T11:09:05.1674168+08:00</Value>
+        <Value>2015-01-11T18:57:42.6675108+08:00</Value>
       </Dependency>
       <Request>E:\School\GameStateManagementSample\GameStateManagementSample\bin\x86\Debug\Content\ShipDiffuse_0.xnb</Request>
     </Item>
@@ -111,7 +111,7 @@
       <Time>2015-01-08T00:40:11.7018023+08:00</Time>
       <Dependency>
         <Key>E:\School\GameStateManagementSample\GameStateManagementSample\obj\x86\Debug\cube_0.xml</Key>
-        <Value>2015-01-11T11:09:05.2314204+08:00</Value>
+        <Value>2015-01-11T18:57:42.7445152+08:00</Value>
       </Dependency>
     </Item>
     <Item>
@@ -124,7 +124,7 @@
       <Time>2015-01-08T00:40:11.6197976+08:00</Time>
       <Dependency>
         <Key>E:\School\GameStateManagementSample\GameStateManagementSample\obj\x86\Debug\Cone_0.xml</Key>
-        <Value>2015-01-11T11:09:05.2544217+08:00</Value>
+        <Value>2015-01-11T18:57:42.7695166+08:00</Value>
       </Dependency>
     </Item>
     <Item>
@@ -137,7 +137,7 @@
       <Time>2015-01-08T00:40:11.6998021+08:00</Time>
       <Dependency>
         <Key>E:\School\GameStateManagementSample\GameStateManagementSample\obj\x86\Debug\SpaceShip_0.xml</Key>
-        <Value>2015-01-11T11:09:05.2824233+08:00</Value>
+        <Value>2015-01-11T18:57:42.7995183+08:00</Value>
       </Dependency>
       <Request>E:\School\GameStateManagementSample\GameStateManagementSample\bin\x86\Debug\Content\Ship_Texmap_0.xnb</Request>
     </Item>
@@ -151,7 +151,7 @@
       <Time>2015-01-11T11:06:20.109976+08:00</Time>
       <Dependency>
         <Key>E:\School\GameStateManagementSample\GameStateManagementSample\obj\x86\Debug\Space_SkyBox_0.xml</Key>
-        <Value>2015-01-11T11:09:05.5424382+08:00</Value>
+        <Value>2015-01-11T18:57:43.0945352+08:00</Value>
       </Dependency>
       <Request>E:\School\GameStateManagementSample\GameStateManagementSample\bin\x86\Debug\Content\Space_Texmap_0.xnb</Request>
     </Item>
@@ -165,7 +165,7 @@
       <Time>2015-01-11T11:06:17.5608302+08:00</Time>
       <Dependency>
         <Key>E:\School\GameStateManagementSample\GameStateManagementSample\obj\x86\Debug\Rock_0.xml</Key>
-        <Value>2015-01-11T11:09:06.4194884+08:00</Value>
+        <Value>2015-01-11T18:57:44.0835918+08:00</Value>
       </Dependency>
       <Request>E:\School\GameStateManagementSample\GameStateManagementSample\bin\x86\Debug\Content\Rock_0.xnb</Request>
     </Item>
@@ -317,13 +317,58 @@
       <Time>2015-01-11T11:06:17.5618303+08:00</Time>
     </Item>
     <Item>
-      <Source>greenArrow.png</Source>
-      <Name>greenArrow</Name>
+      <Source>skybox0.jpg</Source>
+      <Name>skybox0</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>E:\School\GameStateManagementSample\GameStateManagementSample\bin\x86\Debug\Content\greenArrow.xnb</Output>
-      <Time>2015-01-11T17:26:41.7201625+08:00</Time>
+      <Output>E:\School\GameStateManagementSample\GameStateManagementSample\bin\x86\Debug\Content\skybox0.xnb</Output>
+      <Time>2015-01-11T19:59:32.3780773+08:00</Time>
+    </Item>
+    <Item>
+      <Source>skybox1.jpg</Source>
+      <Name>skybox1</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>E:\School\GameStateManagementSample\GameStateManagementSample\bin\x86\Debug\Content\skybox1.xnb</Output>
+      <Time>2015-01-11T19:59:32.2090676+08:00</Time>
+    </Item>
+    <Item>
+      <Source>skybox2.jpg</Source>
+      <Name>skybox2</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>E:\School\GameStateManagementSample\GameStateManagementSample\bin\x86\Debug\Content\skybox2.xnb</Output>
+      <Time>2015-01-11T19:59:32.0310574+08:00</Time>
+    </Item>
+    <Item>
+      <Source>skybox3.jpg</Source>
+      <Name>skybox3</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>E:\School\GameStateManagementSample\GameStateManagementSample\bin\x86\Debug\Content\skybox3.xnb</Output>
+      <Time>2015-01-11T19:59:31.5990327+08:00</Time>
+    </Item>
+    <Item>
+      <Source>skybox4.jpg</Source>
+      <Name>skybox4</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>E:\School\GameStateManagementSample\GameStateManagementSample\bin\x86\Debug\Content\skybox4.xnb</Output>
+      <Time>2015-01-11T19:59:31.2620135+08:00</Time>
+    </Item>
+    <Item>
+      <Source>skybox5.jpg</Source>
+      <Name>skybox5</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>E:\School\GameStateManagementSample\GameStateManagementSample\bin\x86\Debug\Content\skybox5.xnb</Output>
+      <Time>2015-01-11T19:59:27.9158221+08:00</Time>
     </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>

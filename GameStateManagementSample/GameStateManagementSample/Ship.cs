@@ -191,7 +191,6 @@ namespace ChaseCameraSample
             GamePadState gamePadState1 = GamePad.GetState(PlayerIndex.One);
             GamePadState gamePadState2 = GamePad.GetState(PlayerIndex.Two);
             MouseState mouseState = Mouse.GetState();
-            
 
             float elapsed = (float)gameTime.ElapsedGameTime.TotalSeconds;
 

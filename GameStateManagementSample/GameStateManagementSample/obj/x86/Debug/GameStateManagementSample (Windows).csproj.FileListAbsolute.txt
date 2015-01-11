@@ -110,4 +110,9 @@ E:\School\GameStateManagementSample\GameStateManagementSample\obj\x86\Debug\Game
 E:\School\GameStateManagementSample\GameStateManagementSample\obj\x86\Debug\Microsoft.Xna.Framework.RuntimeProfile.txt
 E:\School\GameStateManagementSample\GameStateManagementSample\obj\x86\Debug\GameStateManagementSample.exe
 E:\School\GameStateManagementSample\GameStateManagementSample\obj\x86\Debug\GameStateManagementSample.pdb
-E:\School\GameStateManagementSample\GameStateManagementSample\bin\x86\Debug\Content\greenArrow.xnb
+E:\School\GameStateManagementSample\GameStateManagementSample\bin\x86\Debug\Content\skybox0.xnb
+E:\School\GameStateManagementSample\GameStateManagementSample\bin\x86\Debug\Content\skybox1.xnb
+E:\School\GameStateManagementSample\GameStateManagementSample\bin\x86\Debug\Content\skybox2.xnb
+E:\School\GameStateManagementSample\GameStateManagementSample\bin\x86\Debug\Content\skybox3.xnb
+E:\School\GameStateManagementSample\GameStateManagementSample\bin\x86\Debug\Content\skybox4.xnb
+E:\School\GameStateManagementSample\GameStateManagementSample\bin\x86\Debug\Content\skybox5.xnb

@@ -147,8 +147,33 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="greenArrow.png">
-      <Name>greenArrow</Name>
+    <Compile Include="skybox0.jpg">
+      <Name>skybox0</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="skybox1.jpg">
+      <Name>skybox1</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="skybox2.jpg">
+      <Name>skybox2</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="skybox3.jpg">
+      <Name>skybox3</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="skybox4.jpg">
+      <Name>skybox4</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="skybox5.jpg">
+      <Name>skybox5</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

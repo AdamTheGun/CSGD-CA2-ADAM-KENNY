@@ -52,7 +52,8 @@ namespace GameStateManagementSample
         ChaseCamera camera,camera2;
         Viewport topViewport, bottomViewport;
 
-
+        EnvironmentMapEffect envEffect;
+        TextureCube texture;
 
         Vector3 ship1Pos, ship2Pos;
 
@@ -76,8 +77,6 @@ namespace GameStateManagementSample
         
         bool cameraSpringEnabled = true;
         bool camera2SpringEnabled = true;
-
-        
 
         #endregion
 
@@ -178,6 +177,26 @@ namespace GameStateManagementSample
                 waveBank = new WaveBank(audioEngine, "Content\\WaveBank.xwb");
                 acSFX = audioEngine.GetCategory("SFX");
                 acMusic = audioEngine.GetCategory("Music");
+
+                envEffect = new EnvironmentMapEffect(ScreenManager.GraphicsDevice);
+                envEffect.Projection = Matrix.CreatePerspectiveFieldOfView(
+                    MathHelper.PiOver4, ScreenManager.GraphicsDevice.Viewport.AspectRatio, 1.0f, 100.0f);
+                envEffect.View = Matrix.CreateLookAt(
+                    new Vector3(2, 3, 32), Vector3.Zero, Vector3.Up);
+                texture = new TextureCube(ScreenManager.GraphicsDevice, 256, false, SurfaceFormat.Color);
+                Color[] facedata = new Color[256 * 256];
+                for (int i = 0; i < 6; i++)
+                {
+                    envEffect.Texture = content.Load<Texture2D>("skybox" + i.ToString());
+                    envEffect.Texture.GetData<Color>(facedata);
+                    texture.SetData<Color>((CubeMapFace)i, facedata);
+                }
+                envEffect.Texture = (shipModel.Meshes[0].Effects[0] as BasicEffect).Texture;
+                envEffect.EnvironmentMap = texture;
+                envEffect.EnableDefaultLighting();
+                envEffect.EnvironmentMapAmount = 1.0f;
+                envEffect.FresnelFactor = 1.0f;
+                envEffect.EnvironmentMapSpecular = Vector3.Zero;
 
                 //audioEngine = ScreenManager.AudioEngine;
                 //soundBank = ScreenManager.SoundBank;
@@ -447,7 +466,6 @@ namespace GameStateManagementSample
 #if WINDOWS_PHONE
                 ScreenManager.AddScreen(new PhonePauseScreen(), ControllingPlayer);
 #else
-                
                 ScreenManager.AddScreen(new PauseMenuScreen(), ControllingPlayer);
 #endif
             }
@@ -538,8 +556,8 @@ namespace GameStateManagementSample
                     DrawModel(bulletModel, Matrix.CreateScale(10) * Matrix.CreateRotationY(MathHelper.ToRadians(90.0f)) * ship2.bullets[i].World, camera2);
                 }
             }
-            DrawModel(shipModel, Matrix.CreateRotationY(MathHelper.ToRadians(-90.0f)) * Matrix.CreateScale(10) * ship.World, camera2);
-            DrawModel(shipModel, Matrix.CreateRotationY(MathHelper.ToRadians(-90.0f)) * Matrix.CreateScale(10) * ship2.World, camera2);
+            DrawModel(shipModel, Matrix.CreateRotationY(MathHelper.ToRadians(-90.0f)) * Matrix.CreateScale(10) * ship.World, envEffect);
+            DrawModel(shipModel, Matrix.CreateRotationY(MathHelper.ToRadians(-90.0f)) * Matrix.CreateScale(10) * ship2.World, envEffect);
             DrawModel(skyBoxModel, Matrix.CreateScale(10000) * Matrix.Identity, camera2);
             DrawModel(rockModel, Matrix.CreateScale(100) * Matrix.Identity, camera2);
             //DrawModel(groundModel, Matrix.Identity, camera2);
@@ -558,6 +576,45 @@ namespace GameStateManagementSample
                 float alpha = MathHelper.Lerp(1f - TransitionAlpha, 1f, pauseAlpha / 2);
 
                 ScreenManager.FadeBackBufferToBlack(alpha);
+            }
+        }
+
+        private void DrawModel(Model m, Matrix world, EnvironmentMapEffect be)
+        {
+            Matrix[] transforms = new Matrix[m.Bones.Count];
+            m.CopyAbsoluteBoneTransformsTo(transforms);
+
+            foreach (ModelMesh mesh in m.Meshes)
+            {
+                foreach (BasicEffect effect in mesh.Effects)
+                {
+                    //effect.SpecularColor = Color.WhiteSmoke.ToVector3();
+                    //effect.SpecularPower = 100.0f;
+                    //effect.FogEnabled = true;
+                    //effect.FogColor = Color.White.ToVector3();
+                    //effect.FogStart = 40000.0f;
+                    //effect.FogEnd = 1000000.0f;
+                    effect.EnableDefaultLighting();
+                    effect.World = transforms[mesh.ParentBone.Index] * world;
+                    // Use the matrices provided by the chase camera
+                    effect.View = camera.View;
+                    effect.Projection = camera.Projection;
+                }
+                mesh.Draw();
+            }
+
+            foreach (ModelMesh mm in m.Meshes)
+            {
+                foreach (ModelMeshPart mmp in mm.MeshParts)
+                {
+                    be.World = world;
+                    ScreenManager.GraphicsDevice.SetVertexBuffer(mmp.VertexBuffer, mmp.VertexOffset);
+                    ScreenManager.GraphicsDevice.Indices = mmp.IndexBuffer;
+                    be.CurrentTechnique.Passes[0].Apply();
+                    ScreenManager.GraphicsDevice.DrawIndexedPrimitives(
+                        PrimitiveType.TriangleList, 0, 0,
+                        mmp.NumVertices, mmp.StartIndex, mmp.PrimitiveCount);
+                }
             }
         }
 

@@ -9,6 +9,7 @@
 
 #region Using Statements
 using Microsoft.Xna.Framework;
+using GameStateManagementSample;
 using Microsoft.Xna.Framework.Audio;
 #endregion
 
@@ -18,7 +19,7 @@ namespace GameStateManagementSample
     /// The pause menu comes up over the top of the game,
     /// giving the player options to resume or quit.
     /// </summary>
-    class PauseMenuScreen : MenuScreen
+    class GameOverScreen : MenuScreen
     {
         #region Initialization
 
@@ -26,19 +27,20 @@ namespace GameStateManagementSample
         /// <summary>
         /// Constructor.
         /// </summary>
-        public PauseMenuScreen()
-            : base("Paused")
+        public GameOverScreen()
+            : base("Game Over")
         {
+            //IsFirstGame = true;
             // Create our menu entries.
-            MenuEntry resumeGameMenuEntry = new MenuEntry("Resume Game");
+            MenuEntry restartGameMenuEntry = new MenuEntry("Restart Game");
             MenuEntry quitGameMenuEntry = new MenuEntry("Quit Game");
             
             // Hook up menu event handlers.
-            resumeGameMenuEntry.Selected += OnCancel;
+            restartGameMenuEntry.Selected += OnRestart;
             quitGameMenuEntry.Selected += QuitGameMenuEntrySelected;
-            
+
             // Add entries to the menu.
-            MenuEntries.Add(resumeGameMenuEntry);
+            MenuEntries.Add(restartGameMenuEntry);
             MenuEntries.Add(quitGameMenuEntry);
         }
 
@@ -53,6 +55,7 @@ namespace GameStateManagementSample
         /// </summary>
         void QuitGameMenuEntrySelected(object sender, PlayerIndexEventArgs e)
         {
+           // ScreenManager.SoundBank.GetCue("UI Click").Play();
             const string message = "Are you sure you want to quit this game?";
 
             MessageBoxScreen confirmQuitMessageBox = new MessageBoxScreen(message);
@@ -70,8 +73,7 @@ namespace GameStateManagementSample
         /// </summary>
         void ConfirmQuitMessageBoxAccepted(object sender, PlayerIndexEventArgs e)
         {
-            ResetViewports();
-            ScreenManager.MusicCue.Stop(AudioStopOptions.Immediate);
+            //ScreenManager.SoundBank.GetCue("UI Click").Play();
             ScreenManager.MainMenu.Stop(AudioStopOptions.Immediate);
             ScreenManager.MainMenu = ScreenManager.SoundBank.GetCue("MainMenu");
             ScreenManager.MainMenu.Play();
@@ -79,13 +81,17 @@ namespace GameStateManagementSample
                                                            new MainMenuScreen());
         }
 
-        public void ResetViewports()
+        void OnRestart(object sender, PlayerIndexEventArgs e)
         {
-           //Reset viewports
-           //HERE
-           //CHANGING SCREENMANAGER.GRAPHICS.VIEWPORT DOESNT WORK FOR SOME REASON
-            //5ScreenManager.GraphicsDevice.Viewport = new Microsoft.Xna.Framework.Graphics.Viewport(0, 0, 1280, 720);
+           // ScreenManager.SoundBank.GetCue("UI Click").Play();
+
+            ScreenManager.MainMenu.Stop(AudioStopOptions.Immediate);
+            LoadingScreen.Load(ScreenManager, false, ControllingPlayer, new BackgroundScreen(), new GameplayScreen());
+            ExitScreen();
         }
+
+       
+
 
         #endregion
     }

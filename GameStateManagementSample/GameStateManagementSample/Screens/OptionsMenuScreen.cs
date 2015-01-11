@@ -25,6 +25,7 @@ namespace GameStateManagementSample
 
         MenuEntry enableAudioMenuEntry;
         MenuEntry audioVolumeMenuEntry;
+        MenuEntry soundEffectVolumeEntry;
         MenuEntry splitScreenMenuEntry;
 
         #endregion
@@ -41,6 +42,7 @@ namespace GameStateManagementSample
             // Create our menu entries.
             enableAudioMenuEntry = new MenuEntry(string.Empty);
             audioVolumeMenuEntry = new MenuEntry(string.Empty);
+            soundEffectVolumeEntry = new MenuEntry(string.Empty);
             splitScreenMenuEntry = new MenuEntry(string.Empty);
 
             
@@ -49,12 +51,14 @@ namespace GameStateManagementSample
             // Hook up menu event handlers.
             enableAudioMenuEntry.Selected += EnableAudioMenuEntrySelected;
             audioVolumeMenuEntry.Selected += AudioVolumeMenuEntrySelected;
+            soundEffectVolumeEntry.Selected += SoundEffectMenuEntrySelected;
             splitScreenMenuEntry.Selected += SplitScreenMenuEntrySelected;
             back.Selected += OnCancel;
             
             // Add entries to the menu.
             MenuEntries.Add(enableAudioMenuEntry);
             MenuEntries.Add(audioVolumeMenuEntry);
+            MenuEntries.Add(soundEffectVolumeEntry);
             MenuEntries.Add(splitScreenMenuEntry);
             MenuEntries.Add(back);
         }
@@ -76,7 +80,8 @@ namespace GameStateManagementSample
             else
                 enableAudioMenuEntry.Text = "Audio: Off";
 
-            audioVolumeMenuEntry.Text = "Volume: " + ScreenManager.AudioVolume;
+            audioVolumeMenuEntry.Text = "Volume: " + (int)(ScreenManager.AudioVolume * 10);
+            soundEffectVolumeEntry.Text = "Volume: " + (int)(ScreenManager.SFXVolume * 10);
 
             if (ScreenManager.ScreenHorizontal == true)
                 splitScreenMenuEntry.Text = "Split Screens Orientation: Horizontal";
@@ -98,10 +103,20 @@ namespace GameStateManagementSample
 
         void AudioVolumeMenuEntrySelected(object sender, PlayerIndexEventArgs e)
         {
-            ScreenManager.AudioVolume += 1;
+            ScreenManager.AudioVolume += 0.1f;
 
-            if (ScreenManager.AudioVolume >= 11)
-                ScreenManager.AudioVolume = 1;
+            if (ScreenManager.AudioVolume >= 1.1f)
+                ScreenManager.AudioVolume = 0.1f;
+
+            SetMenuEntryText();
+        }
+
+        void SoundEffectMenuEntrySelected(object sender, PlayerIndexEventArgs e)
+        {
+            ScreenManager.SFXVolume += 0.1f;
+
+            if (ScreenManager.SFXVolume >= 1.1f)
+                ScreenManager.SFXVolume = 0.1f;
 
             SetMenuEntryText();
         }

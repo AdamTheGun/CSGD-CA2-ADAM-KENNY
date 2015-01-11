@@ -66,11 +66,18 @@ namespace GameStateManagement
             set { audioEnabled = value; }
         }
 
-        float audioVolume = 10;
+        float audioVolume = 1.0f;
         public float AudioVolume
         {
             get { return audioVolume; }
             set { audioVolume = value; }
+        }
+        
+        float sfxVolume = 1.0f;
+        public float SFXVolume
+        {
+            get { return sfxVolume; }
+            set { sfxVolume = value; }
         }
 
         /// <summary>

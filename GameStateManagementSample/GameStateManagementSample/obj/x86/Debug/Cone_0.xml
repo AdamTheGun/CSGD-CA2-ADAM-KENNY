@@ -3,7 +3,7 @@
   <Asset Type="Graphics:MeshContent">
     <Name>Cone001</Name>
     <Identity>
-      <SourceFilename>D:\Work\GameStateManagementSample\Content\Cone.FBX</SourceFilename>
+      <SourceFilename>E:\School\GameStateManagementSample\Content\Cone.FBX</SourceFilename>
       <SourceTool>FbxImporter</SourceTool>
     </Identity>
     <OpaqueData>

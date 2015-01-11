@@ -3,7 +3,7 @@
   <Asset Type="Graphics:MeshContent">
     <Name>Box001</Name>
     <Identity>
-      <SourceFilename>D:\Work\GameStateManagementSample\Content\SpaceShip.FBX</SourceFilename>
+      <SourceFilename>E:\School\GameStateManagementSample\Content\SpaceShip.FBX</SourceFilename>
       <SourceTool>FbxImporter</SourceTool>
     </Identity>
     <OpaqueData>
@@ -29,7 +29,7 @@
     <Resource ID="#Resource1" Type="Graphics:BasicMaterialContent">
       <Name>01 - Default</Name>
       <Identity>
-        <SourceFilename>D:\Work\GameStateManagementSample\Content\SpaceShip.FBX</SourceFilename>
+        <SourceFilename>E:\School\GameStateManagementSample\Content\SpaceShip.FBX</SourceFilename>
         <SourceTool>FbxImporter</SourceTool>
       </Identity>
       <OpaqueData>

@@ -61,6 +61,8 @@ namespace GameStateManagementSample
         AudioEngine audioEngine;
         SoundBank soundBank;
         WaveBank waveBank;
+        AudioCategory acSFX;
+        AudioCategory acMusic;
 
         Model rockModel;
         Model skyBoxModel;
@@ -169,7 +171,19 @@ namespace GameStateManagementSample
                 audioEngine = new AudioEngine("Content\\Sounds.xgs");
                 soundBank = new SoundBank(audioEngine, "Content\\SoundBank.xsb");
                 waveBank = new WaveBank(audioEngine, "Content\\WaveBank.xwb");
-                
+                acSFX = audioEngine.GetCategory("SFX");
+                acMusic = audioEngine.GetCategory("Music");
+
+                if (ScreenManager.AudioEnabled == true)
+                {
+                    acSFX.SetVolume(ScreenManager.SFXVolume/10);
+                    acMusic.SetVolume(ScreenManager.AudioVolume/10);
+                }
+                else
+                {
+                    acSFX.SetVolume(0);
+                    acMusic.SetVolume(0);
+                }
 
                 FxCue = soundBank.GetCue("ShotFx");
                 //FxCue.Apply3D(shipListen1, shipEmit1);

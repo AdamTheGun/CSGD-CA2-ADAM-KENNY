@@ -147,8 +147,13 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+<<<<<<< HEAD
     <Compile Include="greenArrow.png">
       <Name>greenArrow</Name>
+=======
+    <Compile Include="360_Controls.png">
+      <Name>360_Controls</Name>
+>>>>>>> Seperate branch
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

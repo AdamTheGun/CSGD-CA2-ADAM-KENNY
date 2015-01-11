@@ -108,6 +108,11 @@ namespace ChaseCameraSample
 
         public int currentBullet;
 
+        public Cue shootCue;
+        public AudioEmitter shipEmit1,shipEmit2;
+        public AudioListener shipListener;
+        public SoundBank soundBank;
+
         float crashTimer = 0.0f;
         bool crashBool = false;
 
@@ -115,9 +120,19 @@ namespace ChaseCameraSample
 
         #region Initialization
 
+<<<<<<< HEAD
         public Ship(GraphicsDevice device,Vector3 NewPosition,SoundBank sounds)
         {
             shipSounds = sounds;
+=======
+        public Ship(GraphicsDevice device,Vector3 NewPosition,SoundBank sounds, AudioCategory sfx,SoundBank Soundbank,
+            AudioEmitter Ship1Emit = null,AudioEmitter Ship2Emit = null,AudioListener ShipListener = null)
+        {
+            shipSounds = sounds;
+            sfxCategory = sfx;
+            //sfxVolume = volume;
+            soundBank = Soundbank;
+>>>>>>> Seperate branch
             graphicsDevice = device;
             Reset(NewPosition);
             currentBullet = 0;
@@ -126,6 +141,15 @@ namespace ChaseCameraSample
                 bullets[i] = new ShipBullet(device, Position);
             }
             rand = new Random();
+            shootCue = soundBank.GetCue("ShotFx");
+            shipEmit1 = Ship1Emit;
+            shipEmit2 = Ship2Emit;
+            shipListener = ShipListener;
+            if (shipListener != null)
+            {
+                shootCue.Apply3D(shipListener, shipEmit1);
+                shootCue.Apply3D(shipListener, shipEmit2);
+            }
         }
 
         
@@ -225,7 +249,7 @@ namespace ChaseCameraSample
                     rotationAmount.X = 0.0f;
                     rotationAmount.Y = 0.0f;
                 }
-
+            }
 
             if (keyboardState.IsKeyDown(Keys.Left) || TouchLeft())
                 rotationAmount.X = 1.0f;
@@ -235,15 +259,14 @@ namespace ChaseCameraSample
                 rotationAmount.Y = -1.0f;
             if (keyboardState.IsKeyDown(Keys.Down) || TouchDown())
                 rotationAmount.Y = 1.0f;
+           
 
-            }
             // Scale rotation amount to radians per second
             rotationAmount = rotationAmount * RotationRate * elapsed;
 
             // Correct the X axis steering when the ship is upside down
             if (Up.Y < 0)
                 rotationAmount.X = -rotationAmount.X;
-
 
             // Create rotation matrix from rotation amount
             Matrix rotationMatrix =
@@ -278,14 +301,21 @@ namespace ChaseCameraSample
                 thrustAmount = gamePadState2.Triggers.Right;
                 if (randNum <= 0.5f)
                 {
-                    if (gamePadState2.Buttons.X == ButtonState.Pressed)
+                    if (gamePadState2.Buttons.X == ButtonState.Pressed || mouseState.LeftButton == ButtonState.Pressed)
                     {
                         bullets[currentBullet++].isAlive = true;
                         if (pewBool == false)
                         {
-                            if (!shipSounds.GetCue("ShotFx").IsPlaying)
+                            if (!shootCue.IsPlaying)
                             {
+<<<<<<< HEAD
                                 shipSounds.GetCue("ShotFx").Play();
+=======
+                                //sfxCategory.SetVolume(sfxVolume);
+
+                                shootCue = soundBank.GetCue("ShotFx");
+                                shootCue.Play();
+>>>>>>> Seperate branch
                                 pewBool = true;
                             }
                         }
@@ -302,27 +332,46 @@ namespace ChaseCameraSample
                         bullets[currentBullet++].isAlive = true;
                         if (pewBool == false)
                         {
-                            if (!shipSounds.GetCue("ShotFx").IsPlaying)
+                            if (!shootCue.IsPlaying)
                             {
+<<<<<<< HEAD
                                 shipSounds.GetCue("ShotFx").Play();
+=======
+                               // sfxCategory.SetVolume(sfxVolume);
+
+                                shootCue = soundBank.GetCue("ShotFx");
+                                shootCue.Play();
+>>>>>>> Seperate branch
                                 pewBool = true;
                             }
                         }
                     }
                 }
-            }
+                if (keyboardState.IsKeyDown(Keys.Space))
+                {
+                    thrustAmount = 1.0f;
+                }
 
+            }
             if (pewBool) 
             {
                 pewTimer += elapsed*1;
                 if (pewTimer >= 0.13) 
                 {
                     pewTimer = 0.0f;
-                    pewBool = false;
-                    shipSounds.GetCue("ShotFx").Stop(AudioStopOptions.Immediate);
+                    pewBool = false; 
+                    shootCue = soundBank.GetCue("ShotFx");
+                    shootCue.Stop(AudioStopOptions.Immediate);
+
+                    if (shipListener != null)
+                    {
+                        shootCue.Apply3D(shipListener, shipEmit1);
+                        shootCue.Apply3D(shipListener, shipEmit2);
+                    }
                 }
             }
             
+
             //if (playerNum == 1)
             //{
             //    if (randNum <= 0.5f)
@@ -459,5 +508,6 @@ namespace ChaseCameraSample
                 }
             }
         }
+
     }
 }

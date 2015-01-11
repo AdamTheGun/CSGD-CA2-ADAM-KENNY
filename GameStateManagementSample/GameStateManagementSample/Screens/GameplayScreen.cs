@@ -97,10 +97,6 @@ namespace GameStateManagementSample
                 new Keys[] { Keys.Escape },
                 true);
 
-            shipEmit1 = new AudioEmitter();
-            shipEmit2 = new AudioEmitter();
-
-            
 
             // Create the chase camera
             camera = new ChaseCamera();
@@ -121,6 +117,12 @@ namespace GameStateManagementSample
             // Set camera perspective
             camera2.NearPlaneDistance = 10.0f;
             camera2.FarPlaneDistance = 10000000.0f;
+
+            shipEmit1 = new AudioEmitter();
+            shipEmit2 = new AudioEmitter();
+
+            shipListen1 = new AudioListener();
+            shipListen1.Position = camera.Position;
         }
 
 
@@ -173,36 +175,51 @@ namespace GameStateManagementSample
                 cubeModel = content.Load<Model>("cube");
                 bulletModel = content.Load<Model>("Cone");
                 skyBoxModel = content.Load<Model>("Space_SkyBox");
+<<<<<<< HEAD
+=======
+
+>>>>>>> Seperate branch
                 audioEngine = new AudioEngine("Content\\Sounds.xgs");
                 soundBank = new SoundBank(audioEngine, "Content\\SoundBank.xsb");
                 waveBank = new WaveBank(audioEngine, "Content\\WaveBank.xwb");
                 acSFX = audioEngine.GetCategory("SFX");
                 acMusic = audioEngine.GetCategory("Music");
+<<<<<<< HEAD
 
                 //audioEngine = ScreenManager.AudioEngine;
                 //soundBank = ScreenManager.SoundBank;
                 //waveBank = ScreenManager.WaveBank;
 
+=======
+                audioEngine.Update();
+>>>>>>> Seperate branch
                 if (ScreenManager.AudioEnabled == true)
                 {
-                    acSFX.SetVolume(ScreenManager.SFXVolume/10);
-                    acMusic.SetVolume(ScreenManager.AudioVolume/10);
+                    acSFX.SetVolume(ScreenManager.SFXVolume);
+                    acMusic.SetVolume(ScreenManager.AudioVolume);
                 }
                 else
                 {
                     acSFX.SetVolume(0);
                     acMusic.SetVolume(0);
                 }
+<<<<<<< HEAD
+=======
+
+                audioEngine = ScreenManager.AudioEngine;
+                soundBank = ScreenManager.SoundBank;
+                waveBank = ScreenManager.WaveBank;
+>>>>>>> Seperate branch
 
                 FxCue = soundBank.GetCue("ShotFx");
                 //FxCue.Apply3D(shipListen1, shipEmit1);
 
                 ship1Pos = new Vector3(10000,350,10000);
                 ship2Pos = new Vector3(100, 350, 100);
-
+                
                 // Create ship
-                ship = new Ship(ScreenManager.GraphicsDevice,ship1Pos,soundBank);
-                ship2 = new Ship(ScreenManager.GraphicsDevice,ship2Pos,soundBank);
+                ship = new Ship(ScreenManager.GraphicsDevice,ship1Pos,soundBank,acSFX,soundBank,shipEmit1,shipEmit2,shipListen1);
+                ship2 = new Ship(ScreenManager.GraphicsDevice, ship2Pos, soundBank, acSFX,soundBank);
                 //ship2.Position = new Vector3(100, 100, 100);
 
                 UpdateCameraChaseTarget(ship,camera);
@@ -403,6 +420,10 @@ namespace GameStateManagementSample
                     camera2.Update(gameTime);
                 else
                     camera2.Reset();
+
+                shipEmit1.Position = ship1Pos;
+                shipEmit2.Position = ship2Pos;
+                shipListen1.Position = camera.Position;
 
                 //One of the ships dies
                 if (ship.shipHealth <= 0 || ship2.shipHealth <= 0)

@@ -28,6 +28,7 @@ namespace GameStateManagementSample
 
         string message;
         Texture2D gradientTexture;
+        Texture2D TAButton, TBButton;
 
         InputAction menuSelect;
         InputAction menuCancel;

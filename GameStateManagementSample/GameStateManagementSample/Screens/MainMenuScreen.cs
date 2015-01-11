@@ -10,6 +10,7 @@
 #region Using Statements
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
+using GameStateManagement;
 #endregion
 
 namespace GameStateManagementSample
@@ -58,6 +59,7 @@ namespace GameStateManagementSample
             LoadingScreen.Load(ScreenManager, true, e.PlayerIndex,
                                new GameplayScreen());
             ScreenManager.MainMenu.Stop(AudioStopOptions.Immediate);
+            
         }
 
 

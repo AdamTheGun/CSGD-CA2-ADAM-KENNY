@@ -121,6 +121,12 @@ namespace GameStateManagement
             get { return font; }
         }
 
+        bool shipChosenBool;
+        public bool shipchosenbool
+        {
+            get { return shipchosenbool; }
+            set { shipchosenbool = value; }
+        }
 
         /// <summary>
         /// If true, the manager prints out a list of all the screens
@@ -199,7 +205,7 @@ namespace GameStateManagement
             soundBank = new SoundBank(audioEngine, "Content\\SoundBank.xsb");
             waveBank = new WaveBank(audioEngine, "Content\\WaveBank.xwb");
             musicCategory = audioEngine.GetCategory("Music");
-
+            shipchosenbool = false;
             mainMenu = soundBank.GetCue("MainMenu");
             mainMenu.Play();
             // Tell each of the screens to load their content.

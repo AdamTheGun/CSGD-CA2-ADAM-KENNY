@@ -27,7 +27,10 @@ namespace GameStateManagementSample
         #region Fields
 
         ContentManager content;
+        Texture2D background;
         Texture2D backgroundTexture;
+        Texture2D controlsBackground;
+
 
         #endregion
 
@@ -58,8 +61,11 @@ namespace GameStateManagementSample
                 if (content == null)
                     content = new ContentManager(ScreenManager.Game.Services, "Content");
 
-                backgroundTexture = content.Load<Texture2D>("background");
+                background = content.Load<Texture2D>("background");
+                backgroundTexture = background;
+                controlsBackground = content.Load<Texture2D>("360_Controls");
             }
+
         }
 
 

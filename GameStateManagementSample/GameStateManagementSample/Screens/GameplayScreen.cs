@@ -52,7 +52,8 @@ namespace GameStateManagementSample
         ChaseCamera camera,camera2;
         Viewport topViewport, bottomViewport;
 
-
+        EnvironmentMapEffect envEffect;
+        TextureCube texture;
 
         Vector3 ship1Pos, ship2Pos;
 
@@ -69,7 +70,7 @@ namespace GameStateManagementSample
 
         Model rockModel;
         Model skyBoxModel;
-        Model shipModel;
+        Model shipModel,shipModel2;
         Model groundModel;
         Model cubeModel;
         Model bulletModel;
@@ -97,6 +98,10 @@ namespace GameStateManagementSample
                 new Keys[] { Keys.Escape },
                 true);
 
+            shipEmit1 = new AudioEmitter();
+            shipEmit2 = new AudioEmitter();
+
+            
 
             // Create the chase camera
             camera = new ChaseCamera();
@@ -117,12 +122,6 @@ namespace GameStateManagementSample
             // Set camera perspective
             camera2.NearPlaneDistance = 10.0f;
             camera2.FarPlaneDistance = 10000000.0f;
-
-            shipEmit1 = new AudioEmitter();
-            shipEmit2 = new AudioEmitter();
-
-            shipListen1 = new AudioListener();
-            shipListen1.Position = camera.Position;
         }
 
 
@@ -171,55 +170,58 @@ namespace GameStateManagementSample
                 gameFont = content.Load<SpriteFont>("gamefont");
                 rockModel = content.Load<Model>("Rock");
                 shipModel = content.Load<Model>("SpaceShip");
+                shipModel2 = content.Load<Model>("SpaceShip2");
                 groundModel = content.Load<Model>("Ground");
                 cubeModel = content.Load<Model>("cube");
                 bulletModel = content.Load<Model>("Cone");
                 skyBoxModel = content.Load<Model>("Space_SkyBox");
-<<<<<<< HEAD
-=======
-
->>>>>>> Seperate branch
                 audioEngine = new AudioEngine("Content\\Sounds.xgs");
                 soundBank = new SoundBank(audioEngine, "Content\\SoundBank.xsb");
                 waveBank = new WaveBank(audioEngine, "Content\\WaveBank.xwb");
                 acSFX = audioEngine.GetCategory("SFX");
                 acMusic = audioEngine.GetCategory("Music");
-<<<<<<< HEAD
+
+                //envEffect = new EnvironmentMapEffect(ScreenManager.GraphicsDevice);
+                //envEffect.Projection = Matrix.CreatePerspectiveFieldOfView(
+                //    MathHelper.PiOver4, ScreenManager.GraphicsDevice.Viewport.AspectRatio, 1.0f, 100.0f);
+                //envEffect.View = Matrix.CreateLookAt(
+                //    new Vector3(2, 3, 32), Vector3.Zero, Vector3.Up);
+                //texture = new TextureCube(ScreenManager.GraphicsDevice, 256, false, SurfaceFormat.Color);
+                //Color[] facedata = new Color[1024 * 1024];
+                //envEffect.Texture = content.Load<Texture2D>("Ship_Texmap");
+                //envEffect.Texture.GetData<Color>(facedata);
+                //texture.SetData<Color>((CubeMapFace)0, facedata);
+                //envEffect.Texture = (shipModel.Meshes[0].Effects[0] as BasicEffect).Texture;
+                //envEffect.EnvironmentMap = texture;
+                //envEffect.EnableDefaultLighting();
+                //envEffect.EnvironmentMapAmount = 1.0f;
+                //envEffect.FresnelFactor = 1.0f;
+                //envEffect.EnvironmentMapSpecular = Vector3.Zero;
 
                 //audioEngine = ScreenManager.AudioEngine;
                 //soundBank = ScreenManager.SoundBank;
                 //waveBank = ScreenManager.WaveBank;
 
-=======
-                audioEngine.Update();
->>>>>>> Seperate branch
                 if (ScreenManager.AudioEnabled == true)
                 {
-                    acSFX.SetVolume(ScreenManager.SFXVolume);
-                    acMusic.SetVolume(ScreenManager.AudioVolume);
+                    acSFX.SetVolume(ScreenManager.SFXVolume/10);
+                    acMusic.SetVolume(ScreenManager.AudioVolume/10);
                 }
                 else
                 {
                     acSFX.SetVolume(0);
                     acMusic.SetVolume(0);
                 }
-<<<<<<< HEAD
-=======
-
-                audioEngine = ScreenManager.AudioEngine;
-                soundBank = ScreenManager.SoundBank;
-                waveBank = ScreenManager.WaveBank;
->>>>>>> Seperate branch
 
                 FxCue = soundBank.GetCue("ShotFx");
                 //FxCue.Apply3D(shipListen1, shipEmit1);
 
                 ship1Pos = new Vector3(10000,350,10000);
                 ship2Pos = new Vector3(100, 350, 100);
-                
+
                 // Create ship
-                ship = new Ship(ScreenManager.GraphicsDevice,ship1Pos,soundBank,acSFX,soundBank,shipEmit1,shipEmit2,shipListen1);
-                ship2 = new Ship(ScreenManager.GraphicsDevice, ship2Pos, soundBank, acSFX,soundBank);
+                ship = new Ship(ScreenManager.GraphicsDevice,ship1Pos,soundBank);
+                ship2 = new Ship(ScreenManager.GraphicsDevice,ship2Pos,soundBank);
                 //ship2.Position = new Vector3(100, 100, 100);
 
                 UpdateCameraChaseTarget(ship,camera);
@@ -421,10 +423,6 @@ namespace GameStateManagementSample
                 else
                     camera2.Reset();
 
-                shipEmit1.Position = ship1Pos;
-                shipEmit2.Position = ship2Pos;
-                shipListen1.Position = camera.Position;
-
                 //One of the ships dies
                 if (ship.shipHealth <= 0 || ship2.shipHealth <= 0)
                 {
@@ -579,6 +577,23 @@ namespace GameStateManagementSample
                 float alpha = MathHelper.Lerp(1f - TransitionAlpha, 1f, pauseAlpha / 2);
 
                 ScreenManager.FadeBackBufferToBlack(alpha);
+            }
+        }
+
+        private void DrawModel(Model m, Matrix world, EnvironmentMapEffect be)
+        {
+            foreach (ModelMesh mm in m.Meshes)
+            {
+                foreach (ModelMeshPart mmp in mm.MeshParts)
+                {
+                    be.World = world;
+                    ScreenManager.GraphicsDevice.SetVertexBuffer(mmp.VertexBuffer, mmp.VertexOffset);
+                    ScreenManager.GraphicsDevice.Indices = mmp.IndexBuffer;
+                    be.CurrentTechnique.Passes[0].Apply();
+                    ScreenManager.GraphicsDevice.DrawIndexedPrimitives(
+                        PrimitiveType.TriangleList, 0, 0,
+                        mmp.NumVertices, mmp.StartIndex, mmp.PrimitiveCount);
+                }
             }
         }
 

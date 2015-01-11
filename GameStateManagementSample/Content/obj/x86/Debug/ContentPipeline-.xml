@@ -83,7 +83,7 @@
       <Time>2014-12-24T22:59:33.8206892+08:00</Time>
       <Dependency>
         <Key>obj\x86\Debug\Ground_0.xml</Key>
-        <Value>2015-01-10T18:29:05.9681127+08:00</Value>
+        <Value>2015-01-11T13:08:43.2603413+08:00</Value>
       </Dependency>
       <Request>C:\Users\user\Desktop\Singapore Polytechnic\Year 2(Current)\Semester 2(Current)\CSGD\CSGD CA2\GameStateManagementSample\GameStateManagementSample\bin\x86\Debug\Content\Checker_0.xnb</Request>
     </Item>
@@ -97,7 +97,7 @@
       <Time>2014-12-24T22:59:33.9367678+08:00</Time>
       <Dependency>
         <Key>obj\x86\Debug\Ship_0.xml</Key>
-        <Value>2015-01-10T18:29:07.5901956+08:00</Value>
+        <Value>2015-01-11T13:08:44.5912285+08:00</Value>
       </Dependency>
       <Request>C:\Users\user\Desktop\Singapore Polytechnic\Year 2(Current)\Semester 2(Current)\CSGD\CSGD CA2\GameStateManagementSample\GameStateManagementSample\bin\x86\Debug\Content\ShipDiffuse_0.xnb</Request>
     </Item>
@@ -111,7 +111,7 @@
       <Time>2014-12-24T22:59:33.9707893+08:00</Time>
       <Dependency>
         <Key>obj\x86\Debug\cube_0.xml</Key>
-        <Value>2015-01-10T18:29:07.8323564+08:00</Value>
+        <Value>2015-01-11T13:08:44.760341+08:00</Value>
       </Dependency>
     </Item>
     <Item>
@@ -124,7 +124,7 @@
       <Time>2015-01-08T09:03:53.9861183+08:00</Time>
       <Dependency>
         <Key>obj\x86\Debug\Cone_0.xml</Key>
-        <Value>2015-01-10T18:29:07.9474329+08:00</Value>
+        <Value>2015-01-11T13:08:44.8373926+08:00</Value>
       </Dependency>
     </Item>
     <Item>
@@ -137,7 +137,7 @@
       <Time>2015-01-08T09:03:54.249294+08:00</Time>
       <Dependency>
         <Key>obj\x86\Debug\SpaceShip_0.xml</Key>
-        <Value>2015-01-10T18:29:08.0745179+08:00</Value>
+        <Value>2015-01-11T13:08:44.9374593+08:00</Value>
       </Dependency>
       <Request>C:\Users\user\Desktop\Singapore Polytechnic\Year 2(Current)\Semester 2(Current)\CSGD\CSGD CA2\GameStateManagementSample\GameStateManagementSample\bin\x86\Debug\Content\Ship_Texmap_0.xnb</Request>
     </Item>
@@ -151,7 +151,7 @@
       <Time>2015-01-10T15:15:46.3590418+08:00</Time>
       <Dependency>
         <Key>obj\x86\Debug\Space_SkyBox_0.xml</Key>
-        <Value>2015-01-10T18:29:09.0651795+08:00</Value>
+        <Value>2015-01-11T13:08:45.5168459+08:00</Value>
       </Dependency>
       <Request>C:\Users\user\Desktop\Singapore Polytechnic\Year 2(Current)\Semester 2(Current)\CSGD\CSGD CA2\GameStateManagementSample\GameStateManagementSample\bin\x86\Debug\Content\Space_Texmap_0.xnb</Request>
     </Item>
@@ -165,7 +165,7 @@
       <Time>2015-01-10T15:54:41.2906624+08:00</Time>
       <Dependency>
         <Key>obj\x86\Debug\Rock_0.xml</Key>
-        <Value>2015-01-10T18:29:12.2062733+08:00</Value>
+        <Value>2015-01-11T13:08:47.2940307+08:00</Value>
       </Dependency>
       <Request>C:\Users\user\Desktop\Singapore Polytechnic\Year 2(Current)\Semester 2(Current)\CSGD\CSGD CA2\GameStateManagementSample\GameStateManagementSample\bin\x86\Debug\Content\Rock_0.xnb</Request>
     </Item>

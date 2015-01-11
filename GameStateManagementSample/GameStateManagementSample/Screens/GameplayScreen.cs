@@ -61,6 +61,7 @@ namespace GameStateManagementSample
         AudioEngine audioEngine;
         SoundBank soundBank;
         WaveBank waveBank;
+        bool musicPlaying = false;
 
         Model rockModel;
         Model skyBoxModel;
@@ -71,6 +72,8 @@ namespace GameStateManagementSample
 
         bool cameraSpringEnabled = true;
         bool camera2SpringEnabled = true;
+
+        
 
         #endregion
 
@@ -166,10 +169,10 @@ namespace GameStateManagementSample
                 cubeModel = content.Load<Model>("cube");
                 bulletModel = content.Load<Model>("Cone");
                 skyBoxModel = content.Load<Model>("Space_SkyBox");
-                audioEngine = new AudioEngine("Content\\Sounds.xgs");
-                soundBank = new SoundBank(audioEngine, "Content\\SoundBank.xsb");
-                waveBank = new WaveBank(audioEngine, "Content\\WaveBank.xwb");
-                
+
+                audioEngine = ScreenManager.AudioEngine;
+                soundBank = ScreenManager.SoundBank;
+                waveBank = ScreenManager.WaveBank;
 
                 FxCue = soundBank.GetCue("ShotFx");
                 //FxCue.Apply3D(shipListen1, shipEmit1);
@@ -341,6 +344,18 @@ namespace GameStateManagementSample
 #endif
                 }
 
+                if (!musicPlaying)
+                {
+                    ScreenManager.MusicCue = soundBank.GetCue("GameMusic");
+                    ScreenManager.MusicCue.Play();
+                    musicPlaying = true;
+                }
+                if (!ScreenManager.MusicCue.IsPlaying)
+                {
+                    musicPlaying = false;
+                    ScreenManager.MusicCue.Stop(AudioStopOptions.Immediate);
+                }
+
                 // Reset the ship on R key or right thumb stick clicked
                 if (currentKeyboardState.IsKeyDown(Keys.R) ||
                     currentGamePadState.Buttons.RightStick == ButtonState.Pressed)
@@ -368,6 +383,18 @@ namespace GameStateManagementSample
                     camera2.Update(gameTime);
                 else
                     camera2.Reset();
+
+                //One of the ships dies
+                if (ship.shipHealth <= 0 || ship2.shipHealth <= 0)
+                {
+                    ScreenManager.MusicCue.Stop(AudioStopOptions.Immediate);
+                    ScreenManager.AudioEngine.Update();
+                    ScreenManager.MainMenu.Stop(AudioStopOptions.Immediate);
+                    ScreenManager.MainMenu = ScreenManager.SoundBank.GetCue("WinMusic");
+                    ScreenManager.MainMenu.Play();
+                    ScreenManager.AddScreen(new GameOverScreen(),PlayerIndex.One);
+                }
+
             }
         }
 

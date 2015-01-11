@@ -18,6 +18,7 @@ using Microsoft.Xna.Framework.Input.Touch;
 using System.IO;
 using System.IO.IsolatedStorage;
 using System.Xml.Linq;
+using Microsoft.Xna.Framework.Audio;
 #endregion
 
 namespace GameStateManagement
@@ -38,7 +39,10 @@ namespace GameStateManagement
         List<GameScreen> tempScreensList = new List<GameScreen>();
 
         InputState input = new InputState();
-        
+
+        AudioEngine audioEngine;
+        SoundBank soundBank;
+        WaveBank waveBank;
 
         SpriteBatch spriteBatch;
         SpriteFont font;
@@ -71,6 +75,24 @@ namespace GameStateManagement
         {
             get { return audioVolume; }
             set { audioVolume = value; }
+        }
+
+        public AudioEngine AudioEngine
+        {
+            get { return audioEngine; }
+            set { audioEngine = value; }
+        }
+
+        public SoundBank SoundBank
+        {
+            get { return soundBank; }
+            set { soundBank= value; }
+        }
+
+        public WaveBank WaveBank
+        {
+            get { return waveBank; }
+            set { waveBank = value; }
         }
 
         /// <summary>
@@ -112,6 +134,18 @@ namespace GameStateManagement
             get { return blankTexture; }
         }
 
+        Cue mainMenu;
+        public Cue MainMenu 
+        {
+            get { return mainMenu; }
+            set { mainMenu = value; }
+        }
+        Cue musicCue;
+        public Cue MusicCue
+        {
+            get { return musicCue; }
+            set { musicCue = value; }
+        }
 
         #endregion
 
@@ -153,6 +187,12 @@ namespace GameStateManagement
             font = content.Load<SpriteFont>("menufont");
             blankTexture = content.Load<Texture2D>("blank");
 
+            audioEngine = new AudioEngine("Content\\Sounds.xgs");
+            soundBank = new SoundBank(audioEngine, "Content\\SoundBank.xsb");
+            waveBank = new WaveBank(audioEngine, "Content\\WaveBank.xwb");
+
+            mainMenu = soundBank.GetCue("MainMenu");
+            mainMenu.Play();
             // Tell each of the screens to load their content.
             foreach (GameScreen screen in screens)
             {

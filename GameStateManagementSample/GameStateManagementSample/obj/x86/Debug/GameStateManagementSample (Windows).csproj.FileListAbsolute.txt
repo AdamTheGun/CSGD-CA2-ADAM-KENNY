@@ -77,6 +77,7 @@ E:\School\GameStateManagementSample\GameStateManagementSample\obj\x86\Debug\Game
 E:\School\GameStateManagementSample\GameStateManagementSample\obj\x86\Debug\Microsoft.Xna.Framework.RuntimeProfile.txt
 E:\School\GameStateManagementSample\GameStateManagementSample\obj\x86\Debug\GameStateManagementSample.exe
 E:\School\GameStateManagementSample\GameStateManagementSample\obj\x86\Debug\GameStateManagementSample.pdb
+<<<<<<< HEAD
 C:\Users\user\Desktop\Singapore Polytechnic\Year 2(Current)\Semester 2(Current)\CSGD\CSGD CA2\GameStateManagementSample\GameStateManagementSample\bin\x86\Debug\Content\background.xnb
 C:\Users\user\Desktop\Singapore Polytechnic\Year 2(Current)\Semester 2(Current)\CSGD\CSGD CA2\GameStateManagementSample\GameStateManagementSample\bin\x86\Debug\Content\blank.xnb
 C:\Users\user\Desktop\Singapore Polytechnic\Year 2(Current)\Semester 2(Current)\CSGD\CSGD CA2\GameStateManagementSample\GameStateManagementSample\bin\x86\Debug\Content\gradient.xnb
@@ -111,3 +112,6 @@ C:\Users\user\Desktop\Singapore Polytechnic\Year 2(Current)\Semester 2(Current)\
 C:\Users\user\Desktop\Singapore Polytechnic\Year 2(Current)\Semester 2(Current)\CSGD\CSGD CA2\GameStateManagementSample\GameStateManagementSample\obj\x86\Debug\Microsoft.Xna.Framework.RuntimeProfile.txt
 C:\Users\user\Desktop\Singapore Polytechnic\Year 2(Current)\Semester 2(Current)\CSGD\CSGD CA2\GameStateManagementSample\GameStateManagementSample\obj\x86\Debug\GameStateManagementSample.exe
 C:\Users\user\Desktop\Singapore Polytechnic\Year 2(Current)\Semester 2(Current)\CSGD\CSGD CA2\GameStateManagementSample\GameStateManagementSample\obj\x86\Debug\GameStateManagementSample.pdb
+=======
+E:\School\GameStateManagementSample\GameStateManagementSample\bin\x86\Debug\Content\greenArrow.xnb
+>>>>>>> 1f8ed015a738c6befde467d5cf93ffcfc9c840f9

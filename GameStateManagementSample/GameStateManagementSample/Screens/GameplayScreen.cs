@@ -52,6 +52,8 @@ namespace GameStateManagementSample
         ChaseCamera camera,camera2;
         Viewport topViewport, bottomViewport;
 
+
+
         Vector3 ship1Pos, ship2Pos;
 
         //AUDIO STUFF
@@ -71,7 +73,7 @@ namespace GameStateManagementSample
         Model groundModel;
         Model cubeModel;
         Model bulletModel;
-
+        
         bool cameraSpringEnabled = true;
         bool camera2SpringEnabled = true;
 
@@ -180,6 +182,11 @@ namespace GameStateManagementSample
                 acSFX = audioEngine.GetCategory("SFX");
                 acMusic = audioEngine.GetCategory("Music");
                 audioEngine.Update();
+
+                //audioEngine = ScreenManager.AudioEngine;
+                //soundBank = ScreenManager.SoundBank;
+                //waveBank = ScreenManager.WaveBank;
+
                 if (ScreenManager.AudioEnabled == true)
                 {
                     acSFX.SetVolume(ScreenManager.SFXVolume);
@@ -202,8 +209,8 @@ namespace GameStateManagementSample
                 ship2Pos = new Vector3(100, 350, 100);
                 
                 // Create ship
-                ship = new Ship(ScreenManager.GraphicsDevice,ship1Pos,soundBank,acSFX,soundBank,shipEmit1,shipEmit2,shipListen1);
-                ship2 = new Ship(ScreenManager.GraphicsDevice, ship2Pos, soundBank, acSFX,soundBank);
+                ship = new Ship(ScreenManager.GraphicsDevice,ship1Pos,soundBank,shipEmit1,shipEmit2,shipListen1);
+                ship2 = new Ship(ScreenManager.GraphicsDevice, ship2Pos, soundBank);
                 //ship2.Position = new Vector3(100, 100, 100);
 
                 UpdateCameraChaseTarget(ship,camera);
@@ -479,11 +486,9 @@ namespace GameStateManagementSample
             ScreenManager.GraphicsDevice.Clear(ClearOptions.Target,
                                                Color.DarkBlue, 0, 0);
 
-            ScreenManager.GraphicsDevice.Viewport = bottomViewport;
-            
-
-            // Our player and enemy are both actually just text strings.
             SpriteBatch spriteBatch = ScreenManager.SpriteBatch;
+
+            ScreenManager.GraphicsDevice.Viewport = bottomViewport;
 
             ScreenManager.GraphicsDevice.BlendState = BlendState.Opaque;
             ScreenManager.GraphicsDevice.DepthStencilState = DepthStencilState.Default;
@@ -493,7 +498,7 @@ namespace GameStateManagementSample
             {
                 if (ship.bullets[i].isAlive)
                 {
-                    DrawModel(bulletModel, Matrix.CreateScale(10) * Matrix.CreateRotationY(MathHelper.ToRadians(90.0f)) * ship.bullets[i].World,camera);
+                    DrawModel(bulletModel, Matrix.CreateScale(10) * Matrix.CreateRotationY(MathHelper.ToRadians(90.0f)) * ship.bullets[i].World, camera);
                 }
             }
             for (int i = 0; i < ship2.bullets.Length; i++)
@@ -555,7 +560,7 @@ namespace GameStateManagementSample
             spriteBatch.Begin();
 
             spriteBatch.DrawString(gameFont, "Health : " + ship.shipHealth, new Vector2(ScreenManager.GraphicsDevice.Viewport.TitleSafeArea.X+50, 40), Color.White);
-            spriteBatch.DrawString(gameFont, "Power  : " + (ship2.bullets.Length-ship2.currentBullet), new Vector2(ScreenManager.GraphicsDevice.Viewport.TitleSafeArea.Width - 200, 40), Color.White);
+            spriteBatch.DrawString(gameFont, "Power  : " + (ship2.bullets.Length - ship2.currentBullet), new Vector2(ScreenManager.GraphicsDevice.Viewport.TitleSafeArea.Width - 200, 40), Color.White);
 
             spriteBatch.End();
 
@@ -566,7 +571,6 @@ namespace GameStateManagementSample
 
                 ScreenManager.FadeBackBufferToBlack(alpha);
             }
-
         }
 
         private void DrawModel(Model model, Matrix world,ChaseCamera camera)

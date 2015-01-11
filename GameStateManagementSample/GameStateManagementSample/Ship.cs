@@ -102,9 +102,9 @@ namespace ChaseCameraSample
 
         Random rand;
 
-        SoundBank shipSounds;
         AudioCategory sfxCategory;
         float sfxVolume;
+        SoundBank shipSounds;
         float pewTimer = 0.0f;
         bool pewBool = false;
 
@@ -122,22 +122,20 @@ namespace ChaseCameraSample
 
         #region Initialization
 
-        public Ship(GraphicsDevice device,Vector3 NewPosition,SoundBank sounds, AudioCategory sfx,SoundBank Soundbank,
-            AudioEmitter Ship1Emit = null,AudioEmitter Ship2Emit = null,AudioListener ShipListener = null)
+        public Ship(GraphicsDevice device, Vector3 NewPosition, SoundBank sounds, 
+            AudioEmitter Ship1Emit = null, AudioEmitter Ship2Emit = null, AudioListener ShipListener = null)
         {
             shipSounds = sounds;
-            sfxCategory = sfx;
-            //sfxVolume = volume;
-            soundBank = Soundbank;
             graphicsDevice = device;
             Reset(NewPosition);
+
             currentBullet = 0;
             for (int i = 0; i < bullets.Length; i++)
             {
                 bullets[i] = new ShipBullet(device, Position);
             }
             rand = new Random();
-            shootCue = soundBank.GetCue("ShotFx");
+            shootCue = sounds.GetCue("ShotFx");
             shipEmit1 = Ship1Emit;
             shipEmit2 = Ship2Emit;
             shipListener = ShipListener;
@@ -304,10 +302,9 @@ namespace ChaseCameraSample
                         {
                             if (!shootCue.IsPlaying)
                             {
-                                //sfxCategory.SetVolume(sfxVolume);
-
-                                shootCue = soundBank.GetCue("ShotFx");
+                                shootCue = shipSounds.GetCue("ShotFx");
                                 shootCue.Play();
+                                //shipSounds.GetCue("ShotFx").Play();
                                 pewBool = true;
                             }
                         }
@@ -326,10 +323,9 @@ namespace ChaseCameraSample
                         {
                             if (!shootCue.IsPlaying)
                             {
-                               // sfxCategory.SetVolume(sfxVolume);
-
                                 shootCue = soundBank.GetCue("ShotFx");
                                 shootCue.Play();
+                                //shipSounds.GetCue("ShotFx").Play();
                                 pewBool = true;
                             }
                         }
@@ -348,7 +344,7 @@ namespace ChaseCameraSample
                 {
                     pewTimer = 0.0f;
                     pewBool = false; 
-                    shootCue = soundBank.GetCue("ShotFx");
+                    shootCue = shipSounds.GetCue("ShotFx");
                     shootCue.Stop(AudioStopOptions.Immediate);
 
                     if (shipListener != null)

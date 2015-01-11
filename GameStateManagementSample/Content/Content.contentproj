@@ -147,8 +147,13 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+<<<<<<< .merge_file_a02260
     <Compile Include="360_Controls.png">
       <Name>360_Controls</Name>
+=======
+    <Compile Include="greenArrow.png">
+      <Name>greenArrow</Name>
+>>>>>>> .merge_file_a06836
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

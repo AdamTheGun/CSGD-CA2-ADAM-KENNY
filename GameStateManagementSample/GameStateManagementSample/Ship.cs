@@ -103,8 +103,6 @@ namespace ChaseCameraSample
         Random rand;
 
         SoundBank shipSounds;
-        AudioCategory sfxCategory;
-        float sfxVolume;
         float pewTimer = 0.0f;
         bool pewBool = false;
 
@@ -117,11 +115,9 @@ namespace ChaseCameraSample
 
         #region Initialization
 
-        public Ship(GraphicsDevice device,Vector3 NewPosition,SoundBank sounds, AudioCategory sfx, float volume)
+        public Ship(GraphicsDevice device,Vector3 NewPosition,SoundBank sounds)
         {
             shipSounds = sounds;
-            sfxCategory = sfx;
-            sfxVolume = volume;
             graphicsDevice = device;
             Reset(NewPosition);
             currentBullet = 0;
@@ -289,7 +285,6 @@ namespace ChaseCameraSample
                         {
                             if (!shipSounds.GetCue("ShotFx").IsPlaying)
                             {
-                                sfxCategory.SetVolume(sfxVolume);
                                 shipSounds.GetCue("ShotFx").Play();
                                 pewBool = true;
                             }
@@ -309,7 +304,6 @@ namespace ChaseCameraSample
                         {
                             if (!shipSounds.GetCue("ShotFx").IsPlaying)
                             {
-                                sfxCategory.SetVolume(sfxVolume);
                                 shipSounds.GetCue("ShotFx").Play();
                                 pewBool = true;
                             }

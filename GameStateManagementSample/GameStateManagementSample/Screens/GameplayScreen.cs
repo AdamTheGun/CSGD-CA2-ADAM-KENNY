@@ -52,6 +52,8 @@ namespace GameStateManagementSample
         ChaseCamera camera,camera2;
         Viewport topViewport, bottomViewport;
 
+
+
         Vector3 ship1Pos, ship2Pos;
 
         //AUDIO STUFF
@@ -61,12 +63,9 @@ namespace GameStateManagementSample
         AudioEngine audioEngine;
         SoundBank soundBank;
         WaveBank waveBank;
-<<<<<<< HEAD
         AudioCategory acSFX;
         AudioCategory acMusic;
-=======
         bool musicPlaying = false;
->>>>>>> origin/master
 
         Model rockModel;
         Model skyBoxModel;
@@ -74,7 +73,7 @@ namespace GameStateManagementSample
         Model groundModel;
         Model cubeModel;
         Model bulletModel;
-
+        
         bool cameraSpringEnabled = true;
         bool camera2SpringEnabled = true;
 
@@ -174,12 +173,15 @@ namespace GameStateManagementSample
                 cubeModel = content.Load<Model>("cube");
                 bulletModel = content.Load<Model>("Cone");
                 skyBoxModel = content.Load<Model>("Space_SkyBox");
-<<<<<<< HEAD
                 audioEngine = new AudioEngine("Content\\Sounds.xgs");
                 soundBank = new SoundBank(audioEngine, "Content\\SoundBank.xsb");
                 waveBank = new WaveBank(audioEngine, "Content\\WaveBank.xwb");
                 acSFX = audioEngine.GetCategory("SFX");
                 acMusic = audioEngine.GetCategory("Music");
+
+                //audioEngine = ScreenManager.AudioEngine;
+                //soundBank = ScreenManager.SoundBank;
+                //waveBank = ScreenManager.WaveBank;
 
                 if (ScreenManager.AudioEnabled == true)
                 {
@@ -191,12 +193,6 @@ namespace GameStateManagementSample
                     acSFX.SetVolume(0);
                     acMusic.SetVolume(0);
                 }
-=======
-
-                audioEngine = ScreenManager.AudioEngine;
-                soundBank = ScreenManager.SoundBank;
-                waveBank = ScreenManager.WaveBank;
->>>>>>> origin/master
 
                 FxCue = soundBank.GetCue("ShotFx");
                 //FxCue.Apply3D(shipListen1, shipEmit1);
@@ -478,11 +474,9 @@ namespace GameStateManagementSample
             ScreenManager.GraphicsDevice.Clear(ClearOptions.Target,
                                                Color.DarkBlue, 0, 0);
 
-            ScreenManager.GraphicsDevice.Viewport = bottomViewport;
-            
-
-            // Our player and enemy are both actually just text strings.
             SpriteBatch spriteBatch = ScreenManager.SpriteBatch;
+
+            ScreenManager.GraphicsDevice.Viewport = bottomViewport;
 
             ScreenManager.GraphicsDevice.BlendState = BlendState.Opaque;
             ScreenManager.GraphicsDevice.DepthStencilState = DepthStencilState.Default;
@@ -492,7 +486,7 @@ namespace GameStateManagementSample
             {
                 if (ship.bullets[i].isAlive)
                 {
-                    DrawModel(bulletModel, Matrix.CreateScale(10) * Matrix.CreateRotationY(MathHelper.ToRadians(90.0f)) * ship.bullets[i].World,camera);
+                    DrawModel(bulletModel, Matrix.CreateScale(10) * Matrix.CreateRotationY(MathHelper.ToRadians(90.0f)) * ship.bullets[i].World, camera);
                 }
             }
             for (int i = 0; i < ship2.bullets.Length; i++)
@@ -554,7 +548,7 @@ namespace GameStateManagementSample
             spriteBatch.Begin();
 
             spriteBatch.DrawString(gameFont, "Health : " + ship.shipHealth, new Vector2(ScreenManager.GraphicsDevice.Viewport.TitleSafeArea.X+50, 40), Color.White);
-            spriteBatch.DrawString(gameFont, "Power  : " + (ship2.bullets.Length-ship2.currentBullet), new Vector2(ScreenManager.GraphicsDevice.Viewport.TitleSafeArea.Width - 200, 40), Color.White);
+            spriteBatch.DrawString(gameFont, "Power  : " + (ship2.bullets.Length - ship2.currentBullet), new Vector2(ScreenManager.GraphicsDevice.Viewport.TitleSafeArea.Width - 200, 40), Color.White);
 
             spriteBatch.End();
 
@@ -565,7 +559,6 @@ namespace GameStateManagementSample
 
                 ScreenManager.FadeBackBufferToBlack(alpha);
             }
-
         }
 
         private void DrawModel(Model model, Matrix world,ChaseCamera camera)

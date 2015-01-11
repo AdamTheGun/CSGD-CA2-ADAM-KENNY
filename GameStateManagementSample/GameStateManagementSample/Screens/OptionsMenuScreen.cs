@@ -80,8 +80,8 @@ namespace GameStateManagementSample
             else
                 enableAudioMenuEntry.Text = "Audio: Off";
 
-            audioVolumeMenuEntry.Text = "Volume: " + (int)(ScreenManager.AudioVolume * 10);
-            soundEffectVolumeEntry.Text = "Volume: " + (int)(ScreenManager.SFXVolume * 10);
+            audioVolumeMenuEntry.Text = "Music Volume: " + (int)(ScreenManager.AudioVolume * 10);
+            soundEffectVolumeEntry.Text = "SFX Volume: " + (int)(ScreenManager.SFXVolume * 10);
 
             if (ScreenManager.ScreenHorizontal == true)
                 splitScreenMenuEntry.Text = "Split Screens Orientation: Horizontal";

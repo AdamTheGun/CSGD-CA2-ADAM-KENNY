@@ -43,6 +43,7 @@ namespace GameStateManagement
         AudioEngine audioEngine;
         SoundBank soundBank;
         WaveBank waveBank;
+        AudioCategory musicCategory;
 
         SpriteBatch spriteBatch;
         SpriteFont font;
@@ -197,6 +198,7 @@ namespace GameStateManagement
             audioEngine = new AudioEngine("Content\\Sounds.xgs");
             soundBank = new SoundBank(audioEngine, "Content\\SoundBank.xsb");
             waveBank = new WaveBank(audioEngine, "Content\\WaveBank.xwb");
+            musicCategory = audioEngine.GetCategory("Music");
 
             mainMenu = soundBank.GetCue("MainMenu");
             mainMenu.Play();
@@ -273,6 +275,11 @@ namespace GameStateManagement
                         coveredByOtherScreen = true;
                 }
             }
+
+            if (audioEnabled == true)
+                musicCategory.SetVolume(audioVolume);
+            else
+                musicCategory.SetVolume(0);
 
             // Print debug trace?
             if (traceEnabled)

@@ -52,8 +52,10 @@ namespace GameStateManagementSample
         ChaseCamera camera,camera2;
         Viewport topViewport, bottomViewport;
 
-        EnvironmentMapEffect envEffect;
-        TextureCube texture;
+        EnvironmentMapEffect envEffect1;
+        EnvironmentMapEffect envEffect2;
+        TextureCube textureCube1;
+        TextureCube textureCube2;
 
         Vector3 ship1Pos, ship2Pos;
 
@@ -70,13 +72,17 @@ namespace GameStateManagementSample
 
         Model rockModel;
         Model skyBoxModel;
-        Model shipModel;
+        Model shipModel,shipModel2;
         Model groundModel;
         Model cubeModel;
         Model bulletModel;
+
+        Vector3[] rockPos = new Vector3[100];
         
         bool cameraSpringEnabled = true;
         bool camera2SpringEnabled = true;
+
+        
 
         #endregion
 
@@ -167,36 +173,59 @@ namespace GameStateManagementSample
 
                 gameFont = content.Load<SpriteFont>("gamefont");
                 rockModel = content.Load<Model>("Rock");
-                shipModel = content.Load<Model>("SpaceShip");
+                shipModel = content.Load<Model>("SpaceShip1");
+                shipModel2 = content.Load<Model>("SpaceShip2");
                 groundModel = content.Load<Model>("Ground");
                 cubeModel = content.Load<Model>("cube");
                 bulletModel = content.Load<Model>("Cone");
                 skyBoxModel = content.Load<Model>("Space_SkyBox");
-                audioEngine = new AudioEngine("Content\\Sounds.xgs");
-                soundBank = new SoundBank(audioEngine, "Content\\SoundBank.xsb");
-                waveBank = new WaveBank(audioEngine, "Content\\WaveBank.xwb");
+                audioEngine = ScreenManager.AudioEngine;
+                soundBank = ScreenManager.SoundBank;
+                waveBank = ScreenManager.WaveBank;
                 acSFX = audioEngine.GetCategory("SFX");
                 acMusic = audioEngine.GetCategory("Music");
 
-                envEffect = new EnvironmentMapEffect(ScreenManager.GraphicsDevice);
-                envEffect.Projection = Matrix.CreatePerspectiveFieldOfView(
+                // Environmental Map Effect for Player 1
+                envEffect1 = new EnvironmentMapEffect(ScreenManager.GraphicsDevice);
+                envEffect1.Projection = Matrix.CreatePerspectiveFieldOfView(
                     MathHelper.PiOver4, ScreenManager.GraphicsDevice.Viewport.AspectRatio, 1.0f, 100.0f);
-                envEffect.View = Matrix.CreateLookAt(
+                envEffect1.View = Matrix.CreateLookAt(
                     new Vector3(2, 3, 32), Vector3.Zero, Vector3.Up);
-                texture = new TextureCube(ScreenManager.GraphicsDevice, 256, false, SurfaceFormat.Color);
-                Color[] facedata = new Color[256 * 256];
+                textureCube1 = new TextureCube(ScreenManager.GraphicsDevice, 256, false, SurfaceFormat.Color);
+                Color[] facedata1 = new Color[256 * 256];
                 for (int i = 0; i < 6; i++)
                 {
-                    envEffect.Texture = content.Load<Texture2D>("skybox" + i.ToString());
-                    envEffect.Texture.GetData<Color>(facedata);
-                    texture.SetData<Color>((CubeMapFace)i, facedata);
+                    envEffect1.Texture = content.Load<Texture2D>("skybox" + i.ToString());
+                    envEffect1.Texture.GetData<Color>(facedata1);
+                    textureCube1.SetData<Color>((CubeMapFace)i, facedata1);
                 }
-                envEffect.Texture = (shipModel.Meshes[0].Effects[0] as BasicEffect).Texture;
-                envEffect.EnvironmentMap = texture;
-                envEffect.EnableDefaultLighting();
-                envEffect.EnvironmentMapAmount = 1.0f;
-                envEffect.FresnelFactor = 1.0f;
-                envEffect.EnvironmentMapSpecular = Vector3.Zero;
+                envEffect1.Texture = (shipModel.Meshes[0].Effects[0] as EnvironmentMapEffect).Texture;
+                envEffect1.EnvironmentMap = textureCube1;
+                envEffect1.EnableDefaultLighting();
+                envEffect1.EnvironmentMapAmount = 1.0f;
+                envEffect1.FresnelFactor = 1.0f;
+                envEffect1.EnvironmentMapSpecular = Vector3.Zero;
+
+                // Environmental Map Effect for Player 2
+                envEffect2 = new EnvironmentMapEffect(ScreenManager.GraphicsDevice);
+                envEffect2.Projection = Matrix.CreatePerspectiveFieldOfView(
+                    MathHelper.PiOver4, ScreenManager.GraphicsDevice.Viewport.AspectRatio, 1.0f, 100.0f);
+                envEffect2.View = Matrix.CreateLookAt(
+                    new Vector3(2, 3, 32), Vector3.Zero, Vector3.Up);
+                textureCube2 = new TextureCube(ScreenManager.GraphicsDevice, 256, false, SurfaceFormat.Color);
+                Color[] facedata2 = new Color[256 * 256];
+                for (int i = 0; i < 6; i++)
+                {
+                    envEffect2.Texture = content.Load<Texture2D>("skybox" + i.ToString());
+                    envEffect2.Texture.GetData<Color>(facedata2);
+                    textureCube2.SetData<Color>((CubeMapFace)i, facedata2);
+                }
+                envEffect2.Texture = (shipModel2.Meshes[0].Effects[0] as EnvironmentMapEffect).Texture;
+                envEffect2.EnvironmentMap = textureCube2;
+                envEffect2.EnableDefaultLighting();
+                envEffect2.EnvironmentMapAmount = 1.0f;
+                envEffect2.FresnelFactor = 1.0f;
+                envEffect2.EnvironmentMapSpecular = Vector3.Zero;
 
                 //audioEngine = ScreenManager.AudioEngine;
                 //soundBank = ScreenManager.SoundBank;
@@ -204,8 +233,8 @@ namespace GameStateManagementSample
 
                 if (ScreenManager.AudioEnabled == true)
                 {
-                    acSFX.SetVolume(ScreenManager.SFXVolume/10);
-                    acMusic.SetVolume(ScreenManager.AudioVolume/10);
+                    acSFX.SetVolume(ScreenManager.SFXVolume);
+                    acMusic.SetVolume(ScreenManager.AudioVolume);
                 }
                 else
                 {
@@ -219,10 +248,12 @@ namespace GameStateManagementSample
                 ship1Pos = new Vector3(10000,350,10000);
                 ship2Pos = new Vector3(100, 350, 100);
 
-                // Create ship
+                // Create shiplllllllllllllllllllllllllllll
                 ship = new Ship(ScreenManager.GraphicsDevice,ship1Pos,soundBank);
                 ship2 = new Ship(ScreenManager.GraphicsDevice,ship2Pos,soundBank);
                 //ship2.Position = new Vector3(100, 100, 100);
+
+                RandomRockSpawner();
 
                 UpdateCameraChaseTarget(ship,camera);
                 UpdateCameraChaseTarget(ship2,camera2);
@@ -248,6 +279,44 @@ namespace GameStateManagementSample
                 enemyPosition = (Vector2)Microsoft.Phone.Shell.PhoneApplicationService.Current.State["EnemyPosition"];
             }
 #endif
+        }
+
+        private void RandomRockSpawner()
+        {
+            for (int i = 0; i < rockPos.Length; i++)
+            {
+                float randX = random.Next(-500000, 500000);
+                float randY = random.Next(-500000, 500000);
+                float randZ = random.Next(-500000, 500000);
+
+                if (randX >= ship.Position.X - 500 && randX <= ship.Position.X)
+                    randX -= 500;
+                else if (randX >= ship.Position.X && randX <= ship.Position.X + 500)
+                    randX += 500;
+
+                if (randY >= ship.Position.Y - 500 && randY <= ship.Position.Y)
+                    randY -= 500;
+                else if (randY >= ship.Position.Y && randY <= ship.Position.Y + 500)
+                    randY += 500;
+
+                if (randZ >= ship.Position.Z - 500 && randZ <= ship.Position.Z)
+                    randZ -= 500;
+                else if (randZ >= ship.Position.Z && randZ <= ship.Position.Z + 500)
+                    randZ += 500;
+
+                if ((randX >= ship.Position.X - 500 && randX <= ship.Position.X) && (randY >= ship.Position.Y - 500 && randY <= ship.Position.Y) && (randZ >= ship.Position.Z - 500 && randZ <= ship.Position.Z) ||
+                    (randX >= ship2.Position.X - 500 && randX <= ship2.Position.X) && (randY >= ship2.Position.Y - 500 && randY <= ship2.Position.Y) && (randZ >= ship2.Position.Z - 500 && randZ <= ship2.Position.Z))
+                {
+                    randX -= 500;
+                }
+                else if ((randX >= ship.Position.X + 500 && randX <= ship.Position.X) && (randY >= ship.Position.Y + 500 && randY <= ship.Position.Y) && (randZ >= ship.Position.Z + 500 && randZ <= ship.Position.Z) ||
+                        (randX >= ship2.Position.X + 500 && randX <= ship2.Position.X) && (randY >= ship2.Position.Y + 500 && randY <= ship2.Position.Y) && (randZ >= ship2.Position.Z + 500 && randZ <= ship2.Position.Z))
+                {
+                    randX += 500;
+                }
+
+                rockPos[i] = new Vector3(randX, randY, randZ);
+            }
         }
 
         public override void Deactivate()
@@ -466,6 +535,7 @@ namespace GameStateManagementSample
 #if WINDOWS_PHONE
                 ScreenManager.AddScreen(new PhonePauseScreen(), ControllingPlayer);
 #else
+                
                 ScreenManager.AddScreen(new PauseMenuScreen(), ControllingPlayer);
 #endif
             }
@@ -514,17 +584,44 @@ namespace GameStateManagementSample
                     DrawModel(bulletModel, Matrix.CreateScale(10) * Matrix.CreateRotationY(MathHelper.ToRadians(90.0f)) * ship2.bullets[i].World, camera);
                 }
             }
-            DrawModel(shipModel, Matrix.CreateRotationY(MathHelper.ToRadians(-90.0f)) * Matrix.CreateScale(10) * ship.World, camera);
-            DrawModel(shipModel, Matrix.CreateRotationY(MathHelper.ToRadians(-90.0f)) * Matrix.CreateScale(10) * ship2.World, camera);
+            if (ScreenManager.shipChosenbool2 == false)         
+            {
+                DrawModel(shipModel2, Matrix.CreateRotationY(MathHelper.ToRadians(-90.0f)) * Matrix.CreateRotationZ(MathHelper.ToRadians(-90.0f)) * Matrix.CreateScale(25) * ship2.World, envEffect2, camera);
+                if (ScreenManager.shipChosenbool1 == false)
+                {
+                    DrawModel(shipModel2, Matrix.CreateRotationY(MathHelper.ToRadians(-90.0f)) * Matrix.CreateRotationZ(MathHelper.ToRadians(-90.0f)) * Matrix.CreateScale(25) * ship.World, envEffect2, camera);
+                }
+                if (ScreenManager.shipChosenbool1 == true)
+                {
+                    DrawModel(shipModel, Matrix.CreateRotationY(MathHelper.ToRadians(-90.0f)) * Matrix.CreateRotationZ(MathHelper.ToRadians(-90.0f)) * Matrix.CreateScale(25) * ship.World, envEffect1, camera);
+                }
+            }
+            else if (ScreenManager.shipChosenbool2 == true)
+            {
+                DrawModel(shipModel, Matrix.CreateRotationY(MathHelper.ToRadians(-90.0f)) * Matrix.CreateRotationZ(MathHelper.ToRadians(-90.0f)) * Matrix.CreateScale(25) * ship2.World, envEffect1, camera);
+                if (ScreenManager.shipChosenbool1 == false)
+                {
+                    DrawModel(shipModel2, Matrix.CreateRotationY(MathHelper.ToRadians(-90.0f)) * Matrix.CreateRotationZ(MathHelper.ToRadians(-90.0f)) * Matrix.CreateScale(25) * ship.World, envEffect2, camera);
+                }
+                if (ScreenManager.shipChosenbool1 == true)
+                {
+                    DrawModel(shipModel, Matrix.CreateRotationY(MathHelper.ToRadians(-90.0f)) * Matrix.CreateRotationZ(MathHelper.ToRadians(-90.0f)) * Matrix.CreateScale(25) * ship.World, envEffect1, camera);
+                }
+
+            }
+            //DrawModel(shipModel, Matrix.CreateRotationY(MathHelper.ToRadians(-90.0f)) * Matrix.CreateScale(10) * ship2.World, camera);
             DrawModel(skyBoxModel, Matrix.CreateScale(10000) * Matrix.Identity, camera);
-            DrawModel(rockModel, Matrix.CreateScale(100) * Matrix.Identity, camera);
+            for (int i = 0; i < rockPos.Length; i++)
+            {
+                DrawModel(rockModel, Matrix.CreateScale(100) * Matrix.CreateTranslation(rockPos[i]), camera);
+            }
             // DrawModel(groundModel, Matrix.Identity, camera);
             //DrawModel(shipModel, Matrix.CreateTranslation(50, 50, 100) * Matrix.CreateScale(10));
 
             spriteBatch.Begin();
 
             spriteBatch.DrawString(gameFont, "Health : " + ship2.shipHealth, new Vector2(ScreenManager.GraphicsDevice.Viewport.TitleSafeArea.X + 50, 40), Color.White);
-            spriteBatch.DrawString(gameFont, "Power  : " + (ship.bullets.Length - ship.currentBullet), new Vector2(ScreenManager.GraphicsDevice.Viewport.TitleSafeArea.Width - 200, 40), Color.White);
+            //DrawString(gameFont, "Power  : " + (ship.bullets.Length - ship.currentBullet), new Vector2(ScreenManager.GraphicsDevice.Viewport.TitleSafeArea.Width - 200, 40), Color.White);
 
             spriteBatch.End();
 
@@ -556,19 +653,46 @@ namespace GameStateManagementSample
                     DrawModel(bulletModel, Matrix.CreateScale(10) * Matrix.CreateRotationY(MathHelper.ToRadians(90.0f)) * ship2.bullets[i].World, camera2);
                 }
             }
-            DrawModel(shipModel, Matrix.CreateRotationY(MathHelper.ToRadians(-90.0f)) * Matrix.CreateScale(10) * ship.World, envEffect);
-            DrawModel(shipModel, Matrix.CreateRotationY(MathHelper.ToRadians(-90.0f)) * Matrix.CreateScale(10) * ship2.World, envEffect);
+            if (ScreenManager.shipChosenbool1 == false)
+            {
+                DrawModel(shipModel2, Matrix.CreateRotationY(MathHelper.ToRadians(-90.0f)) * Matrix.CreateRotationZ(MathHelper.ToRadians(-90.0f)) * Matrix.CreateScale(25) * ship.World, envEffect2, camera2);
+                if (ScreenManager.shipChosenbool2 == true)
+                {
+                    DrawModel(shipModel, Matrix.CreateRotationY(MathHelper.ToRadians(-90.0f)) * Matrix.CreateRotationZ(MathHelper.ToRadians(-90.0f)) * Matrix.CreateScale(25) * ship2.World, envEffect1, camera2);
+                }
+                if (ScreenManager.shipChosenbool2 == false)
+                {
+                    DrawModel(shipModel2, Matrix.CreateRotationY(MathHelper.ToRadians(-90.0f)) * Matrix.CreateRotationZ(MathHelper.ToRadians(-90.0f)) * Matrix.CreateScale(25) * ship2.World, envEffect2, camera2);
+                }
+            }
+            else if (ScreenManager.shipChosenbool1 == true)
+            {
+                DrawModel(shipModel, Matrix.CreateRotationY(MathHelper.ToRadians(-90.0f)) * Matrix.CreateRotationZ(MathHelper.ToRadians(-90.0f)) * Matrix.CreateScale(25) * ship.World, envEffect1, camera2);
+                if (ScreenManager.shipChosenbool2 == true)
+                {
+                    DrawModel(shipModel, Matrix.CreateRotationY(MathHelper.ToRadians(-90.0f)) * Matrix.CreateRotationZ(MathHelper.ToRadians(-90.0f)) * Matrix.CreateScale(25) * ship2.World, envEffect1, camera2);
+                }
+                if (ScreenManager.shipChosenbool2 == false)
+                {
+                    DrawModel(shipModel2, Matrix.CreateRotationY(MathHelper.ToRadians(-90.0f)) * Matrix.CreateRotationZ(MathHelper.ToRadians(-90.0f)) * Matrix.CreateScale(25) * ship2.World, envEffect2, camera2);
+                }
+            }
             DrawModel(skyBoxModel, Matrix.CreateScale(10000) * Matrix.Identity, camera2);
-            DrawModel(rockModel, Matrix.CreateScale(100) * Matrix.Identity, camera2);
+            for (int i = 0; i < rockPos.Length; i++)
+            {
+                DrawModel(rockModel, Matrix.CreateScale(100) * Matrix.CreateTranslation(rockPos[i]), camera2);
+            }
             //DrawModel(groundModel, Matrix.Identity, camera2);
             //DrawModel(shipModel, Matrix.CreateTranslation(50, 50, 100) * Matrix.CreateScale(10));
 
             spriteBatch.Begin();
 
             spriteBatch.DrawString(gameFont, "Health : " + ship.shipHealth, new Vector2(ScreenManager.GraphicsDevice.Viewport.TitleSafeArea.X+50, 40), Color.White);
-            spriteBatch.DrawString(gameFont, "Power  : " + (ship2.bullets.Length - ship2.currentBullet), new Vector2(ScreenManager.GraphicsDevice.Viewport.TitleSafeArea.Width - 200, 40), Color.White);
+            //spriteBatch.DrawString(gameFont, "Power  : " + (ship2.bullets.Length - ship2.currentBullet), new Vector2(ScreenManager.GraphicsDevice.Viewport.TitleSafeArea.Width - 200, 40), Color.White);
 
             spriteBatch.End();
+
+            ScreenManager.GraphicsDevice.Viewport = ScreenManager.OriginalViewport;
 
             // If the game is transitioning on or off, fade it out to black.
             if (TransitionPosition > 0 || pauseAlpha > 0)
@@ -579,34 +703,14 @@ namespace GameStateManagementSample
             }
         }
 
-        private void DrawModel(Model m, Matrix world, EnvironmentMapEffect be)
+        private void DrawModel(Model m, Matrix world, EnvironmentMapEffect be, ChaseCamera camera)
         {
-            Matrix[] transforms = new Matrix[m.Bones.Count];
-            m.CopyAbsoluteBoneTransformsTo(transforms);
-
-            foreach (ModelMesh mesh in m.Meshes)
-            {
-                foreach (BasicEffect effect in mesh.Effects)
-                {
-                    //effect.SpecularColor = Color.WhiteSmoke.ToVector3();
-                    //effect.SpecularPower = 100.0f;
-                    //effect.FogEnabled = true;
-                    //effect.FogColor = Color.White.ToVector3();
-                    //effect.FogStart = 40000.0f;
-                    //effect.FogEnd = 1000000.0f;
-                    effect.EnableDefaultLighting();
-                    effect.World = transforms[mesh.ParentBone.Index] * world;
-                    // Use the matrices provided by the chase camera
-                    effect.View = camera.View;
-                    effect.Projection = camera.Projection;
-                }
-                mesh.Draw();
-            }
-
             foreach (ModelMesh mm in m.Meshes)
             {
                 foreach (ModelMeshPart mmp in mm.MeshParts)
                 {
+                    be.View = camera.View;
+                    be.Projection = camera.Projection;
                     be.World = world;
                     ScreenManager.GraphicsDevice.SetVertexBuffer(mmp.VertexBuffer, mmp.VertexOffset);
                     ScreenManager.GraphicsDevice.Indices = mmp.IndexBuffer;
@@ -628,10 +732,10 @@ namespace GameStateManagementSample
                 foreach (BasicEffect effect in mesh.Effects)
                 {
                     //effect.SpecularColor = Color.WhiteSmoke.ToVector3();
-                    //effect.SpecularPower = 100.0f;
+                    ///effect.SpecularPower = 100.0f;
                     //effect.FogEnabled = true;
                     //effect.FogColor = Color.White.ToVector3();
-                    //effect.FogStart = 40000.0f;
+                    //effect.FogStart = 999999.0f;
                     //effect.FogEnd = 1000000.0f;
                     effect.EnableDefaultLighting();
                     effect.World = transforms[mesh.ParentBone.Index] * world;

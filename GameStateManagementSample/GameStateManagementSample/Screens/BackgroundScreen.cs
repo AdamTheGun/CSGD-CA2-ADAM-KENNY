@@ -27,7 +27,12 @@ namespace GameStateManagementSample
         #region Fields
 
         ContentManager content;
+        Texture2D background;
         Texture2D backgroundTexture;
+        Texture2D controlsBackground;
+        Texture2D creditsBackground;
+        Texture2D Ship1Background;
+        Texture2D Ship2Background;
 
         #endregion
 
@@ -58,7 +63,12 @@ namespace GameStateManagementSample
                 if (content == null)
                     content = new ContentManager(ScreenManager.Game.Services, "Content");
 
-                backgroundTexture = content.Load<Texture2D>("background");
+                background = content.Load<Texture2D>("MainMenuScreen");
+                backgroundTexture = background;
+                Ship1Background = content.Load<Texture2D>("Ship1Screen");
+                Ship2Background = content.Load<Texture2D>("Ship2Screen");
+                creditsBackground = content.Load<Texture2D>("CREDITS");
+                //controlsBackground = content.Load<Texture2D>("360_Controls");
             }
         }
 
@@ -87,6 +97,45 @@ namespace GameStateManagementSample
         public override void Update(GameTime gameTime, bool otherScreenHasFocus,
                                                        bool coveredByOtherScreen)
         {
+            if (ScreenManager.ScreenInCounter == 0)
+            {
+                backgroundTexture = background;
+            }
+
+            else if (ScreenManager.ScreenInCounter == 3)
+            {
+                //Change to Controls Screen Image
+            }
+            else if (ScreenManager.ScreenInCounter == 4)
+            {
+                backgroundTexture = creditsBackground;
+            }
+            else if (ScreenManager.ScreenInCounter == 1) 
+            {
+                if (ScreenManager.CurrentShipChoosing == 1)
+                {
+                    if (ScreenManager.shipChosenbool1 == true)
+                    {
+                        backgroundTexture = Ship1Background;
+                    }
+                    else
+                    {
+                        backgroundTexture = Ship2Background;
+                    }
+                }
+                
+            }
+            else if (ScreenManager.CurrentShipChoosing == 2)
+            {
+                if (ScreenManager.shipChosenbool2 == true)
+                {
+                    backgroundTexture = Ship1Background;
+                }
+                else
+                {
+                    backgroundTexture = Ship2Background;
+                }
+            }
             base.Update(gameTime, otherScreenHasFocus, false);
         }
 

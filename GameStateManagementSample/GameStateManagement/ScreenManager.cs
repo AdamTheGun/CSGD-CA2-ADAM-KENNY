@@ -121,6 +121,31 @@ namespace GameStateManagement
             get { return font; }
         }
 
+        int screenInCounter;
+        public int ScreenInCounter
+        {
+            get { return screenInCounter; }
+            set { screenInCounter = value; }
+        }
+
+        bool shipchosenBool1;
+        public bool shipChosenbool1
+        {
+            get { return shipchosenBool1; }
+            set { shipchosenBool1 = value; }
+        }
+        bool shipchosenBool2;
+        public bool shipChosenbool2
+        {
+            get { return shipchosenBool2; }
+            set { shipchosenBool2 = value; }
+        }
+        int currentShipChoosing;
+        public int CurrentShipChoosing
+        {
+            get { return currentShipChoosing; }
+            set { currentShipChoosing = value; }
+        }
 
         /// <summary>
         /// If true, the manager prints out a list of all the screens
@@ -132,6 +157,15 @@ namespace GameStateManagement
             get { return traceEnabled; }
             set { traceEnabled = value; }
         }
+
+
+        Viewport originalViewport;
+        public Viewport OriginalViewport
+        {
+            get { return originalViewport; }
+            set { originalViewport = value; }
+        }
+
 
 
         /// <summary>
@@ -194,12 +228,20 @@ namespace GameStateManagement
             spriteBatch = new SpriteBatch(GraphicsDevice);
             font = content.Load<SpriteFont>("menufont");
             blankTexture = content.Load<Texture2D>("blank");
-
+            screenInCounter = 0;
+            originalViewport = GraphicsDevice.Viewport;
             audioEngine = new AudioEngine("Content\\Sounds.xgs");
             soundBank = new SoundBank(audioEngine, "Content\\SoundBank.xsb");
-            waveBank = new WaveBank(audioEngine, "Content\\WaveBank.xwb");
+            waveBank = new WaveBank(audioEngine, "Content\\WaveBank.xwb",0,64);
+            while(!waveBank.IsPrepared)
+            {
+                 audioEngine.Update();
+            }
             musicCategory = audioEngine.GetCategory("Music");
-
+            musicCategory.SetVolume(1);
+            shipchosenBool1 = false;
+            shipchosenBool2 = false;
+            currentShipChoosing = 1;
             mainMenu = soundBank.GetCue("MainMenu");
             mainMenu.Play();
             // Tell each of the screens to load their content.

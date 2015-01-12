@@ -106,7 +106,7 @@ namespace GameStateManagementSample
             ScreenManager.AudioVolume += 0.1f;
 
             if (ScreenManager.AudioVolume >= 1.1f)
-                ScreenManager.AudioVolume = 0.1f;
+                ScreenManager.AudioVolume = 0.0f;
 
             SetMenuEntryText();
         }
@@ -116,7 +116,7 @@ namespace GameStateManagementSample
             ScreenManager.SFXVolume += 0.1f;
 
             if (ScreenManager.SFXVolume >= 1.1f)
-                ScreenManager.SFXVolume = 0.1f;
+                ScreenManager.SFXVolume = 0.0f;
 
             SetMenuEntryText();
         }

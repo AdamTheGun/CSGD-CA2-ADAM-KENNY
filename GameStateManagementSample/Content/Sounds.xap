@@ -258,10 +258,13 @@ Wave Bank
     Windows File = Win\WaveBank.xwb;
     Xbox Bank Path Edited = 0;
     Windows Bank Path Edited = 0;
+    Streaming = 1;
     Seek Tables = 1;
     Compression Preset Name = <none>;
-    Bank Last Revised Low = 1421161471;
-    Bank Last Revised High = 30419694;
+    Header Last Modified Low = 0;
+    Header Last Modified High = 0;
+    Bank Last Revised Low = 1014323459;
+    Bank Last Revised High = 30420557;
 
     Wave
     {
@@ -437,6 +440,8 @@ Sound Bank
     Windows File = Win\SoundBank.xsb;
     Xbox Bank Path Edited = 0;
     Windows Bank Path Edited = 0;
+    Header Last Modified High = 0;
+    Header Last Modified Low = 0;
 
     Sound
     {

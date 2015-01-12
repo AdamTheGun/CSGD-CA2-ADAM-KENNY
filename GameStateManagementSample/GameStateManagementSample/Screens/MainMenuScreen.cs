@@ -26,21 +26,27 @@ namespace GameStateManagementSample
         /// Constructor fills in the menu contents.
         /// </summary>
         public MainMenuScreen()
-            : base("Main Menu")
+            : base("Shiny Gun")
         {
             // Create our menu entries.
             MenuEntry playGameMenuEntry = new MenuEntry("Play Game");
             MenuEntry optionsMenuEntry = new MenuEntry("Options");
+            MenuEntry controlsMenuEntry = new MenuEntry("Controls");
+            MenuEntry creditsMenuEntry = new MenuEntry("Credits");
             MenuEntry exitMenuEntry = new MenuEntry("Exit");
 
             // Hook up menu event handlers.
             playGameMenuEntry.Selected += PlayGameMenuEntrySelected;
             optionsMenuEntry.Selected += OptionsMenuEntrySelected;
+            controlsMenuEntry.Selected += ControlsMenuEntrySelected;
+            creditsMenuEntry.Selected += CreditsMenuEntrySelected;
             exitMenuEntry.Selected += OnCancel;
 
             // Add entries to the menu.
             MenuEntries.Add(playGameMenuEntry);
             MenuEntries.Add(optionsMenuEntry);
+            MenuEntries.Add(controlsMenuEntry);
+            MenuEntries.Add(creditsMenuEntry);
             MenuEntries.Add(exitMenuEntry);
         }
 
@@ -55,9 +61,9 @@ namespace GameStateManagementSample
         /// </summary>
         void PlayGameMenuEntrySelected(object sender, PlayerIndexEventArgs e)
         {
-            LoadingScreen.Load(ScreenManager, true, e.PlayerIndex,
-                               new GameplayScreen());
-            ScreenManager.MainMenu.Stop(AudioStopOptions.Immediate);
+            LoadingScreen.Load(ScreenManager, false, null, new BackgroundScreen(),
+                                                           new CharacterMenuScreen());
+            ScreenManager.ScreenInCounter = 1;
         }
 
 
@@ -67,8 +73,21 @@ namespace GameStateManagementSample
         void OptionsMenuEntrySelected(object sender, PlayerIndexEventArgs e)
         {
             ScreenManager.AddScreen(new OptionsMenuScreen(), e.PlayerIndex);
+            ScreenManager.ScreenInCounter = 0;
         }
 
+        void ControlsMenuEntrySelected(object sender, PlayerIndexEventArgs e)
+        {
+            LoadingScreen.Load(ScreenManager, false, null, new BackgroundScreen(),
+                                                           new ControlsMenuScreen());
+            ScreenManager.ScreenInCounter = 3;
+        }
+        void CreditsMenuEntrySelected(object sender, PlayerIndexEventArgs e)
+        {
+            LoadingScreen.Load(ScreenManager, false, null, new BackgroundScreen(),
+                                                           new CreditsMenuScreen());
+            ScreenManager.ScreenInCounter = 4;
+        }
 
         /// <summary>
         /// When the user cancels the main menu, ask if they want to exit the sample.
